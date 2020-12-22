@@ -2,3 +2,4 @@
 log_wave -r *
 run 10 us
 add_wave -r *
+exit
