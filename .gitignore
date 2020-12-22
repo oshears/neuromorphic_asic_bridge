@@ -5,3 +5,4 @@
 *.pb
 xsim.dir
 .Xil
+*.str
