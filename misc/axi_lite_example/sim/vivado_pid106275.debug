@@ -1,0 +1,37 @@
+#--------------------------------------------------------------------------
+# Xilinx xsim v2020.2 (64-bit)
+# SW Build: 3064766 on Wed Nov 18 09:12:47 MST 2020
+# IP Build: 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Current time: Tue Dec 22 21:53:30 EST 2020
+# Process ID (PID): 106275
+# User: oshears
+# OS: Ubuntu
+#
+# This file is an indication that an internal application error occurred.
+# This information is useful for debugging. Please open a case with Xilinx.
+# Technical Support with this file and a testcase attached.
+#--------------------------------------------------------------------------
+Tue Dec 22 21:53:30 EST 2020
+ui.utils.e: Error: Wrapper with null DB pointer
+	at ui.utils.d.c.Yj(SourceFile:713)
+	at ui.utils.q.Yj(SourceFile:2783)
+	at ui.data.common.L.<init>(SourceFile:35)
+	at ui.data.experiment.f.<init>(SourceFile:17)
+	at ui.data.experiment.l.ow(SourceFile:550)
+	at ui.data.experiment.l.cwQ(SourceFile:529)
+	at ui.dlg.A.T.<init>(SourceFile:77)
+	at ui.dlg.A.L.<init>(SourceFile:45)
+	at ui.dlg.J.a.cO.gAK(SourceFile:37)
+	at ui.dlg.J.a.bKF(SourceFile:86)
+	at ui.dlg.J.d.uh(SourceFile:565)
+	at ui.dlg.J.d.aLX(SourceFile:425)
+	at ui.dlg.c.p.frj(SourceFile:104)
+	at ui.dlg.c.p.frh(SourceFile:55)
+	at ui.dlg.c.p.init(SourceFile:44)
+	at ui.dlg.J.d.init(SourceFile:160)
+	at ui.dlg.J.d.<init>(SourceFile:134)
+	at ui.views.c.dC.O(SourceFile:112)
+	at ui.cU.aOt(SourceFile:866)
+	at ui.frmwork.y.run(SourceFile:203)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+

@@ -60,6 +60,8 @@ end process bus_clk_gen;
 
 stimulus : process
 begin
+	report "Starting clock_divider_tb" severity NOTE;
+
 	reset <= '0';
 	wait for 10 us;
 	reset <= '1';
@@ -69,6 +71,8 @@ begin
 
 	-- End of Stimuli.
 	wait for 100 us;
+
+	report "Finished clock_divider_tb" severity NOTE;
 
 	sim_end <= true;
 	wait;

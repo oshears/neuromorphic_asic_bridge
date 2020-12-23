@@ -162,6 +162,8 @@ end process axi_rst_gen;
 
 stimulus : process
 begin
+    report "Starting axi_rc_servo_controller_tb" severity NOTE;
+
 	-- Set an idle state
     address <= X"00000000";
     write_data <= X"00000000";
@@ -432,7 +434,9 @@ begin
 
 
 	-- End of Stimuli.  Give some time to finish up.
-	wait for simulation_interval * 5;
+    wait for simulation_interval * 5;
+    
+    report "Finished axi_rc_servo_controller_tb" severity NOTE;
 
 	sim_end <= true;
 	wait;

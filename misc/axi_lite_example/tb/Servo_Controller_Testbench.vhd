@@ -62,6 +62,8 @@ end process servo_clk_gen;
 
 stimulus : process
 begin
+	report "Starting servo_controller_tb" severity NOTE;
+
 	minimum_high_pulse_width_ns <= std_logic_vector(to_unsigned(1000000, 32));
     maximum_high_pulse_width_ns <= std_logic_vector(to_unsigned(2000000, 32));
 
@@ -80,11 +82,13 @@ begin
 	wait for 100 ms;
 	
 	-- Adjust the min and max pulse widths
+	report "Adjust the min and max pulse widths" severity NOTE;
 	minimum_high_pulse_width_ns <= X"000CFFFF";
     maximum_high_pulse_width_ns <= std_logic_vector(to_unsigned(2500000, 32));
 	wait for 100 ms;
 
 	-- Adjust the min and max pulse widths
+	report "Adjust the min and max pulse widths" severity NOTE;
 	minimum_high_pulse_width_ns <= std_logic_vector(to_unsigned(2000000, 32));
     maximum_high_pulse_width_ns <= std_logic_vector(to_unsigned(3000000, 32));
 	wait for 100 ms;
@@ -97,6 +101,8 @@ begin
 	
 	-- End of Stimuli.
 	wait for 200 ms;
+
+	report "Finished servo_controller_tb" severity NOTE;
 
 	sim_end <= true;
 	wait;
