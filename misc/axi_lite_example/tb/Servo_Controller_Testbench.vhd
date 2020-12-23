@@ -93,7 +93,7 @@ begin
     maximum_high_pulse_width_ns <= std_logic_vector(to_unsigned(3000000, 32));
 	wait for 100 ms;
 
-
+	report "Iteratively adjust the servo position input" severity NOTE;
 	for i in 0 to 255 loop
 		wait for 100 ms;
 		servo_position_input <= std_logic_vector(to_signed(i, servo_position_input'length));
