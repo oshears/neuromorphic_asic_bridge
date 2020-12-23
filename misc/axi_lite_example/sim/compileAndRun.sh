@@ -46,3 +46,4 @@ xsim axi_rc_servo_controller_sim -t xsim_run.tcl --log ./logs/xsim.log --wdb axi
 rm *.jou
 rm *.log
 rm *.pb
+rm *.debug

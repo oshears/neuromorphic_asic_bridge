@@ -6,3 +6,4 @@ xsim.dir
 .Xil
 *.str
 logs
+*.debug
