@@ -1,4 +1,4 @@
-# Neuromorphic FPGA-ASIC Bridge
+# Neuromorphic ASIC Bridge
 
 ## Overview
 The HDL FPGA Module to Interact with the MICS Neuromorphic Reservoir Computing (RC) ASIC. This FPGA is in charge of sending one of four letters signals to the (RC) ASIC via PWM waves. The ASIC responds with its prediction of the letter's class via four amplitude modulated signals.
