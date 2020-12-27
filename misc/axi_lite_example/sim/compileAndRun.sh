@@ -5,8 +5,8 @@
 
 # Clean Up Old Log Files
 echo "Cleaning up old log files"
-rm ./logs/*.log
-rm -rf ./xsim.dir
+rm ./logs/*.log 2> /dev/null
+rm -rf ./xsim.dir 2> /dev/null
 
 
 ### COMPILE
