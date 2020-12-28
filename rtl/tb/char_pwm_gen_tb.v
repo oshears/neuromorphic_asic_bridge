@@ -1,5 +1,3 @@
-//`timescale 1ns / 1ps
-
 module char_pwm_gen_tb;
 // Inputs
 reg clk;
@@ -15,30 +13,17 @@ char_pwm_gen char_pwm_gen(
 // Create 100Mhz clock
 initial begin
 clk = 0;
-forever #500000000 clk = ~clk;
+forever #1 clk = ~clk;
 end 
 
 initial begin
 
-    // for (char_select = 0; char_select <= 3'b011; char_select = char_select + 1)
-	// begin
-        char_select = 3'b000;
+    for (char_select = 3'b000; char_select <= 3'b011; char_select = char_select + 3'b001)
+	begin
         $display("\nValue of char_select is: %b", char_select);
-        #4000000000;
-        
-        char_select = 3'b001;
-        $display("\nValue of char_select is: %b", char_select);
-        #4000000000;
-
-        char_select = 3'b010;
-        $display("\nValue of char_select is: %b", char_select);
-        #4000000000;
-
-        char_select = 3'b011;
-        $display("\nValue of char_select is: %b", char_select);
-        #4000000000;
-
-    // end
+        $display("Time %t",$time);
+        #20;
+    end
 
     $finish;
 

@@ -8,6 +8,13 @@ echo "Cleaning up old log files"
 rm ./logs/*.log 2> /dev/null
 rm -rf ./xsim.dir 2> /dev/null
 
+while getopts gui:no_compile: flag
+do
+    case "${flag}" in
+        gui) gui=${OPTARG};;
+        no_compile) no_compile=${OPTARG};;
+    esac
+done
 
 ### COMPILE
 echo "Compiling source and test bench files"
@@ -46,8 +53,12 @@ fi
 echo "Simulating test bench files"
 
 # AXI RC Servo Controller Test Bench Simulation
-xsim char_pwm_gen_sim -t xsim_run.tcl --log ./logs/xsim.log --wdb char_pwm_gen_sim.wdb
-
+if $gui
+then
+    xsim char_pwm_gen_sim --log ./logs/xsim.log --wdb char_pwm_gen_sim.wdb --gui
+else
+    xsim char_pwm_gen_sim -t xsim_run.tcl --log ./logs/xsim.log --wdb char_pwm_gen_sim.wdb 
+fi
 
 # Remove Temporary Files
 echo "Removing temporary files"

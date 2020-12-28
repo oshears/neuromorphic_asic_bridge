@@ -1,11 +1,11 @@
-//`timescale 1ns / 1ps
-
 module char_pwm_gen
 (
     clk, // 100MHz clock input 
     char_select,
     digit
 );
+
+    //TODO: The clk might need to be divided down to 100MHz if it isn't set to this frequency already
 
     input clk;
     input [1:0] char_select;
