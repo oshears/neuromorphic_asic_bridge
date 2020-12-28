@@ -8,37 +8,20 @@ echo "Cleaning up old log files"
 rm ./logs/*.log 2> /dev/null
 rm -rf ./xsim.dir 2> /dev/null
 
-OPTIND=1 
-
-GUI=0
-NO_COMPILE=0
-
-while getopts "gn:" flag
+while getopts gui:no_compile: flag
 do
     case "${flag}" in
-        g) 
-            GUI=1
-            ;;
-        n) 
-            NO_COMPILE=1
-            ;;
+        gui) gui=${OPTARG};;
+        no_compile) no_compile=${OPTARG};;
     esac
 done
-
-shift $((OPTIND-1))
-
-# echo "GUI: $GUI"
-# echo "NO_COMPILE: $NO_COMPILE"
 
 ### COMPILE
 echo "Compiling source and test bench files"
 
-# Compile Source Files and Test Bench Files
+# Compile Servo Controller Source Files and Test Bench Files
 xvlog ../rtl/src/char_pwm_gen.v >> ./logs/xvlog.log
-xvlog ../rtl/src/axi_cfg_regs.v >> ./logs/xvlog.log
-xvlog ../rtl/src/neuromorphic_asic_bridge_top.v >> ./logs/xvlog.log
-
-xvlog ../rtl/tb/neuromorphic_asic_bridge_top_tb.v >> ./logs/xvlog.log
+xvlog ../rtl/tb/char_pwm_gen_tb.v >> ./logs/xvlog.log
 
 if grep -qs ERROR ./logs/xvhdl.log
 then
@@ -57,7 +40,7 @@ fi
 ### Test Bench ELABORATION
 echo "Elaborating test bench files"
 
-xelab -debug typical neuromorphic_asic_bridge_top_tb -s neuromorphic_asic_bridge_top_sim >> ./logs/xelab.log
+xelab -debug typical char_pwm_gen_tb -s char_pwm_gen_sim >> ./logs/xelab.log
 
 if grep -q ERROR ./logs/xelab.log
 then
@@ -70,13 +53,11 @@ fi
 echo "Simulating test bench files"
 
 # AXI RC Servo Controller Test Bench Simulation
-if [ $GUI != "" ]
+if $gui
 then
-    echo "Running simulation with GUI"
-    xsim neuromorphic_asic_bridge_top_sim -t xsim_run.tcl --log ./logs/xsim.log --wdb neuromorphic_asic_bridge_top_sim.wdb --gui --onfinish stop --onerror stop
+    xsim char_pwm_gen_sim --log ./logs/xsim.log --wdb char_pwm_gen_sim.wdb --gui
 else
-    echo "Running simulation without GUI"
-    xsim neuromorphic_asic_bridge_top_sim -t xsim_run.tcl --log ./logs/xsim.log --wdb neuromorphic_asic_bridge_top_sim.wdb --onfinish quit --onerror quit
+    xsim char_pwm_gen_sim -t xsim_run.tcl --log ./logs/xsim.log --wdb char_pwm_gen_sim.wdb 
 fi
 
 # Remove Temporary Files
