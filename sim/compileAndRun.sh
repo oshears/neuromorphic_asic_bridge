@@ -36,6 +36,7 @@ echo "Compiling source and test bench files"
 # Compile Source Files and Test Bench Files
 xvlog ../rtl/src/char_pwm_gen.v >> ./logs/xvlog.log
 xvlog ../rtl/src/axi_cfg_regs.v >> ./logs/xvlog.log
+xvlog ../rtl/src/xadc_interface.v >> ./logs/xvlog.log
 xvlog ../rtl/src/neuromorphic_asic_bridge_top.v >> ./logs/xvlog.log
 
 xvlog ../rtl/tb/neuromorphic_asic_bridge_top_tb.v >> ./logs/xvlog.log
