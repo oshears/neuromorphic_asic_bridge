@@ -7,3 +7,4 @@ xsim.dir
 *.str
 logs
 *.debug
+neuromorphic_asic_bridge_project

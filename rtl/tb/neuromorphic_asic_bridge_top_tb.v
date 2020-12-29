@@ -1,11 +1,14 @@
+`timescale 1ns / 1ps
 module neuromorphic_asic_bridge_top_tb;
 // Inputs
 reg clk;
 reg rst;
 reg pwm_clk;
-wire digit;
+wire [15:0] digit;
 
 wire S_AXI_ACLK;
+
+reg [3:0] VAUXP, VAUXN;
    
 reg S_AXI_ARESETN;
 reg [31:0] S_AXI_AWADDR; 
@@ -26,7 +29,10 @@ wire S_AXI_RVALID;
 wire [1:0] S_AXI_BRESP;
 wire S_AXI_BVALID;  
 
-neuromorphic_asic_bridge_top neuromorphic_asic_bridge_top(
+integer i = 0;
+
+
+neuromorphic_asic_bridge_top uut(
 .clk(clk), 
 .rst(rst),
 .pwm_clk(pwm_clk), 
@@ -49,7 +55,9 @@ neuromorphic_asic_bridge_top neuromorphic_asic_bridge_top(
 .S_AXI_RREADY(S_AXI_RREADY),   
 .S_AXI_BRESP(S_AXI_BRESP),    
 .S_AXI_BVALID(S_AXI_BVALID),   
-.S_AXI_BREADY(S_AXI_BREADY) 
+.S_AXI_BREADY(S_AXI_BREADY), 
+.VAUXP(VAUXP),
+.VAUXN(VAUXN)
 );
 
 // Create 100Mhz clock
@@ -78,7 +86,7 @@ initial begin
     S_AXI_BREADY = 0;
 
     rst = 1;
-    #10;
+    #20;
 
     rst = 0;
     S_AXI_ARESETN = 1;
@@ -143,6 +151,21 @@ initial begin
     S_AXI_RREADY = 0;
     #10;
 
+    // Wait for network outputs to cycle
+    for (i = 0; i < 4; i = i + 1)
+    begin
+        #200;
+        @(posedge S_AXI_ACLK);
+        S_AXI_ARADDR = 32'h0004;
+        S_AXI_ARVALID = 1'b1;
+        S_AXI_BREADY = 1'b1;
+        S_AXI_RREADY = 1'b1;
+        @(posedge S_AXI_ACLK);
+        S_AXI_ARVALID = 0;
+        S_AXI_RREADY = 0;
+        @(posedge S_AXI_RVALID);
+        $display("%t : Read Data is: %h",$time,S_AXI_RDATA);
+    end
 
     $finish;
 

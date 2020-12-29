@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module axi_cfg_regs
 (
     clk, 

@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module neuromorphic_asic_bridge_top
 (
     clk, // clock input 
@@ -30,22 +31,11 @@ module neuromorphic_asic_bridge_top
 
     // asic_output_analyzer
 
-    // xadc signals
-    CONVST,
-    CONVSTCLK,
-    DADDR,
-    DCLK,
-    DEN,
-    DI,
-    DWE,
-    RESET,
-    BUSY,
-    CHANNEL,
-    DO,
-    DRDY,
-    EOC,
-    EOS,
-    MUXADDR
+    //XADC
+    VAUXP,
+    VAUXN,
+    VP, 
+    VN
 );
 
 input clk;
@@ -65,13 +55,9 @@ input S_AXI_RREADY;
 input S_AXI_BREADY; 
 
 // XADC Inputs
-input BUSY;
-input [4:0] CHANNEL;
-input [15:0] DO;
-input DRDY;
-input EOC;
-input EOS;
-input [4:0] MUXADDR;
+input [3:0] VAUXP, VAUXN;
+input VP; 
+input VN;
 
 output [15:0] digit;
 
@@ -84,19 +70,27 @@ output S_AXI_RVALID;
 output [1:0] S_AXI_BRESP;
 output S_AXI_BVALID;  
 
-// XADC Outputs
-output CONVST;
-output CONVSTCLK;
-output [6:0] DADDR;
-output DCLK;
-output DEN;
-output [15:0] DI;
-output DWE;
-output RESET;
 
 wire [1:0] char_select;
 wire [1:0] network_output;
 wire [31:0] xadc_config;
+
+wire BUSY;
+wire [15:0] DO;
+wire DRDY;
+wire EOS;
+
+// XADC Outputs
+wire [6:0] DADDR;
+wire DEN;
+wire [15:0] DI;
+wire DWE;
+wire RESET;
+
+wire [15:0] vauxp_active;
+wire [15:0] vauxn_active;
+assign vauxp_active = {12'h000, VAUXP[3:0]};
+assign vauxn_active = {12'h000, VAUXN[3:0]};
 
 assign RESET = rst;
 
@@ -139,24 +133,45 @@ axi_cfg_regs axi_cfg_regs(
 );
 
 xadc_interface xadc_interface(
-    .clk(clk), 
+    .clk(pwm_clk), 
     .rst(rst),
     .xadc_config(xadc_config),
     .network_output(network_output),
-    .CONVST(CONVST),
-    .CONVSTCLK(CONVSTCLK),
     .DADDR(DADDR),
-    .DCLK(DCLK),
     .DEN(DEN),
     .DI(DI),
     .DWE(DWE),
     .BUSY(BUSY),
-    .CHANNEL(CHANNEL),
     .DO(DO),
     .DRDY(DRDY),
-    .EOC(EOC),
-    .EOS(EOS),
-    .MUXADDR(MUXADDR)
+    .EOS(EOS)
 );
+
+XADC #(// Initializing the XADC Control Registers
+    .INIT_41(16'h2000),// Continuous Seq Mode
+    .INIT_42(16'h0400),// Set DCLK divides
+    .INIT_49(16'h000f),// CHSEL2 - enable aux analog channels 0 - 3
+    .SIM_MONITOR_FILE("design.txt")// Analog Stimulus file for simulation
+)
+XADC_INST (// Connect up instance IO. See UG480 for port descriptions
+    .CONVST (1'b0),// not used
+    .CONVSTCLK  (1'b0), // not used
+    .DADDR  (DADDR),
+    .DCLK   (pwm_clk),
+    .DEN    (DEN),
+    .DI     (DI),
+    .DWE    (DWE),
+    .RESET  (rst),
+    .VAUXN  (vauxn_active ),
+    .VAUXP  (vauxp_active ),
+    .BUSY   (BUSY),
+    .DO     (DO),
+    .DRDY   (DRDY),
+    .EOS    (EOS),
+    .VP     (VP),
+    .VN     (VN)
+);
+
+
 
 endmodule

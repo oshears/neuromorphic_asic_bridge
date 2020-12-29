@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module char_pwm_gen_tb;
 // Inputs
 reg clk;
