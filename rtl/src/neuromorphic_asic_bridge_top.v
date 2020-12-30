@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 module neuromorphic_asic_bridge_top
 #(
-parameter C_FAMILY = "virtex7",
 parameter C_S_AXI_ACLK_FREQ_HZ = 100000000,
 parameter C_S_AXI_DATA_WIDTH = 32,
 parameter C_S_AXI_ADDR_WIDTH = 9 

@@ -242,7 +242,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>26c48089</spirit:value>
+            <spirit:value>b3fc30b2</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -258,7 +258,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ed848dcf</spirit:value>
+            <spirit:value>fb2ced22</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -273,7 +273,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>64d94bd6</spirit:value>
+            <spirit:value>667307e0</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -661,11 +661,7 @@
       </spirit:port>
     </spirit:ports>
     <spirit:modelParameters>
-      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="string">
-        <spirit:name>C_FAMILY</spirit:name>
-        <spirit:value spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_FAMILY">virtex7</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
         <spirit:name>C_S_AXI_ACLK_FREQ_HZ</spirit:name>
         <spirit:displayName>C S Axi Aclk Freq Hz</spirit:displayName>
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI_ACLK_FREQ_HZ">100000000</spirit:value>
@@ -711,7 +707,7 @@
       <spirit:file>
         <spirit:name>rtl/src/neuromorphic_asic_bridge_top.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_cbbbee03</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_5152c69a</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -810,15 +806,15 @@
       <xilinx:displayName>neuromorphic_asic_bridge_top_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>1</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2020-12-30T20:19:15Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-12-30T20:28:00Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="dfac85ba"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="871a59ce"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="828c12ea"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="b9723e6f"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="c7d25932"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="397e6261"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="30db1017"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="2f0658f9"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>

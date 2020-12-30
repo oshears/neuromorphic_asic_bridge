@@ -9,9 +9,9 @@ reg S_AXI_ACLK;
 reg [3:0] VAUXP, VAUXN;
    
 reg S_AXI_ARESETN;
-reg [31:0] S_AXI_AWADDR; 
+reg [8:0] S_AXI_AWADDR; 
 reg S_AXI_AWVALID;
-reg [31:0] S_AXI_ARADDR; 
+reg [8:0] S_AXI_ARADDR; 
 reg S_AXI_ARVALID;
 reg [31:0] S_AXI_WDATA;  
 reg [3:0] S_AXI_WSTRB;  
@@ -88,7 +88,7 @@ initial begin
     
     /* Write Reg Tests */
     @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 32'h0000;
+    S_AXI_AWADDR = 9'h0000;
     S_AXI_AWVALID = 1'b1;
     S_AXI_WVALID = 1;
     S_AXI_WDATA = 32'hDEADBEEF;
@@ -100,7 +100,7 @@ initial begin
     S_AXI_BREADY = 1'b0;
 
     @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 32'h0004;
+    S_AXI_AWADDR = 9'h0004;
     S_AXI_AWVALID = 1'b1;
     S_AXI_WVALID = 1;
     S_AXI_WDATA = 32'hDEADBEEF;
@@ -112,7 +112,7 @@ initial begin
     S_AXI_BREADY = 1'b0;
 
     @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 32'h0008;
+    S_AXI_AWADDR = 9'h0008;
     S_AXI_AWVALID = 1'b1;
     S_AXI_WVALID = 1;
     S_AXI_WDATA = 32'hDEADBEEF;
@@ -125,7 +125,7 @@ initial begin
 
     /* Read Reg Tests */
     @(posedge S_AXI_ACLK);
-    S_AXI_ARADDR = 32'h0000;
+    S_AXI_ARADDR = 9'h0000;
     S_AXI_ARVALID = 1'b1;
     S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_RVALID);
@@ -134,7 +134,7 @@ initial begin
     S_AXI_RREADY = 0;
 
     @(posedge S_AXI_ACLK);
-    S_AXI_ARADDR = 32'h0004;
+    S_AXI_ARADDR = 9'h0004;
     S_AXI_ARVALID = 1'b1;
     S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_RVALID);
@@ -143,7 +143,7 @@ initial begin
     S_AXI_RREADY = 0;
 
     @(posedge S_AXI_ACLK);
-    S_AXI_ARADDR = 32'h0008;
+    S_AXI_ARADDR = 9'h0008;
     S_AXI_ARVALID = 1'b1;
     S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_RVALID);
@@ -158,7 +158,7 @@ initial begin
         $display("%t : Reading data from network output register",$time);
 
         @(posedge S_AXI_ACLK);
-        S_AXI_ARADDR = 32'h0004;
+        S_AXI_ARADDR = 9'h0004;
         S_AXI_ARVALID = 1'b1;
         S_AXI_RREADY = 1'b1;
 
