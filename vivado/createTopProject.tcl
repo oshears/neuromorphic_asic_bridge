@@ -18,6 +18,11 @@ startgroup
 create_bd_cell -type ip -vlnv user.org:user:neuromorphic_asic_bridge_top:1.0 neuromorphic_asic_br_0
 endgroup
 
+# Add UART to the PS
+startgroup
+set_property -dict [list CONFIG.PCW_UART1_PERIPHERAL_ENABLE {1}] [get_bd_cells processing_system7_0]
+endgroup
+
 # Block Automation
 apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {make_external "FIXED_IO, DDR" Master "Disable" Slave "Disable" }  [get_bd_cells processing_system7_0]
 
@@ -88,5 +93,8 @@ wait_on_run impl_1
 # Generate Bitstream
 launch_runs impl_1 -to_step write_bitstream -jobs 16
 wait_on_run impl_1
+
+# Export Hardware for Vitis
+write_hw_platform -fixed -force -file /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system.xsa
 
 exit
