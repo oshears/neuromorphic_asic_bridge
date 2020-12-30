@@ -26,27 +26,7 @@ set_property PACKAGE_PIN C15 [get_ports {VAUXP_0[2]}];
 set_property PACKAGE_PIN E15 [get_ports {VAUXP_0[1]}];
 set_property PACKAGE_PIN F16 [get_ports {VAUXP_0[0]}];
 
-# place_ports {digit_0[15]} Y11
-# place_ports {digit_0[14]} AA11
-# place_ports {digit_0[13]} Y10
-# place_ports {digit_0[12]} AA9
-# place_ports {digit_0[11]} AB11
-# place_ports {digit_0[10]} AB10
-# place_ports {digit_0[9]} AB9
-# place_ports {digit_0[8]} AA8
-# place_ports {digit_0[7]} W12
-# place_ports {digit_0[6]} W11
-# place_ports {digit_0[5]} V10
-# place_ports {digit_0[4]} W8
-# place_ports {digit_0[3]} V12
-# place_ports {digit_0[2]} W10
-# place_ports {digit_0[1]} V9
-# place_ports {digit_0[0]} V8
-# place_ports {VAUXN_0[3]} A17
-# place_ports {VAUXN_0[2]} B15
-# place_ports {VAUXN_0[1]} D15
-# place_ports {VAUXN_0[0]} E16
-# place_ports {VAUXP_0[3]} A16
-# place_ports {VAUXP_0[2]} C15
-# place_ports {VAUXP_0[1]} E15
-# place_ports {VAUXP_0[0]} F16
+# Configure LVCMOS 1.8V Output Pins
+set_property IOSTANDARD LVCMOS18 [get_ports [list {digit_0[15]} {digit_0[14]} {digit_0[13]} {digit_0[12]} {digit_0[11]} {digit_0[10]} {digit_0[9]} {digit_0[8]} {digit_0[7]} {digit_0[6]} {digit_0[5]} {digit_0[4]} {digit_0[3]} {digit_0[2]} {digit_0[1]} {digit_0[0]}]];
+set_property IOSTANDARD LVCMOS18 [get_ports [list {VAUXN_0[3]} {VAUXN_0[2]} {VAUXN_0[1]} {VAUXN_0[0]}]];
+set_property IOSTANDARD LVCMOS18 [get_ports [list {VAUXP_0[3]} {VAUXP_0[2]} {VAUXP_0[1]} {VAUXP_0[0]}]];

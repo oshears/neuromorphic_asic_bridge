@@ -14,12 +14,11 @@ add_files {
     }
 
 
-add_files -fileset constrs_1 -norecurse ../xdc/constraints.xdc
+add_files -fileset constrs_1 -norecurse ../xdc/neuromorphic_asic_bridge_constraints.xdc
 
 move_files -fileset sim_1 [get_files  ../rtl/tb/neuromorphic_asic_bridge_top_tb.v]
 move_files -fileset sim_1 [get_files  ../rtl/tb/char_pwm_gen_tb.v]
 
-# import_files -fileset sim_1 -norecurse ../rtl/tb/design.txt
 add_files -fileset sim_1 -norecurse ../rtl/tb/design.txt
 
 set_property top neuromorphic_asic_bridge_top_tb [get_filesets sim_1]

@@ -1,4 +1,4 @@
-# usage: vivado -mode tcl -source createProject.tcl
+# usage: vivado -mode tcl -source createTopProject.tcl
 
 create_project neuromorphic_asic_bridge_system_project ./neuromorphic_asic_bridge_system_project -part xc7z020clg484-1 -force
 
@@ -59,15 +59,32 @@ validate_bd_design -force
 make_wrapper -files [get_files /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.srcs/sources_1/bd/design_1/design_1.bd] -top
 add_files -norecurse /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v
 
+update_compile_order -fileset sources_1
+
+# Load Constraints
+read_xdc ../xdc/neuromorphic_asic_bridge_system_constraints.xdc
+
 # Open Elaborated Design
 generate_target all [get_files /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.srcs/sources_1/bd/design_1/design_1.bd]
 create_ip_run [get_files -of_objects [get_fileset sources_1] /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.srcs/sources_1/bd/design_1/design_1.bd]
-launch_runs design_1_processing_system7_0_2_synth_1
-wait_on_run design_1_processing_system7_0_2_synth_1
+launch_runs design_1_processing_system7_0_0_synth_1
+wait_on_run design_1_processing_system7_0_0_synth_1
+launch_runs design_1_neuromorphic_asic_br_0_0_synth_1
+wait_on_run design_1_neuromorphic_asic_br_0_0_synth_1
+launch_runs design_1_rst_ps7_0_50M_0_synth_1
+wait_on_run design_1_rst_ps7_0_50M_0_synth_1
+launch_runs design_1_auto_pc_0_synth_1
+wait_on_run design_1_auto_pc_0_synth_1
 synth_design -rtl -rtl_skip_mlo -name rtl_1
 
 # Run Synthesis
 launch_runs synth_1 -jobs 16
+wait_on_run synth_1
 
 # Run Implementation
 launch_runs impl_1 -jobs 16
+wait_on_run impl_1
+
+# Generate Bitstream
+launch_runs impl_1 -to_step write_bitstream -jobs 16
+wait_on_run impl_1
