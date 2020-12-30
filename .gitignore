@@ -8,3 +8,4 @@ xsim.dir
 logs
 *.debug
 neuromorphic_asic_bridge_project
+neuromorphic_asic_bridge_system_project

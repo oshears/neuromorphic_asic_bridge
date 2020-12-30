@@ -73,6 +73,7 @@ begin
         den_reg = 0;
         dwe_reg = 0;
         temp_network_output_reg = 0;
+        network_output = 0;
         MEASURED_AUX0 = 0;
         MEASURED_AUX1 = 0;
         MEASURED_AUX2 = 0;

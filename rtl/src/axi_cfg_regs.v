@@ -1,5 +1,10 @@
 `timescale 1ns / 1ps
 module axi_cfg_regs
+#(
+parameter C_S_AXI_ACLK_FREQ_HZ = 100000000,
+parameter C_S_AXI_DATA_WIDTH = 32,
+parameter C_S_AXI_ADDR_WIDTH = 9 
+)
 (
     clk, 
     rst,
@@ -27,8 +32,6 @@ module axi_cfg_regs
     xadc_config   
 );
 
-parameter AXI_ADDR_WIDTH = 32;
-parameter AXI_DATA_WIDTH = 32;
 
 input clk;
 input rst;
@@ -37,12 +40,12 @@ input [1:0] network_output;
 
 input S_AXI_ACLK;   
 input S_AXI_ARESETN;
-input [AXI_ADDR_WIDTH - 1:0] S_AXI_AWADDR; 
+input [C_S_AXI_ADDR_WIDTH - 1:0] S_AXI_AWADDR; 
 input S_AXI_AWVALID;
-input [AXI_ADDR_WIDTH - 1:0] S_AXI_ARADDR; 
+input [C_S_AXI_ADDR_WIDTH - 1:0] S_AXI_ARADDR; 
 input S_AXI_ARVALID;
-input [AXI_DATA_WIDTH - 1:0] S_AXI_WDATA;  
-input [(AXI_DATA_WIDTH/8 - 1):0] S_AXI_WSTRB;  
+input [C_S_AXI_DATA_WIDTH - 1:0] S_AXI_WDATA;  
+input [(C_S_AXI_DATA_WIDTH/8 - 1):0] S_AXI_WSTRB;  
 input S_AXI_WVALID; 
 input S_AXI_RREADY; 
 input S_AXI_BREADY; 
@@ -50,7 +53,7 @@ input S_AXI_BREADY;
 output reg S_AXI_AWREADY; 
 output reg S_AXI_ARREADY; 
 output reg S_AXI_WREADY;  
-output reg [AXI_DATA_WIDTH - 1:0] S_AXI_RDATA;
+output reg [C_S_AXI_DATA_WIDTH - 1:0] S_AXI_RDATA;
 output reg [1:0] S_AXI_RRESP;
 output reg S_AXI_RVALID;  
 output reg [1:0] S_AXI_BRESP;
@@ -69,7 +72,7 @@ reg  xadc_config_reg_addr_valid;
 reg [2:0] current_state;
 reg [2:0] next_state;
 
-reg [AXI_ADDR_WIDTH - 1:0] local_address;
+reg [3:0] local_address = 0;
 reg local_address_valid;
 
 wire [1:0] combined_S_AXI_AWVALID_S_AXI_ARVALID;
@@ -184,9 +187,9 @@ begin
         begin
             case (combined_S_AXI_AWVALID_S_AXI_ARVALID)
                 2'b10:
-                    local_address = S_AXI_AWADDR;
+                    local_address = S_AXI_AWADDR[3:0];
                 2'b01:     
-                    local_address = S_AXI_ARADDR;
+                    local_address = S_AXI_ARADDR[3:0];
             endcase
         end
     end

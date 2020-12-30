@@ -1,12 +1,10 @@
 `timescale 1ns / 1ps
 module neuromorphic_asic_bridge_top_tb;
 // Inputs
-reg clk;
-reg rst;
 reg pwm_clk;
 wire [15:0] digit;
 
-wire S_AXI_ACLK;
+reg S_AXI_ACLK;
 
 reg [3:0] VAUXP, VAUXN;
    
@@ -33,8 +31,6 @@ integer i = 0;
 
 
 neuromorphic_asic_bridge_top uut(
-.clk(clk), 
-.rst(rst),
 .pwm_clk(pwm_clk), 
 .digit(digit),
 .S_AXI_ACLK(S_AXI_ACLK),     
@@ -67,11 +63,10 @@ forever #10 pwm_clk = ~pwm_clk;
 end 
 
 initial begin
-clk = 0;
-forever #1 clk = ~clk;
+S_AXI_ACLK = 0;
+forever #10 S_AXI_ACLK = ~S_AXI_ACLK;
 end 
 
-assign S_AXI_ACLK = clk;
 
 initial begin
     S_AXI_ARESETN = 0;
@@ -85,86 +80,96 @@ initial begin
     S_AXI_RREADY = 0;
     S_AXI_BREADY = 0;
 
-    rst = 1;
-    #20;
+    @(posedge pwm_clk);
+    @(posedge pwm_clk);
 
-    rst = 0;
     S_AXI_ARESETN = 1;
-    #10;
 
+    
     /* Write Reg Tests */
+    @(posedge S_AXI_ACLK);
     S_AXI_AWADDR = 32'h0000;
     S_AXI_AWVALID = 1'b1;
     S_AXI_WVALID = 1;
     S_AXI_WDATA = 32'hDEADBEEF;
     S_AXI_BREADY = 1'b1;
-    #10;
+    @(posedge S_AXI_WREADY);
     S_AXI_WVALID = 0;
     S_AXI_AWVALID = 0;
-    #10;
+    @(posedge S_AXI_ACLK);
+    S_AXI_BREADY = 1'b0;
 
+    @(posedge S_AXI_ACLK);
     S_AXI_AWADDR = 32'h0004;
     S_AXI_AWVALID = 1'b1;
     S_AXI_WVALID = 1;
     S_AXI_WDATA = 32'hDEADBEEF;
     S_AXI_BREADY = 1'b1;
-    #10;
+    @(posedge S_AXI_WREADY);
     S_AXI_WVALID = 0;
     S_AXI_AWVALID = 0;
-    #10;
+    @(posedge S_AXI_ACLK);
+    S_AXI_BREADY = 1'b0;
 
+    @(posedge S_AXI_ACLK);
     S_AXI_AWADDR = 32'h0008;
     S_AXI_AWVALID = 1'b1;
     S_AXI_WVALID = 1;
     S_AXI_WDATA = 32'hDEADBEEF;
     S_AXI_BREADY = 1'b1;
-    #10;
+    @(posedge S_AXI_WREADY);
     S_AXI_WVALID = 0;
     S_AXI_AWVALID = 0;
-    #10;
+    @(posedge S_AXI_ACLK);
+    S_AXI_BREADY = 1'b0;
 
     /* Read Reg Tests */
+    @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 32'h0000;
     S_AXI_ARVALID = 1'b1;
-    S_AXI_BREADY = 1'b1;
     S_AXI_RREADY = 1'b1;
-    #10;
+    @(posedge S_AXI_RVALID);
     S_AXI_ARVALID = 0;
+    @(posedge S_AXI_ACLK);
     S_AXI_RREADY = 0;
-    #10;
 
+    @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 32'h0004;
     S_AXI_ARVALID = 1'b1;
-    S_AXI_BREADY = 1'b1;
     S_AXI_RREADY = 1'b1;
-    #10;
+    @(posedge S_AXI_RVALID);
     S_AXI_ARVALID = 0;
+    @(posedge S_AXI_ACLK);
     S_AXI_RREADY = 0;
-    #10;
 
+    @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 32'h0008;
     S_AXI_ARVALID = 1'b1;
-    S_AXI_BREADY = 1'b1;
     S_AXI_RREADY = 1'b1;
-    #10;
+    @(posedge S_AXI_RVALID);
     S_AXI_ARVALID = 0;
+    @(posedge S_AXI_ACLK);
     S_AXI_RREADY = 0;
-    #10;
 
     // Wait for network outputs to cycle
     for (i = 0; i < 4; i = i + 1)
     begin
-        #200;
+        #200000;
+        $display("%t : Reading data from network output register",$time);
+
         @(posedge S_AXI_ACLK);
         S_AXI_ARADDR = 32'h0004;
         S_AXI_ARVALID = 1'b1;
-        S_AXI_BREADY = 1'b1;
         S_AXI_RREADY = 1'b1;
-        @(posedge S_AXI_ACLK);
-        S_AXI_ARVALID = 0;
-        S_AXI_RREADY = 0;
+
         @(posedge S_AXI_RVALID);
+        S_AXI_ARVALID = 0;
         $display("%t : Read Data is: %h",$time,S_AXI_RDATA);
+
+        @(posedge S_AXI_ACLK);
+        S_AXI_RREADY = 0;
+        
+
     end
 
     $finish;

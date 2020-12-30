@@ -1,9 +1,12 @@
 `timescale 1ns / 1ps
 module neuromorphic_asic_bridge_top
+#(
+parameter C_FAMILY = "virtex7",
+parameter C_S_AXI_ACLK_FREQ_HZ = 100000000,
+parameter C_S_AXI_DATA_WIDTH = 32,
+parameter C_S_AXI_ADDR_WIDTH = 9 
+)
 (
-    clk, // clock input 
-    rst,
-
     // char_pwm_gen
     pwm_clk, // 100MHz pwm clock input 
     digit,
@@ -38,18 +41,18 @@ module neuromorphic_asic_bridge_top
     VN
 );
 
-input clk;
-input rst;
+
+
 input pwm_clk;
 
 input S_AXI_ACLK;   
 input S_AXI_ARESETN;
-input [31:0] S_AXI_AWADDR; 
+input [C_S_AXI_ADDR_WIDTH - 1:0] S_AXI_AWADDR; 
 input S_AXI_AWVALID;
-input [31:0] S_AXI_ARADDR; 
+input [C_S_AXI_ADDR_WIDTH - 1:0] S_AXI_ARADDR; 
 input S_AXI_ARVALID;
-input [31:0] S_AXI_WDATA;  
-input [3:0] S_AXI_WSTRB;  
+input [C_S_AXI_DATA_WIDTH - 1:0] S_AXI_WDATA;  
+input [(C_S_AXI_DATA_WIDTH/8)-1:0] S_AXI_WSTRB;  
 input S_AXI_WVALID; 
 input S_AXI_RREADY; 
 input S_AXI_BREADY; 
@@ -64,11 +67,13 @@ output [15:0] digit;
 output S_AXI_AWREADY; 
 output S_AXI_ARREADY; 
 output S_AXI_WREADY;  
-output [31:0] S_AXI_RDATA;
+output [C_S_AXI_DATA_WIDTH - 1:0] S_AXI_RDATA;
 output [1:0] S_AXI_RRESP;
 output S_AXI_RVALID;  
 output [1:0] S_AXI_BRESP;
 output S_AXI_BVALID;  
+
+
 
 
 wire [1:0] char_select;
@@ -92,7 +97,7 @@ wire [15:0] vauxn_active;
 assign vauxp_active = {12'h000, VAUXP[3:0]};
 assign vauxn_active = {12'h000, VAUXN[3:0]};
 
-assign RESET = rst;
+assign RESET = ~S_AXI_ARESETN;
 
 char_pwm_gen char_pwm_gen(
     .clk(pwm_clk),
@@ -100,10 +105,19 @@ char_pwm_gen char_pwm_gen(
     .digit(digit)
     );
 
-axi_cfg_regs axi_cfg_regs(
+axi_cfg_regs 
+
+#(
+C_S_AXI_ACLK_FREQ_HZ,
+C_S_AXI_DATA_WIDTH,
+C_S_AXI_ADDR_WIDTH
+)
+
+axi_cfg_regs
+(
     // System Signals
-    .clk(clk),
-    .rst(rst),
+    .clk(S_AXI_ACLK),
+    .rst(RESET),
     // Character Selection
     .char_select(char_select),
     // Network Output
@@ -133,8 +147,8 @@ axi_cfg_regs axi_cfg_regs(
 );
 
 xadc_interface xadc_interface(
-    .clk(pwm_clk), 
-    .rst(rst),
+    .clk(S_AXI_ACLK), 
+    .rst(RESET),
     .xadc_config(xadc_config),
     .network_output(network_output),
     .DADDR(DADDR),
@@ -157,11 +171,11 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
     .CONVST (1'b0),// not used
     .CONVSTCLK  (1'b0), // not used
     .DADDR  (DADDR),
-    .DCLK   (pwm_clk),
+    .DCLK   (S_AXI_ACLK),
     .DEN    (DEN),
     .DI     (DI),
     .DWE    (DWE),
-    .RESET  (rst),
+    .RESET  (RESET),
     .VAUXN  (vauxn_active ),
     .VAUXP  (vauxp_active ),
     .BUSY   (BUSY),
