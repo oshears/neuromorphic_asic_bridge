@@ -37,14 +37,14 @@ add_wave {{/neuromorphic_asic_bridge_top_tb/uut}}
 
 # package IP
 
-ipx::package_project -root_dir /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/ip/neuromorphic_asic_bridge -vendor user.org -library user -taxonomy /UserIP -force
+ipx::package_project -root_dir /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/ -vendor user.org -library user -taxonomy /UserIP -force
 set_property taxonomy {/Embedded_Processing/AXI_Peripheral/Low_Speed_Peripheral /UserIP} [ipx::current_core]
 set_property core_revision 1 [ipx::current_core]
 ipx::create_xgui_files [ipx::current_core]
 ipx::update_checksums [ipx::current_core]
 ipx::check_integrity [ipx::current_core]
 ipx::save_core [ipx::current_core]
-set_property  ip_repo_paths  /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/ip/neuromorphic_asic_bridge [current_project]
+set_property  ip_repo_paths  /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/ [current_project]
 update_ip_catalog
 
 exit

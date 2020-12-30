@@ -242,7 +242,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>7bc5880f</spirit:value>
+            <spirit:value>26c48089</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -693,23 +693,23 @@
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>../../xdc/neuromorphic_asic_bridge_constraints.xdc</spirit:name>
+        <spirit:name>xdc/neuromorphic_asic_bridge_constraints.xdc</spirit:name>
         <spirit:userFileType>xdc</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../rtl/src/axi_cfg_regs.v</spirit:name>
+        <spirit:name>rtl/src/axi_cfg_regs.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../rtl/src/char_pwm_gen.v</spirit:name>
+        <spirit:name>rtl/src/char_pwm_gen.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../rtl/src/xadc_interface.v</spirit:name>
+        <spirit:name>rtl/src/xadc_interface.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../rtl/src/neuromorphic_asic_bridge_top.v</spirit:name>
+        <spirit:name>rtl/src/neuromorphic_asic_bridge_top.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_cbbbee03</spirit:userFileType>
       </spirit:file>
@@ -717,26 +717,26 @@
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>../../rtl/src/axi_cfg_regs.v</spirit:name>
+        <spirit:name>rtl/src/axi_cfg_regs.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../rtl/src/char_pwm_gen.v</spirit:name>
+        <spirit:name>rtl/src/char_pwm_gen.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../rtl/src/xadc_interface.v</spirit:name>
+        <spirit:name>rtl/src/xadc_interface.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>../../rtl/src/neuromorphic_asic_bridge_top.v</spirit:name>
+        <spirit:name>rtl/src/neuromorphic_asic_bridge_top.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_testbench_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>../../rtl/tb/neuromorphic_asic_bridge_top_tb.v</spirit:name>
+        <spirit:name>rtl/tb/neuromorphic_asic_bridge_top_tb.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
         <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
@@ -810,13 +810,13 @@
       <xilinx:displayName>neuromorphic_asic_bridge_top_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>1</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2020-12-30T19:46:26Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-12-30T20:19:15Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="dfac85ba"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="871a59ce"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="f6bc5115"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="828c12ea"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="c7d25932"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="397e6261"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="2f0658f9"/>
