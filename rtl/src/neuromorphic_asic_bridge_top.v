@@ -36,9 +36,7 @@ parameter C_S_AXI_ADDR_WIDTH = 9
 
     //XADC
     VAUXP,
-    VAUXN,
-    VP, 
-    VN
+    VAUXN
 );
 
 
@@ -59,8 +57,6 @@ input S_AXI_BREADY;
 
 // XADC Inputs
 input [3:0] VAUXP, VAUXN;
-input VP; 
-input VN;
 
 output [15:0] digit;
 
@@ -182,8 +178,8 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
     .DO     (DO),
     .DRDY   (DRDY),
     .EOS    (EOS),
-    .VP     (VP),
-    .VN     (VN)
+    .VP     (1'b0),
+    .VN     (1'b0)
 );
 
 
