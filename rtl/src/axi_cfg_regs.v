@@ -62,28 +62,28 @@ output reg S_AXI_BVALID;
 output [1:0] char_select;
 output [31:0] xadc_config;
 
-reg [1:0] char_select_reg;
-reg char_select_reg_addr_valid;
-reg [1:0] network_output_reg;
-reg network_output_reg_addr_valid;
-reg [31:0] xadc_config_reg;
-reg  xadc_config_reg_addr_valid;
+reg [1:0] char_select_reg = 0;
+reg char_select_reg_addr_valid = 0;
+reg [1:0] network_output_reg = 0;
+reg network_output_reg_addr_valid = 0;
+reg [31:0] xadc_config_reg = 0;
+reg  xadc_config_reg_addr_valid = 0;
 
-reg [2:0] current_state;
-reg [2:0] next_state;
+reg [2:0] current_state = 0;
+reg [2:0] next_state = 0;
 
 reg [3:0] local_address = 0;
-reg local_address_valid;
+reg local_address_valid = 0;
 
 wire [1:0] combined_S_AXI_AWVALID_S_AXI_ARVALID;
 
-reg write_enable_registers;
-reg send_read_data_to_AXI;
+reg write_enable_registers = 0;
+reg send_read_data_to_AXI = 0;
 
 wire Local_Reset;
 
 
-parameter reset = 0, idle = 1, read_transaction_in_progress = 2, write_transaction_in_progress = 3, complete = 4;
+localparam reset = 0, idle = 1, read_transaction_in_progress = 2, write_transaction_in_progress = 3, complete = 4;
 
 assign Local_Reset = ~S_AXI_ARESETN;
 assign combined_S_AXI_AWVALID_S_AXI_ARVALID = {S_AXI_AWVALID, S_AXI_ARVALID};
@@ -110,6 +110,7 @@ always @ (current_state, combined_S_AXI_AWVALID_S_AXI_ARVALID, S_AXI_ARVALID, S_
     S_AXI_AWREADY = 0;
     write_enable_registers = 0;
     send_read_data_to_AXI = 0;
+    next_state = current_state;
 
     case (current_state)
         reset:
@@ -157,11 +158,11 @@ always @ (current_state, combined_S_AXI_AWVALID_S_AXI_ARVALID, S_AXI_ARVALID, S_
 end
 
 // send data to AXI RDATA
-always @(send_read_data_to_AXI, local_address, char_select_reg, network_output_reg, xadc_config_reg)
+always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, xadc_config_reg)
 begin
     S_AXI_RDATA = 32'b0;
 
-    if(local_address_valid == 1 && send_read_data_to_AXI == 1)
+    if (local_address_valid == 1 && send_read_data_to_AXI == 1)
     begin
         case(local_address)
             0:

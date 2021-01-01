@@ -160,7 +160,8 @@ XADC #(// Initializing the XADC Control Registers
     .INIT_41(16'h2000),// Continuous Seq Mode
     .INIT_42(16'h0400),// Set DCLK divides
     .INIT_49(16'h000f),// CHSEL2 - enable aux analog channels 0 - 3
-    .SIM_MONITOR_FILE("design.txt")// Analog Stimulus file for simulation
+    .SIM_MONITOR_FILE("design.txt"),// Analog Stimulus file for simulation
+    .SIM_DEVICE("ZYNQ")
 )
 XADC_INST (// Connect up instance IO. See UG480 for port descriptions
     .CONVST (1'b0),// not used
@@ -178,7 +179,15 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
     .DRDY   (DRDY),
     .EOS    (EOS),
     .VP     (1'b0),
-    .VN     (1'b0)
+    .VN     (1'b0),
+    .ALM(),
+    .CHANNEL(),
+    .EOC(),
+    .JTAGBUSY(),
+    .JTAGLOCKED(),
+    .JTAGMODIFIED(),
+    .MUXADDR(),
+    .OT()
 );
 
 

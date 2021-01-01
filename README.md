@@ -15,3 +15,9 @@ The HDL FPGA Module to Interact with the MICS Neuromorphic Reservoir Computing (
 ### Input Generator
 ### Output Analyzer
 ### Camera Interface
+
+
+## Configuring UART
+```
+sudo minicom -D /dev/ttyACM0
+```

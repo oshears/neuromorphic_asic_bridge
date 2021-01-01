@@ -94,9 +94,9 @@ initial begin
     S_AXI_WDATA = 32'hDEADBEEF;
     S_AXI_BREADY = 1'b1;
     @(posedge S_AXI_WREADY);
+    @(posedge S_AXI_ACLK);
     S_AXI_WVALID = 0;
     S_AXI_AWVALID = 0;
-    @(posedge S_AXI_ACLK);
     S_AXI_BREADY = 1'b0;
 
     @(posedge S_AXI_ACLK);
@@ -106,9 +106,9 @@ initial begin
     S_AXI_WDATA = 32'hDEADBEEF;
     S_AXI_BREADY = 1'b1;
     @(posedge S_AXI_WREADY);
+    @(posedge S_AXI_ACLK);
     S_AXI_WVALID = 0;
     S_AXI_AWVALID = 0;
-    @(posedge S_AXI_ACLK);
     S_AXI_BREADY = 1'b0;
 
     @(posedge S_AXI_ACLK);
@@ -118,36 +118,39 @@ initial begin
     S_AXI_WDATA = 32'hDEADBEEF;
     S_AXI_BREADY = 1'b1;
     @(posedge S_AXI_WREADY);
+    @(posedge S_AXI_ACLK);
     S_AXI_WVALID = 0;
     S_AXI_AWVALID = 0;
-    @(posedge S_AXI_ACLK);
     S_AXI_BREADY = 1'b0;
 
     /* Read Reg Tests */
     @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 9'h0000;
     S_AXI_ARVALID = 1'b1;
-    S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_RVALID);
+    @(posedge S_AXI_ACLK);
     S_AXI_ARVALID = 0;
+    S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_ACLK);
     S_AXI_RREADY = 0;
 
     @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 9'h0004;
     S_AXI_ARVALID = 1'b1;
-    S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_RVALID);
+    @(posedge S_AXI_ACLK);
     S_AXI_ARVALID = 0;
+    S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_ACLK);
     S_AXI_RREADY = 0;
 
     @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 9'h0008;
     S_AXI_ARVALID = 1'b1;
-    S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_RVALID);
+    @(posedge S_AXI_ACLK);
     S_AXI_ARVALID = 0;
+    S_AXI_RREADY = 1'b1;
     @(posedge S_AXI_ACLK);
     S_AXI_RREADY = 0;
 
@@ -160,15 +163,17 @@ initial begin
         @(posedge S_AXI_ACLK);
         S_AXI_ARADDR = 9'h0004;
         S_AXI_ARVALID = 1'b1;
-        S_AXI_RREADY = 1'b1;
 
         @(posedge S_AXI_RVALID);
         S_AXI_ARVALID = 0;
         $display("%t : Read Data is: %h",$time,S_AXI_RDATA);
 
         @(posedge S_AXI_ACLK);
+        S_AXI_ARVALID = 0;
+        S_AXI_RREADY = 1'b1;
+
+        @(posedge S_AXI_ACLK);
         S_AXI_RREADY = 0;
-        
 
     end
 

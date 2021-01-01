@@ -26,24 +26,20 @@ input [15:0] DO;
 input DRDY;
 input EOS;
 
-output reg [1:0] network_output;
+output reg [1:0] network_output = 0;
 
-output reg [6:0] DADDR;
-output DEN;
-output reg [15:0] DI;
+output reg [6:0] DADDR = 0;
+output reg DEN;
+output reg [15:0] DI = 0;
 output DWE;
 
-reg [1:0] den_reg;
-reg [1:0] dwe_reg;
-assign DEN = den_reg[0];
-assign DWE = dwe_reg[0];
+assign DWE = 0;
 
-reg [11:0] MEASURED_AUX0;
-reg [11:0] MEASURED_AUX1;
-reg [11:0] MEASURED_AUX2;
-reg [11:0] MEASURED_AUX3;
+reg [11:0] MEASURED_AUX0 = 0;
+reg [11:0] MEASURED_AUX1 = 0;
+reg [11:0] MEASURED_AUX2 = 0;
+reg [11:0] MEASURED_AUX3 = 0;
 
-reg [31:0] counter;
 
 // parameter reset = 0, config_reg_0 = 1, config_reg_1 = 2, config_reg_2 = 3, done = 4;
 parameter       reset       = 8'h00,
@@ -58,33 +54,12 @@ parameter       reset       = 8'h00,
                 init_read  = 8'h09,
                 read_waitdrdy  = 8'h0A;
 
-reg [3:0] next_state;
-reg [3:0] current_state;
+reg [3:0] next_state = 0;
+reg [3:0] current_state = 0;
 
-reg [11:0] max_value;
-reg [1:0] temp_network_output_reg;
+reg [11:0] max_value = 0;
+reg [1:0] temp_network_output_reg = 0;
 
-
-always @(posedge clk)
-begin
-    if (rst)
-    begin
-        counter = 0;
-        den_reg = 0;
-        dwe_reg = 0;
-        temp_network_output_reg = 0;
-        network_output = 0;
-        MEASURED_AUX0 = 0;
-        MEASURED_AUX1 = 0;
-        MEASURED_AUX2 = 0;
-        MEASURED_AUX3 = 0;
-        max_value = 0;
-        DADDR = 0;
-        DI = 0;
-    end
-    else
-        counter = counter + 1;
-end
 
 always @(posedge clk)
 begin
@@ -94,110 +69,124 @@ begin
         current_state <= next_state;
 end
 
-always @(clk)
+always @(EOS,DRDY,BUSY,DO,current_state,temp_network_output_reg,MEASURED_AUX0,MEASURED_AUX1,MEASURED_AUX2,MEASURED_AUX3)
 begin
-    case (current_state)
-        reset:
-            // next_state <= init_read;
+   
+   case (current_state)
+      reset:
+      begin
          next_state <= read_reg10;
-         /*
-        init_read : begin
-            DADDR <= 7'h40;
-            den_reg <= 2'h2; // performing read
-            if (BUSY == 0 ) next_state <= read_waitdrdy;
-            else next_state <= current_state;
-            end
-        read_waitdrdy : 
-            if (EOS ==1)  	begin
-               next_state <= read_reg10;
-            end
-            else begin
-               den_reg <= { 1'b0, den_reg[1] } ;
-               dwe_reg <= { 1'b0, dwe_reg[1] } ;
-               next_state <= current_state;                
-            end
-         */
-        read_reg10 : begin
-            network_output = temp_network_output_reg;
-            if (EOS) begin
-               DADDR   <= 7'h10;
-               den_reg <= 2'h2; // performing read
-               next_state   <= reg10_waitdrdy;
-            end
+         DEN <= 0;
+         DADDR = 0;
+         MEASURED_AUX0 <= 0;
+         MEASURED_AUX1 <= 0;
+         MEASURED_AUX2 <= 0;
+         MEASURED_AUX3 <= 0;
+         temp_network_output_reg <= 0;
+         max_value <= 0;
+         network_output <= 0;
+      end
+      read_reg10 : begin
+         network_output <= temp_network_output_reg;
+         if (EOS) begin
+            DADDR   <= 7'h10;
+            DEN <= 1; // performing read
+            next_state   <= reg10_waitdrdy;
          end
-         reg10_waitdrdy : 
-            if (DRDY ==1)  	begin
-               MEASURED_AUX0 <= DO[15:4]; 
+      end
+      reg10_waitdrdy : 
+      begin
+         DEN <= 0;
+         if (DRDY ==1)  	begin
+            MEASURED_AUX0 <= DO[15:4]; 
+            max_value <= DO[15:4];
+            temp_network_output_reg <= 2'b00;
+            next_state <= read_reg11;
+         end
+         else begin
+            next_state <= current_state;          
+         end
+      end
+      read_reg11 : begin
+         DADDR   <= 7'h11;
+         DEN <= 1; // performing read
+         next_state   <= reg11_waitdrdy;
+      end
+      reg11_waitdrdy : 
+      begin
+         DEN = 0;
+         if (DRDY ==1)  	begin
+            MEASURED_AUX1 <= DO[15:4];
+            if (DO[15:4] > max_value)
+            begin
                max_value <= DO[15:4];
-               temp_network_output_reg = 2'b00;
-               next_state <= read_reg11;
+               temp_network_output_reg <= 2'b01;
             end
-            else begin
-               den_reg <= { 1'b0, den_reg[1] } ;
-               dwe_reg <= { 1'b0, dwe_reg[1] } ;      
-               next_state <= current_state;          
+            next_state <= read_reg12;
             end
-         read_reg11 : begin
-            DADDR   <= 7'h11;
-            den_reg <= 2'h2; // performing read
-            next_state   <= reg11_waitdrdy;
+         else begin
+            next_state <= current_state;          
          end
-         reg11_waitdrdy : 
-            if (DRDY ==1)  	begin
-               MEASURED_AUX1 <= DO[15:4];
-               if (DO[15:4] > max_value)
-               begin
-                  max_value = DO[15:4];
-                  temp_network_output_reg = 2'b01;
-               end
-               next_state <= read_reg12;
-               end
-            else begin
-               den_reg <= { 1'b0, den_reg[1] } ;
-               dwe_reg <= { 1'b0, dwe_reg[1] } ;      
-               next_state <= current_state;          
+      end
+      read_reg12 : begin
+         DADDR   <= 7'h12;
+         DEN <= 1; // performing read
+         next_state   <= reg12_waitdrdy;
+      end
+      reg12_waitdrdy :
+      begin
+         DEN <= 0;
+         if (DRDY ==1)  	begin
+            MEASURED_AUX2 <= DO[15:4]; 
+            if (DO[15:4] > max_value)
+            begin
+               max_value = DO[15:4];
+               temp_network_output_reg <= 2'b10;
             end
-         read_reg12 : begin
-            DADDR   <= 7'h12;
-            den_reg <= 2'h2; // performing read
-            next_state   <= reg12_waitdrdy;
-            end
-         reg12_waitdrdy : 
-            if (DRDY ==1)  	begin
-               MEASURED_AUX2 <= DO[15:4]; 
-               if (DO[15:4] > max_value)
-               begin
-                  max_value = DO[15:4];
-                  temp_network_output_reg = 2'b10;
-               end
-               next_state <= read_reg13;
-               end
-            else begin
-               den_reg <= { 1'b0, den_reg[1] } ;
-               dwe_reg <= { 1'b0, dwe_reg[1] } ;      
-               next_state <= current_state;          
-            end
-         read_reg13 : begin
-            DADDR   <= 7'h13;
-            den_reg <= 2'h2; // performing read
-            next_state   <= reg13_waitdrdy;
-            end
-         reg13_waitdrdy :
-            if (DRDY ==1)  	begin
-               MEASURED_AUX3 <= DO[15:4];
-               if (DO[15:4] > max_value)
-               begin
-                  max_value = DO[15:4];
-                  temp_network_output_reg = 2'b11;
-               end 
-               next_state <= read_reg10;
-               DADDR   <= 7'h00;
-            end
-            else begin
-               den_reg <= { 1'b0, den_reg[1] } ;
-               dwe_reg <= { 1'b0, dwe_reg[1] } ;      
-               next_state <= current_state;          
-            end
+            next_state <= read_reg13;
+         end
+         else begin
+            next_state <= current_state;          
+         end
+      end
+      read_reg13 : begin
+         DADDR   <= 7'h13;
+         DEN = 1; // performing read
+         next_state   <= reg13_waitdrdy;
+      end
+      reg13_waitdrdy :
+      begin
+         DEN <= 0;
+         if (DRDY ==1) begin
+            MEASURED_AUX3 <= DO[15:4];
+            
+            if (DO[15:4] > max_value)
+            begin
+               DEN = 2'b0;
+               max_value <= DO[15:4];
+               temp_network_output_reg <= 2'b11;
+            end 
+
+            next_state <= read_reg10;
+            DADDR   <= 7'h00;
+         end
+         else begin
+            next_state <= current_state;          
+         end
+      end
+      default:
+         begin
+            DEN <= 0;
+            DADDR <= 0;
+            next_state <= reset;
+            MEASURED_AUX0 <= MEASURED_AUX0;
+            MEASURED_AUX1 <= MEASURED_AUX1;
+            MEASURED_AUX2 <= MEASURED_AUX2;
+            MEASURED_AUX3 <= MEASURED_AUX3;
+            temp_network_output_reg <= 0;
+            max_value <= 0;
+            network_output <= 0;
+         end
     endcase 
 end
 
