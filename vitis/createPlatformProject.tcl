@@ -1,4 +1,5 @@
 # xsct createPlatformProject.tcl
+# start a minicom terminal on the uart port using: sudo minicom -D /dev/ttyACM0
 
 
 # Remove previous files
