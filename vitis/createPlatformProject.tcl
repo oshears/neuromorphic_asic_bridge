@@ -1,5 +1,15 @@
 # xsct createPlatformProject.tcl
 
+
+# Remove previous files
+exec rm -rf .metadata
+exec rm -rf .Xil
+exec rm -rf hello_world_test_app 
+exec rm -rf hello_world_test_app_system
+exec rm -rf neuromorphic
+exec rm -rf .analytics 
+exec rm -rf IDE.log 
+
 # Set Workspace
 setws .
 
