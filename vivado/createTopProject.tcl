@@ -107,7 +107,8 @@ launch_runs impl_1 -to_step write_bitstream -jobs 16
 wait_on_run impl_1
 
 # Export Hardware for Vitis
-write_hw_platform -fixed -include_bit -force -file /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system.xsa
+# write_hw_platform -fixed -include_bit -force -file /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system.xsa
+write_hw_platform -fixed -include_bit -force -file /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_wrapper.xsa
 
 # Generate Output Products
 # generate_target all [get_files  /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.srcs/sources_1/bd/neuromorphic_asic_bridge_system/neuromorphic_asic_bridge_system.bd]
