@@ -37,3 +37,6 @@ dow ./hello_world_test_app/Debug/hello_world_test_app.elf
 configparams force-mem-access 0
 targets -set -nocase -filter {name =~ "*A9*#0"}
 con
+
+
+exit
