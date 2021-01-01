@@ -9,3 +9,9 @@ logs
 *.debug
 neuromorphic_asic_bridge_project
 neuromorphic_asic_bridge_system_project
+
+# Vitis Sources
+.metadata
+hello_world_test_app*
+/vitis/neuromorphic
+.analytics
