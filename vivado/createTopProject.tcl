@@ -34,6 +34,11 @@ endgroup
 startgroup
 set_property -dict [list CONFIG.PCW_PRESET_BANK1_VOLTAGE {LVCMOS 1.8V} CONFIG.PCW_ENET0_PERIPHERAL_ENABLE {1} CONFIG.PCW_ENET0_ENET0_IO {MIO 16 .. 27}] [get_bd_cells processing_system7_0]
 endgroup
+startgroup
+set_property -dict [list CONFIG.PCW_FPGA1_PERIPHERAL_FREQMHZ {1} CONFIG.PCW_EN_CLK1_PORT {1}] [get_bd_cells processing_system7_0]
+endgroup
+# disconnect_bd_net /processing_system7_0_FCLK_CLK0 [get_bd_pins neuromorphic_asic_br_0/pwm_clk]
+connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK1] [get_bd_pins neuromorphic_asic_br_0/pwm_clk]
 
 # Block Automation
 apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {make_external "FIXED_IO, DDR" Master "Disable" Slave "Disable" }  [get_bd_cells processing_system7_0]
