@@ -71,6 +71,7 @@ int main()
 	printf("Done\n\r");
 
 	printf("Writing to a custom IP register...\n\r");
+	// enable slow clock
 	Xil_Out32(0x43C00008, 0xBEEF);
 	printf("Done\n\r");
 
@@ -87,10 +88,24 @@ int main()
 	printf("Reading from a custom IP register...\n\r");
 	value = Xil_In32(0x43C00008);
 	printf("Read: %x\n\r",value);
-
+	
+	// continuously read network output
 	while(1){
 
-		sleep(1);
+		int mode = 0;
+		int output_char = 0;
+
+		for (output_char = 0; output_char < 4; output_char++){
+			printf("Displaying output for character %d...\n\r",output_char);
+			Xil_Out32(0x43C00000, output_char);
+			// use fast mode and slow mode for 5 secs each
+			for(mode = 0; mode < 2; mode++){
+				printf("Writing to debug register...\n\r");
+				Xil_Out32(0x43C00008, mode);
+				sleep(5);
+			}
+		}
+		
 
 		printf("Reading from a network output register...\n\r");
 		value = Xil_In32(0x43C00004);

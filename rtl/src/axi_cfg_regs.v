@@ -29,7 +29,7 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     S_AXI_BREADY,
     char_select,
     network_output,
-    xadc_config   
+    debug   
 );
 
 
@@ -60,14 +60,14 @@ output reg [1:0] S_AXI_BRESP;
 output reg S_AXI_BVALID;  
 
 output [1:0] char_select;
-output [31:0] xadc_config;
+output [31:0] debug;
 
 reg [1:0] char_select_reg = 0;
 reg char_select_reg_addr_valid = 0;
 reg [1:0] network_output_reg = 0;
 reg network_output_reg_addr_valid = 0;
-reg [31:0] xadc_config_reg = 0;
-reg  xadc_config_reg_addr_valid = 0;
+reg [31:0] debug_reg = 0;
+reg  debug_reg_addr_valid = 0;
 
 reg [2:0] current_state = 0;
 reg [2:0] next_state = 0;
@@ -88,7 +88,7 @@ localparam reset = 0, idle = 1, read_transaction_in_progress = 2, write_transact
 assign Local_Reset = ~S_AXI_ARESETN;
 assign combined_S_AXI_AWVALID_S_AXI_ARVALID = {S_AXI_AWVALID, S_AXI_ARVALID};
 assign char_select = char_select_reg;
-assign xadc_config = xadc_config_reg;
+assign debug = debug_reg;
 
 always @ (posedge S_AXI_ACLK or posedge Local_Reset) begin
     if (Local_Reset)
@@ -158,7 +158,7 @@ always @ (current_state, combined_S_AXI_AWVALID_S_AXI_ARVALID, S_AXI_ARVALID, S_
 end
 
 // send data to AXI RDATA
-always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, xadc_config_reg)
+always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, debug_reg)
 begin
     S_AXI_RDATA = 32'b0;
 
@@ -170,7 +170,7 @@ begin
             4:
                 S_AXI_RDATA = {30'b0,network_output_reg};
             8:
-                S_AXI_RDATA = xadc_config_reg;
+                S_AXI_RDATA = debug_reg;
             default:
                 S_AXI_RDATA = 32'b0;
         endcase;     
@@ -201,7 +201,7 @@ always @(local_address,write_enable_registers)
 begin
     char_select_reg_addr_valid = 0;
     network_output_reg_addr_valid = 0;
-    xadc_config_reg_addr_valid = 0;
+    debug_reg_addr_valid = 0;
     local_address_valid = 1;
 
     if (write_enable_registers)
@@ -212,7 +212,7 @@ begin
             4:
                 network_output_reg_addr_valid = 1;
             8:
-                xadc_config_reg_addr_valid = 1;
+                debug_reg_addr_valid = 1;
             default:
                 local_address_valid = 0;
         endcase
@@ -237,15 +237,15 @@ begin
     network_output_reg = network_output;
 end
 
-// xadc_config_reg
+// debug_reg
 always @(posedge S_AXI_ACLK)
 begin
     if (Local_Reset)
-        xadc_config_reg = 0;
+        debug_reg = 0;
     else
     begin
-        if(xadc_config_reg_addr_valid)
-        xadc_config_reg = S_AXI_WDATA;
+        if(debug_reg_addr_valid)
+        debug_reg = S_AXI_WDATA;
     end
 end
 

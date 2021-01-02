@@ -73,7 +73,7 @@ output S_AXI_BVALID;
 
 wire [1:0] char_select;
 wire [1:0] network_output;
-wire [31:0] xadc_config;
+wire [31:0] debug;
 
 wire BUSY;
 wire [15:0] DO;
@@ -96,8 +96,10 @@ assign RESET = ~S_AXI_ARESETN;
 
 char_pwm_gen char_pwm_gen(
     .clk(pwm_clk),
+    .rst(RESET),
     .char_select(char_select),
-    .digit(digit)
+    .digit(digit),
+    .slow_clk_en(debug[0])
     );
 
 axi_cfg_regs 
@@ -118,7 +120,7 @@ axi_cfg_regs
     // Network Output
     .network_output(network_output),
     // XADC Configuration
-    .xadc_config(xadc_config),
+    .debug(debug),
     //AXI Signals
     .S_AXI_ACLK(S_AXI_ACLK),     
     .S_AXI_ARESETN(S_AXI_ARESETN),  
@@ -144,7 +146,6 @@ axi_cfg_regs
 xadc_interface xadc_interface(
     .clk(S_AXI_ACLK), 
     .rst(RESET),
-    .xadc_config(xadc_config),
     .network_output(network_output),
     .DADDR(DADDR),
     .DEN(DEN),

@@ -3,7 +3,6 @@ module xadc_interface
 (
     clk, 
     rst,
-    xadc_config,
     network_output,
 
     //XADC Interface Signals
@@ -19,7 +18,6 @@ module xadc_interface
 
 input clk;
 input rst;
-input [31:0] xadc_config;
 
 input BUSY;
 input [15:0] DO;
