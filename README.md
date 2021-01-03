@@ -21,3 +21,10 @@ The HDL FPGA Module to Interact with the MICS Neuromorphic Reservoir Computing (
 ```
 sudo minicom -D /dev/ttyACM0
 ```
+
+## PetaLinux
+### Terminology
+#### Board Support Package (BSP)
+#### First Stage Boot Loader (FSBL) Image
+#### U-Boot
+#### YOCTO
