@@ -1,3 +1,7 @@
+# Vivado Files
+neuromorphic_asic_bridge_project
+neuromorphic_asic_bridge_system_project
+neuromorphic_asic_bridge_system_wrapper.bin
 *.jou
 *.log
 *.wdb
@@ -7,10 +11,8 @@ xsim.dir
 *.str
 logs
 *.debug
-neuromorphic_asic_bridge_project
-neuromorphic_asic_bridge_system_project
 
-# Vitis Sources
+# Vitis Files
 .metadata
 hello_world_test_app*
 /vitis/neuromorphic

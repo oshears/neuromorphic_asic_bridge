@@ -1,0 +1,4 @@
+all:
+{
+    ./neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.runs/impl_1/neuromorphic_asic_bridge_system_wrapper.bit
+}
