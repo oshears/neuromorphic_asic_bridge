@@ -5,6 +5,7 @@ petalinux-install-path /home/oshears/PetaLinux/
 petalinux-create --type project --template zynq --name neuromorphic_peta_linux
 
 petalinux-config -p neuromorphic_peta_linux --get-hw-description=../vitis/neuromorphic/export/neuromorphic/hw/
+#petalinux-config --get-hw-description=~/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_wrapper.xsa
 
 # In petalinux-config DTG Settings ---> (template) MACHINE_NAME to zedboard
 
@@ -79,3 +80,18 @@ petalinux-package --boot --fsbl images/linux/zynq_fsbl.elf --fpga ../vitis/neuro
 # This section describes how to package newly built images into a prebuilt directory.
 # This step is typically done when you want to distribute your project as a BSP to other users.
 # petalinux-package --prebuilt --fpga <FPGA bitstream>
+
+petalinux-create --type project --template zynq --name standard
+petalinux-config --get-hw-description=~/Documents/vivado/project_1/design_1_wrapper.xsa
+petalinux-config -c rootfs
+# package -> misc -> packagegroup-core-build-essential
+# package -> misc -> gcc-runtime
+# package -> misc -> python3 -> python3-mmap
+# package -> misc -> python3-smmap
+petalinux-build
+# petalinux-build -x clean
+petalinux-package --boot --fsbl ./images/linux/zynq_fsbl.elf --fpga ~/Documents/vivado/project_1/project_1.runs/impl_1/design_1_wrapper.bit --u-boot --force
+cp images/linux/BOOT.BIN /media/oshears/BOOT/
+cp images/linux/image.ub /media/oshears/BOOT/
+cp images/linux/boot.scr /media/oshears/BOOT/
+sudo tar xvf ./images/linux/rootfs.tar.gz -C /media/oshears/ROOTFS/

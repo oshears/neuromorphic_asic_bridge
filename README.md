@@ -28,3 +28,27 @@ sudo minicom -D /dev/ttyACM0
 #### First Stage Boot Loader (FSBL) Image
 #### U-Boot
 #### YOCTO
+
+# Read and Write Registers from U-Boot
+```
+md 0x43c00000 
+mw 0x43c00000 0x000000FF
+```
+
+# Read and Write Registers from Linux Commmand Line
+#### Using `devmem`
+```
+devmem 0x43c00000
+devmem 0x43c00000 32 0x000000FF
+```
+#### Using `peek` and `poke`
+```
+poke 0x43C00000
+poke 0x43C00000 1
+```
+
+# Compile and Run the Demo from PetaLinux
+```
+gcc -o demo demo.c
+demo
+```
