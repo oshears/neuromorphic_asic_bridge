@@ -29,6 +29,10 @@ sudo minicom -D /dev/ttyACM0
 #### U-Boot
 #### YOCTO
 
+# Logging Into PetaLinux
+username: root
+password: root
+
 # Read and Write Registers from U-Boot
 ```
 md 0x43c00000 

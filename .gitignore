@@ -11,6 +11,7 @@ xsim.dir
 *.str
 logs
 *.debug
+vivado_pid*
 
 # Vitis Files
 .metadata
