@@ -6,6 +6,7 @@ module char_pwm_gen
     char_select,
     digit,
     slow_clk_en,
+    clk_out
 );
 
     //TODO: The clk might need to be divided down to 100MHz if it isn't set to this frequency already
@@ -23,11 +24,15 @@ module char_pwm_gen
     */
     output [15:0] digit;
 
+    output clk_out;
+
     reg [19:0] slow_clk_counter = 0;
 
     wire output_clk;
 
     assign output_clk = slow_clk_en ? slow_clk_counter[19] : clk;
+
+    assign clk_out = output_clk;
 
     // counter to slow down the clock by 1000000x
     always @(posedge clk)

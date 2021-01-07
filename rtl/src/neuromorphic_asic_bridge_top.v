@@ -96,19 +96,21 @@ wire [15:0] vauxn_active;
 
 wire [15:0] digit_temp;
 
+wire char_pwm_gen_clk_out;
+
 assign vauxp_active = {12'h000, VAUXP[3:0]};
 assign vauxn_active = {12'h000, VAUXN[3:0]};
 
 assign RESET = ~S_AXI_ARESETN;
 
-assign leds[0] = debug[0] ? (debug[1] ? (direct_ctrl[0] ? pwm_clk : ~pwm_clk) : digit[0]) : ((network_output == 2'b00) ? 1'b1 : 1'b0);
-assign leds[1] = debug[0] ? (debug[1] ? (direct_ctrl[1] ? pwm_clk : ~pwm_clk) : digit[1]) : ((network_output == 2'b01) ? 1'b1 : 1'b0);
-assign leds[2] = debug[0] ? (debug[1] ? (direct_ctrl[2] ? pwm_clk : ~pwm_clk) : digit[2]) : ((network_output == 2'b10) ? 1'b1 : 1'b0);
-assign leds[3] = debug[0] ? (debug[1] ? (direct_ctrl[3] ? pwm_clk : ~pwm_clk) : digit[3]) : ((network_output == 2'b11) ? 1'b1 : 1'b0);
-assign leds[4] = debug[0] ? (debug[1] ? (direct_ctrl[4] ? pwm_clk : ~pwm_clk) : digit[4]) : 1'b0;
-assign leds[5] = debug[0] ? (debug[1] ? (direct_ctrl[5] ? pwm_clk : ~pwm_clk) : digit[5]) : 1'b0;
-assign leds[6] = debug[0] ? (debug[1] ? (direct_ctrl[6] ? pwm_clk : ~pwm_clk) : digit[6]) : 1'b0;
-assign leds[7] = debug[0] ? (debug[1] ? (direct_ctrl[7] ? pwm_clk : ~pwm_clk) : digit[7]) : 1'b0;
+assign leds[0] = debug[0] ? (digit[0]) : (debug[1] ? (direct_ctrl[0] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : ((network_output == 2'b00) ? 1'b1 : 1'b0));
+assign leds[1] = debug[0] ? (digit[1]) : (debug[1] ? (direct_ctrl[1] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : ((network_output == 2'b01) ? 1'b1 : 1'b0));
+assign leds[2] = debug[0] ? (digit[2]) : (debug[1] ? (direct_ctrl[2] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : ((network_output == 2'b10) ? 1'b1 : 1'b0));
+assign leds[3] = debug[0] ? (digit[3]) : (debug[1] ? (direct_ctrl[3] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : ((network_output == 2'b11) ? 1'b1 : 1'b0));
+assign leds[4] = debug[0] ? (digit[4]) : (debug[1] ? (direct_ctrl[4] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
+assign leds[5] = debug[0] ? (digit[5]) : (debug[1] ? (direct_ctrl[5] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
+assign leds[6] = debug[0] ? (digit[6]) : (debug[1] ? (direct_ctrl[6] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
+assign leds[7] = debug[0] ? (digit[7]) : (debug[1] ? (direct_ctrl[7] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
 
 assign digit = debug[2] ? direct_ctrl : digit_temp;
 
@@ -117,7 +119,8 @@ char_pwm_gen char_pwm_gen(
     .rst(RESET),
     .char_select(char_select),
     .digit(digit_temp),
-    .slow_clk_en(debug[3])
+    .slow_clk_en(debug[3]),
+    .clk_out(char_pwm_gen_clk_out)
     );
 
 axi_cfg_regs 
