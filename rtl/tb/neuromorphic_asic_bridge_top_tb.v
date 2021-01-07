@@ -7,6 +7,8 @@ wire [15:0] digit;
 reg S_AXI_ACLK;
 
 reg [3:0] VAUXP, VAUXN;
+
+wire [7:0] leds;
    
 reg S_AXI_ARESETN;
 reg [8:0] S_AXI_AWADDR; 
@@ -53,7 +55,8 @@ neuromorphic_asic_bridge_top uut(
 .S_AXI_BVALID(S_AXI_BVALID),   
 .S_AXI_BREADY(S_AXI_BREADY), 
 .VAUXP(VAUXP),
-.VAUXN(VAUXN)
+.VAUXN(VAUXN),
+.leds(leds)
 );
 
 // Create 100Mhz clock
@@ -123,6 +126,18 @@ initial begin
     S_AXI_AWVALID = 0;
     S_AXI_BREADY = 1'b0;
 
+    @(posedge S_AXI_ACLK);
+    S_AXI_AWADDR = 9'h000C;
+    S_AXI_AWVALID = 1'b1;
+    S_AXI_WVALID = 1;
+    S_AXI_WDATA = 32'hDEADBEEF;
+    S_AXI_BREADY = 1'b1;
+    @(posedge S_AXI_WREADY);
+    @(posedge S_AXI_ACLK);
+    S_AXI_WVALID = 0;
+    S_AXI_AWVALID = 0;
+    S_AXI_BREADY = 1'b0;
+
     /* Read Reg Tests */
     @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 9'h0000;
@@ -146,6 +161,16 @@ initial begin
 
     @(posedge S_AXI_ACLK);
     S_AXI_ARADDR = 9'h0008;
+    S_AXI_ARVALID = 1'b1;
+    @(posedge S_AXI_RVALID);
+    @(posedge S_AXI_ACLK);
+    S_AXI_ARVALID = 0;
+    S_AXI_RREADY = 1'b1;
+    @(posedge S_AXI_ACLK);
+    S_AXI_RREADY = 0;
+
+    @(posedge S_AXI_ACLK);
+    S_AXI_ARADDR = 9'h000C;
     S_AXI_ARVALID = 1'b1;
     @(posedge S_AXI_RVALID);
     @(posedge S_AXI_ACLK);

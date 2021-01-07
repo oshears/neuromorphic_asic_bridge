@@ -35,7 +35,10 @@ parameter C_S_AXI_ADDR_WIDTH = 9
 
     //XADC
     VAUXP,
-    VAUXN
+    VAUXN,
+
+    // led outputs
+    leds
 );
 
 
@@ -68,12 +71,13 @@ output S_AXI_RVALID;
 output [1:0] S_AXI_BRESP;
 output S_AXI_BVALID;  
 
-
+output [7:0] leds;
 
 
 wire [1:0] char_select;
 wire [1:0] network_output;
 wire [31:0] debug;
+wire [15:0] direct_ctrl;
 
 wire BUSY;
 wire [15:0] DO;
@@ -89,27 +93,39 @@ wire RESET;
 
 wire [15:0] vauxp_active;
 wire [15:0] vauxn_active;
+
+wire [15:0] digit_temp;
+
 assign vauxp_active = {12'h000, VAUXP[3:0]};
 assign vauxn_active = {12'h000, VAUXN[3:0]};
 
 assign RESET = ~S_AXI_ARESETN;
 
+assign leds[0] = debug[0] ? (debug[1] ? (direct_ctrl[0] ? pwm_clk : ~pwm_clk) : digit[0]) : ((network_output == 2'b00) ? 1'b1 : 1'b0);
+assign leds[1] = debug[0] ? (debug[1] ? (direct_ctrl[1] ? pwm_clk : ~pwm_clk) : digit[1]) : ((network_output == 2'b01) ? 1'b1 : 1'b0);
+assign leds[2] = debug[0] ? (debug[1] ? (direct_ctrl[2] ? pwm_clk : ~pwm_clk) : digit[2]) : ((network_output == 2'b10) ? 1'b1 : 1'b0);
+assign leds[3] = debug[0] ? (debug[1] ? (direct_ctrl[3] ? pwm_clk : ~pwm_clk) : digit[3]) : ((network_output == 2'b11) ? 1'b1 : 1'b0);
+assign leds[4] = debug[0] ? (debug[1] ? (direct_ctrl[4] ? pwm_clk : ~pwm_clk) : digit[4]) : 1'b0;
+assign leds[5] = debug[0] ? (debug[1] ? (direct_ctrl[5] ? pwm_clk : ~pwm_clk) : digit[5]) : 1'b0;
+assign leds[6] = debug[0] ? (debug[1] ? (direct_ctrl[6] ? pwm_clk : ~pwm_clk) : digit[6]) : 1'b0;
+assign leds[7] = debug[0] ? (debug[1] ? (direct_ctrl[7] ? pwm_clk : ~pwm_clk) : digit[7]) : 1'b0;
+
+assign digit = debug[2] ? direct_ctrl : digit_temp;
+
 char_pwm_gen char_pwm_gen(
     .clk(pwm_clk),
     .rst(RESET),
     .char_select(char_select),
-    .digit(digit),
-    .slow_clk_en(debug[0])
+    .digit(digit_temp),
+    .slow_clk_en(debug[3])
     );
 
 axi_cfg_regs 
-
 #(
-C_S_AXI_ACLK_FREQ_HZ,
-C_S_AXI_DATA_WIDTH,
-C_S_AXI_ADDR_WIDTH
+    C_S_AXI_ACLK_FREQ_HZ,
+    C_S_AXI_DATA_WIDTH,
+    C_S_AXI_ADDR_WIDTH
 )
-
 axi_cfg_regs
 (
     // System Signals
@@ -119,8 +135,10 @@ axi_cfg_regs
     .char_select(char_select),
     // Network Output
     .network_output(network_output),
-    // XADC Configuration
+    // Debug Register Output
     .debug(debug),
+    // Direct Control Output
+    .direct_ctrl(direct_ctrl),
     //AXI Signals
     .S_AXI_ACLK(S_AXI_ACLK),     
     .S_AXI_ARESETN(S_AXI_ARESETN),  

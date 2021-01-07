@@ -30,6 +30,7 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {Auto} Cl
 
 # Configure Neuromorphic Bridge IP
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/digit]
+make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/leds]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VP]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VN]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VAUXN]

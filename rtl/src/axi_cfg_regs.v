@@ -29,6 +29,7 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     S_AXI_BREADY,
     char_select,
     network_output,
+    direct_ctrl,
     debug   
 );
 
@@ -62,10 +63,14 @@ output reg S_AXI_BVALID;
 output [1:0] char_select;
 output [31:0] debug;
 
+output [15:0] direct_ctrl;
+
 reg [1:0] char_select_reg = 0;
 reg char_select_reg_addr_valid = 0;
 reg [1:0] network_output_reg = 0;
 reg network_output_reg_addr_valid = 0;
+reg [15:0] direct_ctrl_reg = 0;
+reg direct_ctrl_addr_valid = 0;
 reg [31:0] debug_reg = 0;
 reg  debug_reg_addr_valid = 0;
 
@@ -89,6 +94,7 @@ assign Local_Reset = ~S_AXI_ARESETN;
 assign combined_S_AXI_AWVALID_S_AXI_ARVALID = {S_AXI_AWVALID, S_AXI_ARVALID};
 assign char_select = char_select_reg;
 assign debug = debug_reg;
+assign direct_ctrl = direct_ctrl_reg;
 
 always @ (posedge S_AXI_ACLK or posedge Local_Reset) begin
     if (Local_Reset)
@@ -170,6 +176,8 @@ begin
             4:
                 S_AXI_RDATA = {30'b0,network_output_reg};
             8:
+                S_AXI_RDATA = {16'b0,direct_ctrl_reg};
+            12:
                 S_AXI_RDATA = debug_reg;
             default:
                 S_AXI_RDATA = 32'b0;
@@ -202,6 +210,7 @@ begin
     char_select_reg_addr_valid = 0;
     network_output_reg_addr_valid = 0;
     debug_reg_addr_valid = 0;
+    direct_ctrl_addr_valid = 0;
     local_address_valid = 1;
 
     if (write_enable_registers)
@@ -212,6 +221,8 @@ begin
             4:
                 network_output_reg_addr_valid = 1;
             8:
+                direct_ctrl_addr_valid = 1;
+            12:
                 debug_reg_addr_valid = 1;
             default:
                 local_address_valid = 0;
@@ -235,6 +246,18 @@ end
 always @(posedge S_AXI_ACLK)
 begin
     network_output_reg = network_output;
+end
+
+// direct_ctrl_reg
+always @(posedge S_AXI_ACLK)
+begin
+    if (Local_Reset)
+        direct_ctrl_reg = 0;
+    else
+    begin
+        if(direct_ctrl_addr_valid)
+        direct_ctrl_reg = S_AXI_WDATA;
+    end
 end
 
 // debug_reg
