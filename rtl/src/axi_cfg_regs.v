@@ -238,7 +238,7 @@ begin
     else
     begin
         if(char_select_reg_addr_valid)
-        char_select_reg = S_AXI_WDATA[1:0];
+            char_select_reg = S_AXI_WDATA[1:0];
     end
 end
 
@@ -256,7 +256,7 @@ begin
     else
     begin
         if(direct_ctrl_addr_valid)
-        direct_ctrl_reg = S_AXI_WDATA;
+            direct_ctrl_reg = S_AXI_WDATA;
     end
 end
 
@@ -267,8 +267,14 @@ begin
         debug_reg = 0;
     else
     begin
+        // LED Controls
+        // BIT 0: IF ACTIVE, then display char information on LEDs, ELSE display network output on LEDS
+        // BIT 1: IF ACTIVE, then display direct_ctrl_reg values on LEDS, ELSE display char_pwm_gen outputs on LEDS 
+        // Output Controls
+        // BIT 2: Use direct_ctrl_reg value as digit outputs ELSE use char_pwm_gen
+        // BIT 3: Use slow 1HZ Clock
         if(debug_reg_addr_valid)
-        debug_reg = S_AXI_WDATA;
+            debug_reg = S_AXI_WDATA;
     end
 end
 
