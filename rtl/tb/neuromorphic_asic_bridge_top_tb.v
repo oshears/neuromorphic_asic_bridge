@@ -90,94 +90,34 @@ initial begin
 
     
     /* Write Reg Tests */
-    @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 9'h0000;
-    S_AXI_AWVALID = 1'b1;
-    S_AXI_WVALID = 1;
-    S_AXI_WDATA = 32'hDEADBEEF;
-    S_AXI_BREADY = 1'b1;
-    @(posedge S_AXI_WREADY);
-    @(posedge S_AXI_ACLK);
-    S_AXI_WVALID = 0;
-    S_AXI_AWVALID = 0;
-    S_AXI_BREADY = 1'b0;
-
-    @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 9'h0004;
-    S_AXI_AWVALID = 1'b1;
-    S_AXI_WVALID = 1;
-    S_AXI_WDATA = 32'hDEADBEEF;
-    S_AXI_BREADY = 1'b1;
-    @(posedge S_AXI_WREADY);
-    @(posedge S_AXI_ACLK);
-    S_AXI_WVALID = 0;
-    S_AXI_AWVALID = 0;
-    S_AXI_BREADY = 1'b0;
-
-    @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 9'h0008;
-    S_AXI_AWVALID = 1'b1;
-    S_AXI_WVALID = 1;
-    S_AXI_WDATA = 32'hDEADBEEF;
-    S_AXI_BREADY = 1'b1;
-    @(posedge S_AXI_WREADY);
-    @(posedge S_AXI_ACLK);
-    S_AXI_WVALID = 0;
-    S_AXI_AWVALID = 0;
-    S_AXI_BREADY = 1'b0;
-
-    @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 9'h000C;
-    S_AXI_AWVALID = 1'b1;
-    S_AXI_WVALID = 1;
-    S_AXI_WDATA = 32'hDEADBEEF;
-    S_AXI_BREADY = 1'b1;
-    @(posedge S_AXI_WREADY);
-    @(posedge S_AXI_ACLK);
-    S_AXI_WVALID = 0;
-    S_AXI_AWVALID = 0;
-    S_AXI_BREADY = 1'b0;
+    for (i = 0; i < 32; i = i + 4)
+    begin
+        @(posedge S_AXI_ACLK);
+        S_AXI_AWADDR = i;
+        S_AXI_AWVALID = 1'b1;
+        S_AXI_WVALID = 1;
+        S_AXI_WDATA = 32'hDEADBEEF;
+        S_AXI_BREADY = 1'b1;
+        @(posedge S_AXI_WREADY);
+        @(posedge S_AXI_ACLK);
+        S_AXI_WVALID = 0;
+        S_AXI_AWVALID = 0;
+        S_AXI_BREADY = 1'b0;
+    end
 
     /* Read Reg Tests */
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARADDR = 9'h0000;
-    S_AXI_ARVALID = 1'b1;
-    @(posedge S_AXI_RVALID);
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARVALID = 0;
-    S_AXI_RREADY = 1'b1;
-    @(posedge S_AXI_ACLK);
-    S_AXI_RREADY = 0;
-
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARADDR = 9'h0004;
-    S_AXI_ARVALID = 1'b1;
-    @(posedge S_AXI_RVALID);
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARVALID = 0;
-    S_AXI_RREADY = 1'b1;
-    @(posedge S_AXI_ACLK);
-    S_AXI_RREADY = 0;
-
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARADDR = 9'h0008;
-    S_AXI_ARVALID = 1'b1;
-    @(posedge S_AXI_RVALID);
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARVALID = 0;
-    S_AXI_RREADY = 1'b1;
-    @(posedge S_AXI_ACLK);
-    S_AXI_RREADY = 0;
-
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARADDR = 9'h000C;
-    S_AXI_ARVALID = 1'b1;
-    @(posedge S_AXI_RVALID);
-    @(posedge S_AXI_ACLK);
-    S_AXI_ARVALID = 0;
-    S_AXI_RREADY = 1'b1;
-    @(posedge S_AXI_ACLK);
-    S_AXI_RREADY = 0;
+    for (i = 0; i < 32; i = i + 4)
+    begin
+        @(posedge S_AXI_ACLK);
+        S_AXI_ARADDR = i;
+        S_AXI_ARVALID = 1'b1;
+        @(posedge S_AXI_RVALID);
+        @(posedge S_AXI_ACLK);
+        S_AXI_ARVALID = 0;
+        S_AXI_RREADY = 1'b1;
+        @(posedge S_AXI_ACLK);
+        S_AXI_RREADY = 0;
+    end
 
     // Wait for network outputs to cycle
     for (i = 0; i < 4; i = i + 1)

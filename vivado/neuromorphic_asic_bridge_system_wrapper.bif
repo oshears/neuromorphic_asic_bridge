@@ -1,4 +1,4 @@
 all:
 {
-    ./neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.runs/impl_1/neuromorphic_asic_bridge_system_wrapper.bit
+    /home/oshears/Documents/vt/research/code/verilog/neuromorphic_asic_bridge/vivado/neuromorphic_asic_bridge_system_project/neuromorphic_asic_bridge_system_project.runs/impl_1/neuromorphic_asic_bridge_system_wrapper.bit
 }
