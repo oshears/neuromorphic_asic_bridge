@@ -1,5 +1,7 @@
 # usage: vivado -mode tcl -source createBridgeProject.tcl
 
+set_param general.maxThreads 8
+
 create_project neuromorphic_asic_bridge_project ./neuromorphic_asic_bridge_project -part xc7z020clg484-1 -force
 
 set_property board_part em.avnet.com:zed:part0:1.4 [current_project]
@@ -45,4 +47,15 @@ ipx::save_core [ipx::current_core]
 set_property  ip_repo_paths  /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/ [current_project]
 update_ip_catalog
 
-exit
+# Verify Implementation
+
+# read_xdc ../xdc/neuromorphic_asic_bridge_constraints.xdc
+# synth_design -rtl -rtl_skip_mlo -name rtl_1
+
+# reset_run synth_1
+# launch_runs impl_1 -jobs 16
+# wait_on_run impl_1
+# open_run impl_1
+
+
+# exit

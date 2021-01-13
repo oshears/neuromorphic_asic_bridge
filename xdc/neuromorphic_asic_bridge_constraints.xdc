@@ -1,3 +1,8 @@
+# Clock Constraints
+# TODO
+create_clock -period 10 [get_ports S_AXI_ACLK]
+create_clock -period 10 [get_ports pwm_clk]
+
 # PMOD Outputs
 set_property PACKAGE_PIN Y11 [get_ports {digit[15]}];
 set_property PACKAGE_PIN AA11 [get_ports {digit[14]}];
@@ -30,3 +35,10 @@ set_property PACKAGE_PIN F16 [get_ports {VAUXP[0]}];
 set_property IOSTANDARD LVCMOS18 [get_ports [list {digit[15]} {digit[14]} {digit[13]} {digit[12]} {digit[11]} {digit[10]} {digit[9]} {digit[8]} {digit[7]} {digit[6]} {digit[5]} {digit[4]} {digit[3]} {digit[2]} {digit[1]} {digit[0]}]];
 set_property IOSTANDARD LVCMOS18 [get_ports [list {VAUXN[3]} {VAUXN[2]} {VAUXN[1]} {VAUXN[0]}]];
 set_property IOSTANDARD LVCMOS18 [get_ports [list {VAUXP[3]} {VAUXP[2]} {VAUXP[1]} {VAUXP[0]}]];
+
+
+# Input + Output Delays
+
+
+# False Paths
+set_false_path -to [get_ports leds]

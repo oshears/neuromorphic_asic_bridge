@@ -6,7 +6,8 @@ wire [15:0] digit;
 
 reg S_AXI_ACLK;
 
-reg [3:0] VAUXP, VAUXN;
+reg [15:0] VAUXP, VAUXN;
+reg VP, VN;
 
 wire [7:0] leds;
    
@@ -30,6 +31,7 @@ wire [1:0] S_AXI_BRESP;
 wire S_AXI_BVALID;  
 
 integer i = 0;
+integer j = 0;
 
 
 neuromorphic_asic_bridge_top uut(
@@ -56,7 +58,9 @@ neuromorphic_asic_bridge_top uut(
 .S_AXI_BREADY(S_AXI_BREADY), 
 .VAUXP(VAUXP),
 .VAUXN(VAUXN),
-.leds(leds)
+.leds(leds),
+.VP(VP),
+.VN(VN)
 );
 
 // Create 100Mhz clock
@@ -139,6 +143,20 @@ initial begin
 
         @(posedge S_AXI_ACLK);
         S_AXI_RREADY = 0;
+
+        // Read AUX Regs
+        for (j = 16; j < 32; j = j + 4)
+        begin
+            @(posedge S_AXI_ACLK);
+            S_AXI_ARADDR = j;
+            S_AXI_ARVALID = 1'b1;
+            @(posedge S_AXI_RVALID);
+            @(posedge S_AXI_ACLK);
+            S_AXI_ARVALID = 0;
+            S_AXI_RREADY = 1'b1;
+            @(posedge S_AXI_ACLK);
+            S_AXI_RREADY = 0;
+        end
 
     end
 

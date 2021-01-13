@@ -1,5 +1,7 @@
 # usage: vivado -mode tcl -source createTopProject.tcl
 
+set_param general.maxThreads 8
+
 # Create Project
 create_project neuromorphic_asic_bridge_system_project ./neuromorphic_asic_bridge_system_project -part xc7z020clg484-1 -force
 
@@ -35,6 +37,7 @@ make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VP]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VN]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VAUXN]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VAUXP]
+make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VAUX_SEL]
 
 # Save Block Design
 save_bd_design

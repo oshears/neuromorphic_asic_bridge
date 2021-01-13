@@ -30,13 +30,22 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     char_select,
     network_output,
     direct_ctrl,
-    debug   
+    debug,
+    MEASURED_AUX0,
+    MEASURED_AUX1,
+    MEASURED_AUX2,
+    MEASURED_AUX3   
 );
 
 
 input clk;
 input rst;
 input [1:0] network_output;
+
+input [11:0] MEASURED_AUX0;
+input [11:0] MEASURED_AUX1;
+input [11:0] MEASURED_AUX2;
+input [11:0] MEASURED_AUX3;
 
 
 input S_AXI_ACLK;   
@@ -74,10 +83,19 @@ reg direct_ctrl_addr_valid = 0;
 reg [31:0] debug_reg = 0;
 reg  debug_reg_addr_valid = 0;
 
+reg [31:0] MEASURED_AUX0_reg = 0;
+reg MEASURED_AUX0_addr_valid = 0;
+reg [31:0] MEASURED_AUX1_reg = 0;
+reg MEASURED_AUX1_addr_valid = 0;
+reg [31:0] MEASURED_AUX2_reg = 0;
+reg MEASURED_AUX2_addr_valid = 0;
+reg [31:0] MEASURED_AUX3_reg = 0;
+reg MEASURED_AUX3_addr_valid = 0;
+
 reg [2:0] current_state = 0;
 reg [2:0] next_state = 0;
 
-reg [3:0] local_address = 0;
+reg [15:0] local_address = 0;
 reg local_address_valid = 0;
 
 wire [1:0] combined_S_AXI_AWVALID_S_AXI_ARVALID;
@@ -164,7 +182,7 @@ always @ (current_state, combined_S_AXI_AWVALID_S_AXI_ARVALID, S_AXI_ARVALID, S_
 end
 
 // send data to AXI RDATA
-always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, debug_reg)
+always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, debug_reg, direct_ctrl_reg,MEASURED_AUX0_reg,MEASURED_AUX1_reg,MEASURED_AUX2_reg,MEASURED_AUX3_reg)
 begin
     S_AXI_RDATA = 32'b0;
 
@@ -179,6 +197,14 @@ begin
                 S_AXI_RDATA = {16'b0,direct_ctrl_reg};
             12:
                 S_AXI_RDATA = debug_reg;
+            16:
+                S_AXI_RDATA = MEASURED_AUX0_reg;
+            20:
+                S_AXI_RDATA = MEASURED_AUX1_reg;
+            24:
+                S_AXI_RDATA = MEASURED_AUX2_reg;
+            28:
+                S_AXI_RDATA = MEASURED_AUX3_reg;
             default:
                 S_AXI_RDATA = 32'b0;
         endcase;     
@@ -196,9 +222,9 @@ begin
         begin
             case (combined_S_AXI_AWVALID_S_AXI_ARVALID)
                 2'b10:
-                    local_address = S_AXI_AWADDR[3:0];
+                    local_address = S_AXI_AWADDR[7:0];
                 2'b01:     
-                    local_address = S_AXI_ARADDR[3:0];
+                    local_address = S_AXI_ARADDR[7:0];
             endcase
         end
     end
@@ -211,6 +237,10 @@ begin
     network_output_reg_addr_valid = 0;
     debug_reg_addr_valid = 0;
     direct_ctrl_addr_valid = 0;
+    MEASURED_AUX0_addr_valid = 0;
+    MEASURED_AUX1_addr_valid = 0;
+    MEASURED_AUX2_addr_valid = 0;
+    MEASURED_AUX3_addr_valid = 0;
     local_address_valid = 1;
 
     if (write_enable_registers)
@@ -224,6 +254,14 @@ begin
                 direct_ctrl_addr_valid = 1;
             12:
                 debug_reg_addr_valid = 1;
+            16:
+                MEASURED_AUX0_addr_valid = 1;
+            20:
+                MEASURED_AUX1_addr_valid = 1;
+            24:
+                MEASURED_AUX2_addr_valid = 1;
+            28:
+                MEASURED_AUX3_addr_valid = 1;
             default:
                 local_address_valid = 0;
         endcase
@@ -276,6 +314,24 @@ begin
         if(debug_reg_addr_valid)
             debug_reg = S_AXI_WDATA;
     end
+end
+
+// measured aux regs
+always @(posedge S_AXI_ACLK)
+begin
+    MEASURED_AUX0_reg = {20'b0,MEASURED_AUX0};
+end
+always @(posedge S_AXI_ACLK)
+begin
+    MEASURED_AUX1_reg = {20'b0,MEASURED_AUX1};
+end
+always @(posedge S_AXI_ACLK)
+begin
+    MEASURED_AUX2_reg = {20'b0,MEASURED_AUX2};
+end
+always @(posedge S_AXI_ACLK)
+begin
+    MEASURED_AUX3_reg = {20'b0,MEASURED_AUX3};
 end
 
 endmodule

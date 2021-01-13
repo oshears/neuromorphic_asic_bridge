@@ -36,6 +36,11 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     //XADC
     VAUXP,
     VAUXN,
+    VN,
+    VP,
+
+    //Analog Signal Control
+    VAUX_SEL,
 
     // led outputs
     leds
@@ -58,7 +63,8 @@ input S_AXI_RREADY;
 input S_AXI_BREADY; 
 
 // XADC Inputs
-input [3:0] VAUXP, VAUXN;
+input [15:0] VAUXP, VAUXN;
+input VN, VP;
 
 output [15:0] digit;
 
@@ -73,6 +79,7 @@ output S_AXI_BVALID;
 
 output [7:0] leds;
 
+output [3:0] VAUX_SEL;
 
 wire [1:0] char_select;
 wire [1:0] network_output;
@@ -91,15 +98,14 @@ wire [15:0] DI;
 wire DWE;
 wire RESET;
 
-wire [15:0] vauxp_active;
-wire [15:0] vauxn_active;
-
 wire [15:0] digit_temp;
 
 wire char_pwm_gen_clk_out;
 
-assign vauxp_active = {12'h000, VAUXP[3:0]};
-assign vauxn_active = {12'h000, VAUXN[3:0]};
+wire [11:0] MEASURED_AUX0;
+wire [11:0] MEASURED_AUX1;
+wire [11:0] MEASURED_AUX2;
+wire [11:0] MEASURED_AUX3;
 
 assign RESET = ~S_AXI_ARESETN;
 
@@ -138,6 +144,10 @@ axi_cfg_regs
     .char_select(char_select),
     // Network Output
     .network_output(network_output),
+    .MEASURED_AUX0(MEASURED_AUX0),
+    .MEASURED_AUX1(MEASURED_AUX1),
+    .MEASURED_AUX2(MEASURED_AUX2),
+    .MEASURED_AUX3(MEASURED_AUX3),
     // Debug Register Output
     .debug(debug),
     // Direct Control Output
@@ -175,13 +185,20 @@ xadc_interface xadc_interface(
     .BUSY(BUSY),
     .DO(DO),
     .DRDY(DRDY),
-    .EOS(EOS)
+    .EOS(EOS),
+    .MEASURED_AUX0(MEASURED_AUX0),
+    .MEASURED_AUX1(MEASURED_AUX1),
+    .MEASURED_AUX2(MEASURED_AUX2),
+    .MEASURED_AUX3(MEASURED_AUX3),
+    .VAUX_SEL(VAUX_SEL)
 );
 
 XADC #(// Initializing the XADC Control Registers
+    .INIT_40(16'h0000),
     .INIT_41(16'h2000),// Continuous Seq Mode
     .INIT_42(16'h0400),// Set DCLK divides
-    .INIT_49(16'h000f),// CHSEL2 - enable aux analog channels 0 - 3
+    .INIT_48(16'h0800),// CHSEL1 - enable aux analog channels 0 - 3
+    .INIT_49(16'hffff),// CHSEL2 - enable aux analog channels 0 - 3
     .SIM_MONITOR_FILE("design.txt"),// Analog Stimulus file for simulation
     .SIM_DEVICE("ZYNQ")
 )
@@ -194,14 +211,14 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
     .DI     (DI),
     .DWE    (DWE),
     .RESET  (RESET),
-    .VAUXN  (vauxn_active ),
-    .VAUXP  (vauxp_active ),
+    .VAUXN  (VAUXN ),
+    .VAUXP  (VAUXP ),
     .BUSY   (BUSY),
     .DO     (DO),
     .DRDY   (DRDY),
     .EOS    (EOS),
-    .VP     (1'b0),
-    .VN     (1'b0),
+    .VP     (VP),
+    .VN     (VN),
     .ALM(),
     .CHANNEL(),
     .EOC(),

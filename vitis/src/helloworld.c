@@ -57,9 +57,6 @@ int main()
 {
     init_platform();
 
-    print("Hello World\n\r");
-    print("Successfully ran Hello World application");
-
     printf("Test Project\n\r");
 	printf("Writing to a custom IP register...\n\r");
 
@@ -88,10 +85,21 @@ int main()
 	printf("Reading from a custom IP register...\n\r");
 	value = Xil_In32(0x43C00008);
 	printf("Read: %x\n\r",value);
+
+	// Slow Mode
+	// LED Controls
+	// BIT 0: IF ACTIVE, then display char information on LEDs, ELSE display network output on LEDS
+	// BIT 1: IF ACTIVE, then display direct_ctrl_reg values on LEDS, ELSE display char_pwm_gen outputs on LEDS 
+	// Output Controls
+	// BIT 2: Use direct_ctrl_reg value as digit outputs ELSE use char_pwm_gen
+	// BIT 3: Use slow 1HZ Clock
+	Xil_Out32(0x43C0000C, 0x8);
 	
 	// continuously read network output
-	while(1){
+	long iterations = 0;
 
+	while(1){
+		/*
 		int mode = 0;
 		int output_char = 0;
 
@@ -102,14 +110,32 @@ int main()
 			for(mode = 0; mode < 2; mode++){
 				printf("Writing to debug register...\n\r");
 				Xil_Out32(0x43C00008, mode);
-				sleep(5);
+				sleep(2);
 			}
 		}
+		*/
 		
 
-		printf("Reading from a network output register...\n\r");
+		// printf("Reading from a network output register...\n\r");
+		print("========================================\n\r");
 		value = Xil_In32(0x43C00004);
-		printf("Read %x from network output register.\n\r",value);
+		printf("[%d] Read %x from network output register.\n\r",iterations,value);
+
+		value = Xil_In32(0x43C00010);
+		printf("[%d] Read %x from MEASURED_AUX0 register.\n\r",iterations,value);
+
+		value = Xil_In32(0x43C00014);
+		printf("[%d] Read %x from MEASURED_AUX1 register.\n\r",iterations,value);
+		
+		value = Xil_In32(0x43C00018);
+		printf("[%d] Read %x from MEASURED_AUX2 register.\n\r",iterations,value);
+
+		value = Xil_In32(0x43C0001C);
+		printf("[%d] Read %x from MEASURED_AUX3 register.\n\r",iterations,value);
+		
+		iterations++;
+
+		sleep(2);
 	}
 
 
