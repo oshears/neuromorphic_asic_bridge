@@ -197,10 +197,12 @@ xadc_interface xadc_interface(
 );
 
 XADC #(// Initializing the XADC Control Registers
-    .INIT_40(16'h0803), // Multiplexer Input on VP/VN Channel
+    .INIT_40(16'hB903), // Multiplexer Input on VP/VN Channel, 256 sample averaging and settling (acquisition) time 
     .INIT_41(16'h20F0),// Continuous Seq Mode, Calibrate ADC and Supply Sensor
     .INIT_42(16'h0400),// Set DCLK divides
     .INIT_49(16'h000f),// CHSEL2 - enable aux analog channels 0 - 3
+    .INIT_4B(16'h000f), // enable averaging
+    .INIT_4F(16'h000f), // enable settling time
     .SIM_MONITOR_FILE("design.txt"),// Analog Stimulus file for simulation
     .SIM_DEVICE("ZYNQ")
 )
