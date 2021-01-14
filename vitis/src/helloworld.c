@@ -52,6 +52,14 @@
 #include "xil_io.h"
 #include "sleep.h"
 
+#define CHAR_SEL_REG_ADDR 0x43C00000
+#define NET_OUT_REG_ADDR 0x43C00004
+#define DIRECT_CTRL_REG_ADDR 0x43C00008
+#define DEBUG_REG_ADDR 0x43C0000C
+#define AUX0_REG_ADDR 0x43C00010
+#define AUX1_REG_ADDR 0x43C00014
+#define AUX2_REG_ADDR 0x43C00018
+#define AUX3_REG_ADDR 0x43C0001C
 
 int main()
 {
@@ -60,30 +68,30 @@ int main()
     printf("Test Project\n\r");
 	printf("Writing to a custom IP register...\n\r");
 
-	Xil_Out32(0x43C00000, 0xBEEF);
+	Xil_Out32(CHAR_SEL_REG_ADDR, 0xBEEF);
 	printf("Done\n\r");
 
 	printf("Writing to a custom IP register...\n\r");
-	Xil_Out32(0x43C00004, 0xBEEF);
+	Xil_Out32(NET_OUT_REG_ADDR, 0xBEEF);
 	printf("Done\n\r");
 
 	printf("Writing to a custom IP register...\n\r");
 	// enable slow clock
-	Xil_Out32(0x43C00008, 0xBEEF);
+	Xil_Out32(DIRECT_CTRL_REG_ADDR, 0xBEEF);
 	printf("Done\n\r");
 
 	int value = 0;
 
 	printf("Reading from a custom IP register...\n\r");
-	value = Xil_In32(0x43C00000);
+	value = Xil_In32(CHAR_SEL_REG_ADDR);
 	printf("Read: %x\n\r",value);
 
 	printf("Reading from a custom IP register...\n\r");
-	value = Xil_In32(0x43C00004);
+	value = Xil_In32(NET_OUT_REG_ADDR);
 	printf("Read: %x\n\r",value);
 
 	printf("Reading from a custom IP register...\n\r");
-	value = Xil_In32(0x43C00008);
+	value = Xil_In32(DIRECT_CTRL_REG_ADDR);
 	printf("Read: %x\n\r",value);
 
 	// Slow Mode
@@ -93,7 +101,8 @@ int main()
 	// Output Controls
 	// BIT 2: Use direct_ctrl_reg value as digit outputs ELSE use char_pwm_gen
 	// BIT 3: Use slow 1HZ Clock
-	Xil_Out32(0x43C0000C, 0x8);
+	// BIT 4: Use One-Hot Encoding for ADC_MUXADDR
+	Xil_Out32(DEBUG_REG_ADDR, 0x18);
 	
 	// continuously read network output
 	long iterations = 0;
@@ -118,19 +127,19 @@ int main()
 
 		// printf("Reading from a network output register...\n\r");
 		print("========================================\n\r");
-		value = Xil_In32(0x43C00004);
+		value = Xil_In32(NET_OUT_REG_ADDR);
 		printf("[%d] Read %x from network output register.\n\r",iterations,value);
 
-		value = Xil_In32(0x43C00010);
+		value = Xil_In32(AUX0_REG_ADDR);
 		printf("[%d] Read %x from MEASURED_AUX0 register.\n\r",iterations,value);
 
-		value = Xil_In32(0x43C00014);
+		value = Xil_In32(AUX1_REG_ADDR);
 		printf("[%d] Read %x from MEASURED_AUX1 register.\n\r",iterations,value);
 		
-		value = Xil_In32(0x43C00018);
+		value = Xil_In32(AUX2_REG_ADDR);
 		printf("[%d] Read %x from MEASURED_AUX2 register.\n\r",iterations,value);
 
-		value = Xil_In32(0x43C0001C);
+		value = Xil_In32(AUX3_REG_ADDR);
 		printf("[%d] Read %x from MEASURED_AUX3 register.\n\r",iterations,value);
 		
 		iterations++;

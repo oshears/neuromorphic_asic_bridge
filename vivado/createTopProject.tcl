@@ -6,7 +6,7 @@ set_param general.maxThreads 8
 create_project neuromorphic_asic_bridge_system_project ./neuromorphic_asic_bridge_system_project -part xc7z020clg484-1 -force
 
 # Add Custom IP
-set_property  ip_repo_paths  /home/oshears/Documents/vt/research/code/verilog/neuromorphic_fpga_bridge/ [current_project]
+set_property  ip_repo_paths  /home/oshears/Documents/vt/research/code/verilog/neuromorphic_asic_bridge/ [current_project]
 update_ip_catalog
 
 # Create Block Design and Add Zynq Processing System
@@ -35,9 +35,7 @@ make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/digit]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/leds]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VP]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VN]
-make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VAUXN]
-make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VAUXP]
-make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/VAUX_SEL]
+make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/XADC_MUXADDR]
 
 # Save Block Design
 save_bd_design

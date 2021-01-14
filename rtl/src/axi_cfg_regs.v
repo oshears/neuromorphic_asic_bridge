@@ -269,7 +269,7 @@ begin
 end
 
 // char_select_reg
-always @(posedge S_AXI_ACLK)
+always @(posedge S_AXI_ACLK, posedge Local_Reset)
 begin
     if (Local_Reset)
         char_select_reg = 0;
@@ -287,7 +287,7 @@ begin
 end
 
 // direct_ctrl_reg
-always @(posedge S_AXI_ACLK)
+always @(posedge S_AXI_ACLK, posedge Local_Reset)
 begin
     if (Local_Reset)
         direct_ctrl_reg = 0;
@@ -299,7 +299,7 @@ begin
 end
 
 // debug_reg
-always @(posedge S_AXI_ACLK)
+always @(posedge S_AXI_ACLK, posedge Local_Reset)
 begin
     if (Local_Reset)
         debug_reg = 0;
@@ -311,6 +311,7 @@ begin
         // Output Controls
         // BIT 2: Use direct_ctrl_reg value as digit outputs ELSE use char_pwm_gen
         // BIT 3: Use slow 1HZ Clock
+        // BIT 4: Use 1-Hot Encoding for XADC Multiplexer
         if(debug_reg_addr_valid)
             debug_reg = S_AXI_WDATA;
     end

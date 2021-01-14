@@ -34,13 +34,11 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     // asic_output_analyzer
 
     //XADC
-    VAUXP,
-    VAUXN,
     VN,
     VP,
 
     //Analog Signal Control
-    VAUX_SEL,
+    XADC_MUXADDR,
 
     // led outputs
     leds
@@ -63,7 +61,6 @@ input S_AXI_RREADY;
 input S_AXI_BREADY; 
 
 // XADC Inputs
-input [15:0] VAUXP, VAUXN;
 input VN, VP;
 
 output [15:0] digit;
@@ -79,7 +76,7 @@ output S_AXI_BVALID;
 
 output [7:0] leds;
 
-output [3:0] VAUX_SEL;
+output [3:0] XADC_MUXADDR;
 
 wire [1:0] char_select;
 wire [1:0] network_output;
@@ -106,6 +103,13 @@ wire [11:0] MEASURED_AUX0;
 wire [11:0] MEASURED_AUX1;
 wire [11:0] MEASURED_AUX2;
 wire [11:0] MEASURED_AUX3;
+
+wire [4:0] XADC_MUXADDR_local;
+
+assign XADC_MUXADDR[0] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b00) ? 1'b1 : 1'b0): XADC_MUXADDR_local[0];
+assign XADC_MUXADDR[1] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b01) ? 1'b1 : 1'b0): XADC_MUXADDR_local[1];
+assign XADC_MUXADDR[2] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b10) ? 1'b1 : 1'b0): XADC_MUXADDR_local[2];
+assign XADC_MUXADDR[3] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b11) ? 1'b1 : 1'b0): XADC_MUXADDR_local[3];
 
 assign RESET = ~S_AXI_ARESETN;
 
@@ -189,16 +193,14 @@ xadc_interface xadc_interface(
     .MEASURED_AUX0(MEASURED_AUX0),
     .MEASURED_AUX1(MEASURED_AUX1),
     .MEASURED_AUX2(MEASURED_AUX2),
-    .MEASURED_AUX3(MEASURED_AUX3),
-    .VAUX_SEL(VAUX_SEL)
+    .MEASURED_AUX3(MEASURED_AUX3)
 );
 
 XADC #(// Initializing the XADC Control Registers
-    .INIT_40(16'h0000),
-    .INIT_41(16'h2000),// Continuous Seq Mode
+    .INIT_40(16'h0803), // Multiplexer Input on VP/VN Channel
+    .INIT_41(16'h20F0),// Continuous Seq Mode, Calibrate ADC and Supply Sensor
     .INIT_42(16'h0400),// Set DCLK divides
-    .INIT_48(16'h0800),// CHSEL1 - enable aux analog channels 0 - 3
-    .INIT_49(16'hffff),// CHSEL2 - enable aux analog channels 0 - 3
+    .INIT_49(16'h000f),// CHSEL2 - enable aux analog channels 0 - 3
     .SIM_MONITOR_FILE("design.txt"),// Analog Stimulus file for simulation
     .SIM_DEVICE("ZYNQ")
 )
@@ -211,21 +213,21 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
     .DI     (DI),
     .DWE    (DWE),
     .RESET  (RESET),
-    .VAUXN  (VAUXN ),
-    .VAUXP  (VAUXP ),
     .BUSY   (BUSY),
     .DO     (DO),
     .DRDY   (DRDY),
     .EOS    (EOS),
     .VP     (VP),
     .VN     (VN),
+    .VAUXP(16'b0),
+    .VAUXN(16'b0),
     .ALM(),
     .CHANNEL(),
     .EOC(),
     .JTAGBUSY(),
     .JTAGLOCKED(),
     .JTAGMODIFIED(),
-    .MUXADDR(),
+    .MUXADDR(XADC_MUXADDR_local),
     .OT()
 );
 

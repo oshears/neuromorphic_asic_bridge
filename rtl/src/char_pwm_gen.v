@@ -35,7 +35,7 @@ module char_pwm_gen
     assign clk_out = output_clk;
 
     // counter to slow down the clock by 1000000x
-    always @(posedge clk)
+    always @(posedge clk, posedge rst)
     begin
         if(rst)
             slow_clk_counter <= 0;

@@ -17,8 +17,7 @@ module xadc_interface
    MEASURED_AUX0,
    MEASURED_AUX1,
    MEASURED_AUX2,
-   MEASURED_AUX3,
-   VAUX_SEL
+   MEASURED_AUX3
 );
 
 input clk;
@@ -42,8 +41,6 @@ output reg [11:0] MEASURED_AUX0 = 0;
 output reg [11:0] MEASURED_AUX1 = 0;
 output reg [11:0] MEASURED_AUX2 = 0;
 output reg [11:0] MEASURED_AUX3 = 0;
-
-output reg [3:0] VAUX_SEL = 0;
 
 
 // parameter reset = 0, config_reg_0 = 1, config_reg_1 = 2, config_reg_2 = 3, done = 4;
@@ -72,7 +69,7 @@ reg MEASURED_AUX3_valid = 0;
 reg network_output_valid = 0;
 reg max_value_valid = 0;
 
-always @(posedge clk)
+always @(posedge clk, posedge rst)
 begin
     if (rst)
         current_state <= reset;
@@ -80,7 +77,7 @@ begin
         current_state <= next_state;
 end
 
-always @(posedge clk)
+always @(posedge clk, posedge rst)
 begin
    if (rst)
       MEASURED_AUX0 = 0;
@@ -88,7 +85,7 @@ begin
       MEASURED_AUX0 = DO[15:4];
 end
 
-always @(posedge clk)
+always @(posedge clk, posedge rst)
 begin
    if (rst)
       MEASURED_AUX1 = 0;
@@ -96,7 +93,7 @@ begin
       MEASURED_AUX1 = DO[15:4];
 end
 
-always @(posedge clk)
+always @(posedge clk, posedge rst)
 begin
    if (rst)
       MEASURED_AUX2 = 0;
@@ -104,7 +101,7 @@ begin
       MEASURED_AUX2 = DO[15:4];
 end
 
-always @(posedge clk)
+always @(posedge clk, posedge rst)
 begin
    if (rst)
       MEASURED_AUX3 = 0;
@@ -112,7 +109,7 @@ begin
       MEASURED_AUX3 = DO[15:4];
 end
 
-always @(posedge clk)
+always @(posedge clk, posedge rst)
 begin
    if (rst)
       network_output = 0;
@@ -120,7 +117,7 @@ begin
       network_output = temp_network_output_reg;
 end
 
-always @(posedge clk)
+always @(posedge clk, posedge rst)
 begin
    if (rst)
       max_value = 0;
@@ -208,7 +205,7 @@ begin
       read_reg10 : begin
          
          if (EOS) begin
-            DADDR   = 7'h03;
+            DADDR   = 7'h10;
             DEN = 1; // performing read
          end
          else
@@ -224,7 +221,7 @@ begin
          end
       end
       read_reg11 : begin
-         DADDR   = 7'h10;
+         DADDR   = 7'h11;
          DEN = 1; // performing read
       end
       reg11_waitdrdy : 
@@ -240,7 +237,7 @@ begin
          end
       end
       read_reg12 : begin
-         DADDR   = 7'h18;
+         DADDR   = 7'h12;
          DEN = 1; // performing read
       end
       reg12_waitdrdy :
@@ -263,17 +260,13 @@ begin
       begin
          DEN = 0;
          if (DRDY ==1) begin
-            /*
-            MEASURED_AUX3 = DO[15:4];
-            
+            MEASURED_AUX3_valid = 1;
             if (DO[15:4] > max_value)
             begin
                DEN = 2'b0;
                max_value_valid = 1;
                temp_network_output_reg = 2'b11;
             end 
-            */
-
             DADDR   = 7'h00;
          end
       end
