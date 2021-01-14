@@ -312,6 +312,7 @@ begin
         // BIT 2: Use direct_ctrl_reg value as digit outputs ELSE use char_pwm_gen
         // BIT 3: Use slow 1HZ Clock
         // BIT 4: Use 1-Hot Encoding for XADC Multiplexer
+        // BIT 5: debug_reg[5] output on XADC header GPIO3
         if(debug_reg_addr_valid)
             debug_reg = S_AXI_WDATA;
     end

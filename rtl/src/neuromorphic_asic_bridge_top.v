@@ -109,7 +109,7 @@ wire [4:0] XADC_MUXADDR_local;
 assign XADC_MUXADDR[0] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b00) ? 1'b1 : 1'b0): XADC_MUXADDR_local[0];
 assign XADC_MUXADDR[1] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b01) ? 1'b1 : 1'b0): XADC_MUXADDR_local[1];
 assign XADC_MUXADDR[2] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b10) ? 1'b1 : 1'b0): XADC_MUXADDR_local[2];
-assign XADC_MUXADDR[3] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b11) ? 1'b1 : 1'b0): XADC_MUXADDR_local[3];
+assign XADC_MUXADDR[3] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b11) ? 1'b1 : 1'b0): debug[5];
 
 assign RESET = ~S_AXI_ARESETN;
 
