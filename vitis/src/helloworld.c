@@ -102,7 +102,7 @@ int main()
 	// BIT 2: Use direct_ctrl_reg value as digit outputs ELSE use char_pwm_gen
 	// BIT 3: Use slow 1HZ Clock
 	// BIT 4: Use One-Hot Encoding for ADC_MUXADDR
-	Xil_Out32(DEBUG_REG_ADDR, 0x18);
+	//Xil_Out32(DEBUG_REG_ADDR, 0x18);
 	
 	// continuously read network output
 	long iterations = 0;
@@ -129,6 +129,7 @@ int main()
 		print("========================================\n\r");
 		value = Xil_In32(NET_OUT_REG_ADDR);
 		printf("[%d] Read %x from network output register.\n\r",iterations,value);
+		print("----------------------------------------\n\r");
 
 		value = Xil_In32(AUX0_REG_ADDR);
 		printf("[%d] Read %x from MEASURED_AUX0 register.\n\r",iterations,value);
