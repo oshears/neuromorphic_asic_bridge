@@ -107,6 +107,19 @@ initial begin
         S_AXI_AWVALID = 0;
         S_AXI_BREADY = 1'b0;
     end
+    
+    /* Reset Debug Register */
+    @(posedge S_AXI_ACLK);
+    S_AXI_AWADDR = 32'hC;
+    S_AXI_AWVALID = 1'b1;
+    S_AXI_WVALID = 1;
+    S_AXI_WDATA = 32'h4;
+    S_AXI_BREADY = 1'b1;
+    @(posedge S_AXI_WREADY);
+    @(posedge S_AXI_ACLK);
+    S_AXI_WVALID = 0;
+    S_AXI_AWVALID = 0;
+    S_AXI_BREADY = 1'b0;
 
     /* Read Reg Tests */
     for (i = 0; i < 32; i = i + 4)

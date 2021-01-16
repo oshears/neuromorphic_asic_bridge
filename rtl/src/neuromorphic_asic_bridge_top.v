@@ -122,7 +122,22 @@ assign leds[5] = debug[0] ? (digit[5]) : (debug[1] ? (direct_ctrl[5] ? char_pwm_
 assign leds[6] = debug[0] ? (digit[6]) : (debug[1] ? (direct_ctrl[6] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
 assign leds[7] = debug[0] ? (digit[7]) : (debug[1] ? (direct_ctrl[7] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
 
-assign digit = debug[2] ? direct_ctrl : digit_temp;
+assign digit[0] = debug[2] ? (direct_ctrl[0] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[0];
+assign digit[1] = debug[2] ? (direct_ctrl[1] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[1];
+assign digit[2] = debug[2] ? (direct_ctrl[2] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[2];
+assign digit[3] = debug[2] ? (direct_ctrl[3] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[3];
+assign digit[4] = debug[2] ? (direct_ctrl[4] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[4];
+assign digit[5] = debug[2] ? (direct_ctrl[5] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[5];
+assign digit[6] = debug[2] ? (direct_ctrl[6] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[6];
+assign digit[7] = debug[2] ? (direct_ctrl[7] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[7];
+assign digit[8] = debug[2] ? (direct_ctrl[8] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[8];
+assign digit[9] = debug[2] ? (direct_ctrl[9] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[9];
+assign digit[10] = debug[2] ? (direct_ctrl[10] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[10];
+assign digit[11] = debug[2] ? (direct_ctrl[11] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[11];
+assign digit[12] = debug[2] ? (direct_ctrl[12] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[12];
+assign digit[13] = debug[2] ? (direct_ctrl[13] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[13];
+assign digit[14] = debug[2] ? (direct_ctrl[14] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[14];
+assign digit[15] = debug[2] ? (direct_ctrl[15] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[15];
 
 char_pwm_gen char_pwm_gen(
     .clk(pwm_clk),

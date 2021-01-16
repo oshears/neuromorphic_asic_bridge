@@ -242,7 +242,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>fea019f0</spirit:value>
+            <spirit:value>a8fa4f0d</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -258,7 +258,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>fea019f0</spirit:value>
+            <spirit:value>a8fa4f0d</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -729,7 +729,7 @@
       <spirit:file>
         <spirit:name>rtl/src/neuromorphic_asic_bridge_top.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_ef01f1cc</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_d380488a</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -828,13 +828,13 @@
       <xilinx:displayName>neuromorphic_asic_bridge_top_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>1</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-01-15T14:34:50Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2021-01-16T21:03:18Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="dfac85ba"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="871a59ce"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="0b000c59"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="8c1a45e2"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="974423d0"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="30db1017"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="2f0658f9"/>
