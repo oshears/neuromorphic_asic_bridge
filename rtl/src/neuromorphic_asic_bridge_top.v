@@ -106,6 +106,8 @@ wire [11:0] MEASURED_AUX3;
 
 wire [4:0] XADC_MUXADDR_local;
 
+wire [31:0] pwm_clk_div;
+
 assign XADC_MUXADDR[0] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b00) ? 1'b1 : 1'b0): XADC_MUXADDR_local[0];
 assign XADC_MUXADDR[1] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b01) ? 1'b1 : 1'b0): XADC_MUXADDR_local[1];
 assign XADC_MUXADDR[2] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b10) ? 1'b1 : 1'b0): XADC_MUXADDR_local[2];
@@ -145,7 +147,8 @@ char_pwm_gen char_pwm_gen(
     .char_select(char_select),
     .digit(digit_temp),
     .slow_clk_en(debug[3]),
-    .clk_out(char_pwm_gen_clk_out)
+    .clk_out(char_pwm_gen_clk_out),
+    .clk_div(pwm_clk_div)
     );
 
 axi_cfg_regs 
@@ -156,9 +159,6 @@ axi_cfg_regs
 )
 axi_cfg_regs
 (
-    // System Signals
-    .clk(S_AXI_ACLK),
-    .rst(RESET),
     // Character Selection
     .char_select(char_select),
     // Network Output
@@ -171,6 +171,8 @@ axi_cfg_regs
     .debug(debug),
     // Direct Control Output
     .direct_ctrl(direct_ctrl),
+    // Clock Divider Output
+    .pwm_clk_div(pwm_clk_div),
     //AXI Signals
     .S_AXI_ACLK(S_AXI_ACLK),     
     .S_AXI_ARESETN(S_AXI_ARESETN),  

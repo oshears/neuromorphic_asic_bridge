@@ -6,20 +6,20 @@ wire [15:0] digit;
 
 reg S_AXI_ACLK;
 
-reg VP, VN;
+reg VP, VN = 0;
 
 wire [7:0] leds;
    
-reg S_AXI_ARESETN;
-reg [8:0] S_AXI_AWADDR; 
-reg S_AXI_AWVALID;
-reg [8:0] S_AXI_ARADDR; 
-reg S_AXI_ARVALID;
-reg [31:0] S_AXI_WDATA;  
-reg [3:0] S_AXI_WSTRB;  
-reg S_AXI_WVALID; 
-reg S_AXI_RREADY; 
-reg S_AXI_BREADY; 
+reg S_AXI_ARESETN = 0;
+reg [8:0] S_AXI_AWADDR = 0; 
+reg S_AXI_AWVALID = 0;
+reg [8:0] S_AXI_ARADDR = 0; 
+reg S_AXI_ARVALID = 0;
+reg [31:0] S_AXI_WDATA = 0;  
+reg [3:0] S_AXI_WSTRB = 0;  
+reg S_AXI_WVALID = 0; 
+reg S_AXI_RREADY = 0; 
+reg S_AXI_BREADY = 0; 
 wire S_AXI_AWREADY; 
 wire S_AXI_ARREADY; 
 wire S_AXI_WREADY;  
@@ -32,6 +32,54 @@ wire [3:0] XADC_MUXADDR;
 
 integer i = 0;
 integer j = 0;
+
+task AXI_WRITE( input [31:0] WRITE_ADDR, input [31:0] WRITE_DATA );
+    begin
+        @(posedge S_AXI_ACLK);
+        S_AXI_AWADDR = WRITE_ADDR;
+        S_AXI_AWVALID = 1'b1;
+        S_AXI_WVALID = 1;
+        S_AXI_WDATA = WRITE_DATA;
+        S_AXI_BREADY = 1'b1;
+        @(posedge S_AXI_WREADY);
+        @(posedge S_AXI_ACLK);
+        S_AXI_WVALID = 0;
+        S_AXI_AWVALID = 0;
+        S_AXI_BREADY = 1'b0;
+        @(posedge S_AXI_ACLK);
+        S_AXI_AWADDR = 32'h0;
+        S_AXI_WDATA = 32'h0;
+        $display("%t: Wrote Data: %h",$time,WRITE_DATA);
+    end
+endtask
+
+task AXI_READ( input [31:0] READ_ADDR, input [31:0] EXPECT_DATA );
+    begin
+        @(posedge S_AXI_ACLK);
+        S_AXI_ARADDR = READ_ADDR;
+        S_AXI_ARVALID = 1'b1;
+        @(posedge S_AXI_RVALID);
+        @(posedge S_AXI_ACLK);
+        S_AXI_ARVALID = 0;
+        S_AXI_RREADY = 1'b1;
+        if (EXPECT_DATA == S_AXI_RDATA) 
+            $display("%t: Read Data: %h",$time,S_AXI_RDATA);
+        else 
+            $display("%t: ERROR: %h != %h",$time,S_AXI_RDATA,EXPECT_DATA);
+        @(posedge S_AXI_ACLK);
+        S_AXI_RREADY = 0;
+        S_AXI_ARADDR = 32'h0;
+    end
+endtask
+
+task WAIT( input [31:0] cycles);
+    integer i;
+    begin
+        for (i = 0; i < cycles; i = i + 1)
+            @(posedge S_AXI_ACLK);
+    end
+endtask
+
 
 
 neuromorphic_asic_bridge_top uut(
@@ -75,100 +123,50 @@ end
 
 
 initial begin
-    S_AXI_ARESETN = 0;
-    S_AXI_AWADDR = 0;
-    S_AXI_AWVALID = 0;
-    S_AXI_ARADDR = 0;
-    S_AXI_ARVALID = 0;
-    S_AXI_WDATA = 0;
-    S_AXI_WSTRB = 0;
-    S_AXI_WVALID = 0;
-    S_AXI_RREADY = 0;
-    S_AXI_BREADY = 0;
-
-    @(posedge pwm_clk);
-    @(posedge pwm_clk);
+    WAIT(10);
 
     S_AXI_ARESETN = 1;
 
+    WAIT(1);
+
     
     /* Write Reg Tests */
-    for (i = 0; i < 32; i = i + 4)
+    for (i = 0; i < 36; i = i + 4)
     begin
-        @(posedge S_AXI_ACLK);
-        S_AXI_AWADDR = i;
-        S_AXI_AWVALID = 1'b1;
-        S_AXI_WVALID = 1;
-        S_AXI_WDATA = 32'hDEADBEEF;
-        S_AXI_BREADY = 1'b1;
-        @(posedge S_AXI_WREADY);
-        @(posedge S_AXI_ACLK);
-        S_AXI_WVALID = 0;
-        S_AXI_AWVALID = 0;
-        S_AXI_BREADY = 1'b0;
+        AXI_WRITE(i,32'hDEAD_BEEF);
     end
     
     /* Reset Debug Register */
-    @(posedge S_AXI_ACLK);
-    S_AXI_AWADDR = 32'hC;
-    S_AXI_AWVALID = 1'b1;
-    S_AXI_WVALID = 1;
-    S_AXI_WDATA = 32'h4;
-    S_AXI_BREADY = 1'b1;
-    @(posedge S_AXI_WREADY);
-    @(posedge S_AXI_ACLK);
-    S_AXI_WVALID = 0;
-    S_AXI_AWVALID = 0;
-    S_AXI_BREADY = 1'b0;
+    AXI_WRITE(32'hC,32'hC);
 
     /* Read Reg Tests */
-    for (i = 0; i < 32; i = i + 4)
+    for (i = 0; i < 36; i = i + 4)
     begin
-        @(posedge S_AXI_ACLK);
-        S_AXI_ARADDR = i;
-        S_AXI_ARVALID = 1'b1;
-        @(posedge S_AXI_RVALID);
-        @(posedge S_AXI_ACLK);
-        S_AXI_ARVALID = 0;
-        S_AXI_RREADY = 1'b1;
-        @(posedge S_AXI_ACLK);
-        S_AXI_RREADY = 0;
+        AXI_READ(i,32'hDEAD_BEEF);
     end
 
     // Wait for network outputs to cycle
     for (i = 0; i < 4; i = i + 1)
     begin
         #200000;
-        $display("%t : Reading data from network output register",$time);
-
-        @(posedge S_AXI_ACLK);
-        S_AXI_ARADDR = 9'h0004;
-        S_AXI_ARVALID = 1'b1;
-
-        @(posedge S_AXI_RVALID);
-        S_AXI_ARVALID = 0;
-        $display("%t : Read Data is: %h",$time,S_AXI_RDATA);
-
-        @(posedge S_AXI_ACLK);
-        S_AXI_ARVALID = 0;
-        S_AXI_RREADY = 1'b1;
-
-        @(posedge S_AXI_ACLK);
-        S_AXI_RREADY = 0;
+        
+        AXI_READ(9'h0004,32'hDEAD_BEEF);
 
         // Read AUX Regs
         for (j = 16; j < 32; j = j + 4)
         begin
-            @(posedge S_AXI_ACLK);
-            S_AXI_ARADDR = j;
-            S_AXI_ARVALID = 1'b1;
-            @(posedge S_AXI_RVALID);
-            @(posedge S_AXI_ACLK);
-            S_AXI_ARVALID = 0;
-            S_AXI_RREADY = 1'b1;
-            @(posedge S_AXI_ACLK);
-            S_AXI_RREADY = 0;
+            AXI_READ(j,32'hDEAD_BEEF);
         end
+
+    end
+
+    // Test Different Clock Frequencies
+    j = 1;
+    for (i = 0; i < 31; i = i + 1)
+    begin
+        j = j * 2; 
+        AXI_WRITE(32'h20,j);
+        WAIT(2*32);
 
     end
 
