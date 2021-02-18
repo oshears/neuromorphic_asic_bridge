@@ -8,7 +8,8 @@ set_property board_part em.avnet.com:zed:part0:1.4 [current_project]
 
 add_files {
     ../rtl/tb/char_pwm_gen_tb.v
-    ../rtl/src/char_pwm_gen.v 
+    ../rtl/src/char_pwm_gen.v
+    ../rtl/src/pwm_block.v 
     ../rtl/src/neuromorphic_asic_bridge_top.v 
     ../rtl/tb/neuromorphic_asic_bridge_top_tb.v 
     ../rtl/src/xadc_interface.v 
@@ -56,4 +57,4 @@ update_ip_catalog
 # open_run impl_1
 
 
-exit
+#exit

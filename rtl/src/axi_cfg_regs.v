@@ -33,7 +33,8 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     MEASURED_AUX1,
     MEASURED_AUX2,
     MEASURED_AUX3,
-    pwm_clk_div   
+    pwm_clk_div,
+    pwm_blk_duty_cycle
 );
 
 
@@ -72,6 +73,7 @@ output [31:0] debug;
 output [15:0] direct_ctrl;
 
 output [31:0] pwm_clk_div;
+output [31:0] pwm_blk_duty_cycle;
 
 reg [1:0] char_select_reg = 0;
 reg char_select_reg_addr_valid = 0;
@@ -82,7 +84,9 @@ reg direct_ctrl_addr_valid = 0;
 reg [31:0] debug_reg = 0;
 reg  debug_reg_addr_valid = 0;
 reg [31:0] pwm_clk_div_reg = 0;
-reg pwm_clk_div_reg_addr_valid = 1;
+reg pwm_clk_div_reg_addr_valid = 0;
+reg [31:0] pwm_blk_duty_cycle_reg = 0;
+reg pwm_blk_duty_cycle_reg_addr_valid = 0;
 
 reg [31:0] MEASURED_AUX0_reg = 0;
 reg MEASURED_AUX0_addr_valid = 0;
@@ -115,6 +119,7 @@ assign char_select = char_select_reg;
 assign debug = debug_reg;
 assign direct_ctrl = direct_ctrl_reg;
 assign pwm_clk_div = pwm_clk_div_reg;
+assign pwm_blk_duty_cycle = pwm_blk_duty_cycle_reg;
 
 always @ (posedge S_AXI_ACLK or posedge Local_Reset) begin
     if (Local_Reset)
@@ -184,7 +189,7 @@ always @ (current_state, combined_S_AXI_AWVALID_S_AXI_ARVALID, S_AXI_ARVALID, S_
 end
 
 // send data to AXI RDATA
-always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, debug_reg, direct_ctrl_reg,MEASURED_AUX0_reg,MEASURED_AUX1_reg,MEASURED_AUX2_reg,MEASURED_AUX3_reg,pwm_clk_div_reg)
+always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, debug_reg, direct_ctrl_reg,MEASURED_AUX0_reg,MEASURED_AUX1_reg,MEASURED_AUX2_reg,MEASURED_AUX3_reg,pwm_clk_div_reg,pwm_blk_duty_cycle_reg)
 begin
     S_AXI_RDATA = 32'b0;
 
@@ -209,6 +214,8 @@ begin
                 S_AXI_RDATA = MEASURED_AUX3_reg;
             32:
                 S_AXI_RDATA = pwm_clk_div_reg;
+            36:
+                S_AXI_RDATA = pwm_blk_duty_cycle_reg;
             default:
                 S_AXI_RDATA = 32'b0;
         endcase;     
@@ -246,6 +253,7 @@ begin
     MEASURED_AUX2_addr_valid = 0;
     MEASURED_AUX3_addr_valid = 0;
     pwm_clk_div_reg_addr_valid = 0;
+    pwm_blk_duty_cycle_reg_addr_valid = 0;
     local_address_valid = 1;
 
     if (write_enable_registers)
@@ -269,6 +277,8 @@ begin
                 MEASURED_AUX3_addr_valid = 1;
             32:
                 pwm_clk_div_reg_addr_valid = 1;
+            36:
+                pwm_blk_duty_cycle_reg_addr_valid = 1;
             default:
                 local_address_valid = 0;
         endcase
@@ -320,6 +330,7 @@ begin
         // BIT 3: Use slow 1HZ Clock
         // BIT 4: Use 1-Hot Encoding for XADC Multiplexer
         // BIT 5: debug_reg[5] output on XADC header GPIO3
+        // BIT 6: PWM_BLK_CLK_OUT on DIGIT_0 Output
         if(debug_reg_addr_valid)
             debug_reg = S_AXI_WDATA;
     end
@@ -350,16 +361,20 @@ begin
         pwm_clk_div_reg = 0;
     else
     begin
-        // LED Controls
-        // BIT 0: IF ACTIVE, then display char information on LEDs, ELSE display network output on LEDS
-        // BIT 1: IF ACTIVE, then display direct_ctrl_reg values on LEDS, ELSE display char_pwm_gen outputs on LEDS 
-        // Output Controls
-        // BIT 2: Use direct_ctrl_reg value as digit outputs ELSE use char_pwm_gen
-        // BIT 3: Use slow 1HZ Clock
-        // BIT 4: Use 1-Hot Encoding for XADC Multiplexer
-        // BIT 5: debug_reg[5] output on XADC header GPIO3
         if(pwm_clk_div_reg_addr_valid)
             pwm_clk_div_reg = S_AXI_WDATA;
+    end
+end
+
+// clock divider register
+always @(posedge S_AXI_ACLK, posedge Local_Reset)
+begin
+    if (Local_Reset)
+        pwm_blk_duty_cycle_reg = 0;
+    else
+    begin
+        if(pwm_blk_duty_cycle_reg_addr_valid)
+            pwm_blk_duty_cycle_reg = S_AXI_WDATA;
     end
 end
 

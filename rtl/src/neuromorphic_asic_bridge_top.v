@@ -41,7 +41,7 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     XADC_MUXADDR,
 
     // led outputs
-    leds
+    leds    
 );
 
 
@@ -108,6 +108,9 @@ wire [4:0] XADC_MUXADDR_local;
 
 wire [31:0] pwm_clk_div;
 
+wire [31:0] pwm_blk_duty_cycle;
+wire pwm_blk_clk_out_i;
+
 assign XADC_MUXADDR[0] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b00) ? 1'b1 : 1'b0): XADC_MUXADDR_local[0];
 assign XADC_MUXADDR[1] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b01) ? 1'b1 : 1'b0): XADC_MUXADDR_local[1];
 assign XADC_MUXADDR[2] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b10) ? 1'b1 : 1'b0): XADC_MUXADDR_local[2];
@@ -124,7 +127,7 @@ assign leds[5] = debug[0] ? (digit[5]) : (debug[1] ? (direct_ctrl[5] ? char_pwm_
 assign leds[6] = debug[0] ? (digit[6]) : (debug[1] ? (direct_ctrl[6] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
 assign leds[7] = debug[0] ? (digit[7]) : (debug[1] ? (direct_ctrl[7] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : (1'b0));
 
-assign digit[0] = debug[2] ? (direct_ctrl[0] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[0];
+assign digit[0] = debug[6] ? pwm_blk_clk_out_i : (debug[2] ? (direct_ctrl[0] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[0]);
 assign digit[1] = debug[2] ? (direct_ctrl[1] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[1];
 assign digit[2] = debug[2] ? (direct_ctrl[2] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[2];
 assign digit[3] = debug[2] ? (direct_ctrl[3] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[3];
@@ -151,6 +154,19 @@ char_pwm_gen char_pwm_gen(
     .clk_div(pwm_clk_div)
     );
 
+pwm_blk
+#(
+    .COUNTER_WIDTH(32)
+)
+pwm_blk
+(
+    .clk(pwm_clk),
+    .rst(RESET),
+    .duty_cycle(pwm_blk_duty_cycle),
+    .clk_div(pwm_clk_div),
+    .clk_out(pwm_blk_clk_out_i)
+);
+
 axi_cfg_regs 
 #(
     C_S_AXI_ACLK_FREQ_HZ,
@@ -173,6 +189,8 @@ axi_cfg_regs
     .direct_ctrl(direct_ctrl),
     // Clock Divider Output
     .pwm_clk_div(pwm_clk_div),
+    // PWM Block Duty Cycle Control
+    .pwm_blk_duty_cycle(pwm_blk_duty_cycle),
     //AXI Signals
     .S_AXI_ACLK(S_AXI_ACLK),     
     .S_AXI_ARESETN(S_AXI_ARESETN),  

@@ -131,7 +131,7 @@ initial begin
 
     
     /* Write Reg Tests */
-    for (i = 0; i < 36; i = i + 4)
+    for (i = 0; i < 40; i = i + 4)
     begin
         AXI_WRITE(i,32'hDEAD_BEEF);
     end
@@ -140,7 +140,7 @@ initial begin
     AXI_WRITE(32'hC,32'hC);
 
     /* Read Reg Tests */
-    for (i = 0; i < 36; i = i + 4)
+    for (i = 0; i < 40; i = i + 4)
     begin
         AXI_READ(i,32'hDEAD_BEEF);
     end
@@ -166,9 +166,28 @@ initial begin
     begin
         j = j * 2; 
         AXI_WRITE(32'h20,j);
-        WAIT(2*32);
+        WAIT(64);
 
     end
+
+    // Test PWM BLK
+    $display("%t: Testing PWM Block",$time);
+    // Configure DBG Register
+    AXI_WRITE(32'hC,32'h4C);
+    
+    for (i = 0; i < 31; i = i + 1)
+    begin
+        // Configure PWM DIV Register
+        AXI_WRITE(32'h20,i);
+        for (j = 0; j <= 2**i; j = j + 1)
+        begin
+            // Configure PWM Duty Cycle Register
+            AXI_WRITE(32'h24,j);
+            WAIT(64);
+        end
+        
+    end
+
 
     $finish;
 
