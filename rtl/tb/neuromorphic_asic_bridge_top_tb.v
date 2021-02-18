@@ -175,7 +175,7 @@ initial begin
     // Configure DBG Register
     AXI_WRITE(32'hC,32'h4C);
     
-    for (i = 0; i < 31; i = i + 1)
+    for (i = 0; i < 8; i = i + 1)
     begin
         // Configure PWM DIV Register
         AXI_WRITE(32'h20,i);

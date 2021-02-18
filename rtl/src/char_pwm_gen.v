@@ -32,78 +32,8 @@ module char_pwm_gen
 
     wire output_clk;
 
-    assign output_clk = slow_clk_en ? (
-        ( clk_div[31] ? slow_clk_counter[31] :
-        ( clk_div[30] ? slow_clk_counter[30] :
-        ( clk_div[29] ? slow_clk_counter[29] :
-        ( clk_div[28] ? slow_clk_counter[28] :
-        ( clk_div[27] ? slow_clk_counter[27] :
-        ( clk_div[26] ? slow_clk_counter[26] :
-        ( clk_div[25] ? slow_clk_counter[25] :
-        ( clk_div[24] ? slow_clk_counter[24] :
-        ( clk_div[23] ? slow_clk_counter[23] :
-        ( clk_div[22] ? slow_clk_counter[22] :
-        ( clk_div[21] ? slow_clk_counter[21] :
-        ( clk_div[20] ? slow_clk_counter[20] :
-        ( clk_div[19] ? slow_clk_counter[19] :
-        ( clk_div[18] ? slow_clk_counter[18] :
-        ( clk_div[17] ? slow_clk_counter[17] :
-        ( clk_div[16] ? slow_clk_counter[16] :
-        ( clk_div[15] ? slow_clk_counter[15] :
-        ( clk_div[14] ? slow_clk_counter[14] :
-        ( clk_div[13] ? slow_clk_counter[13] :
-        ( clk_div[12] ? slow_clk_counter[12] :
-        ( clk_div[11] ? slow_clk_counter[11] :
-        ( clk_div[10] ? slow_clk_counter[10] :
-        ( clk_div[9] ? slow_clk_counter[9] :
-        ( clk_div[8] ? slow_clk_counter[8] :
-        ( clk_div[7] ? slow_clk_counter[7] :
-        ( clk_div[6] ? slow_clk_counter[6] :
-        ( clk_div[5] ? slow_clk_counter[5] :
-        ( clk_div[4] ? slow_clk_counter[4] :
-        ( clk_div[3] ? slow_clk_counter[3] :
-        ( clk_div[2] ? slow_clk_counter[2] :
-        ( clk_div[1] ? slow_clk_counter[1] :
-        slow_clk_counter[0]))))))))))))))))))))))))))))))))
-        : clk;
-
-        assign output_clk = slow_clk_en ? slow_clk_counter[clk_div[4:0]] : clk;
-        /*
-        assign output_clk = slow_clk_en ? (
-        ( (clk_div[4:0] == 5'h1F) ? slow_clk_counter[31] :
-        ( (clk_div[4:0] == 5'h1E) ? slow_clk_counter[30] :
-        ( (clk_div[4:0] == 5'h1D) ? slow_clk_counter[29] :
-        ( (clk_div[4:0] == 5'h1C) ? slow_clk_counter[28] :
-        ( (clk_div[4:0] == 5'h1B) ? slow_clk_counter[27] :
-        ( (clk_div[4:0] == 5'h1A) ? slow_clk_counter[26] :
-        ( (clk_div[4:0] == 5'h19) ? slow_clk_counter[25] :
-        ( (clk_div[4:0] == 5'h18) ? slow_clk_counter[24] :
-        ( (clk_div[4:0] == 5'h17) ? slow_clk_counter[23] :
-        ( (clk_div[4:0] == 5'h16) ? slow_clk_counter[22] :
-        ( (clk_div[4:0] == 5'h15) ? slow_clk_counter[21] :
-        ( (clk_div[4:0] == 5'h14) ? slow_clk_counter[20] :
-        ( (clk_div[4:0] == 5'h13) ? slow_clk_counter[19] :
-        ( (clk_div[4:0] == 5'h12) ? slow_clk_counter[18] :
-        ( (clk_div[4:0] == 5'h11) ? slow_clk_counter[17] :
-        ( (clk_div[4:0] == 5'h10) ? slow_clk_counter[16] :
-        ( (clk_div[4:0] == 5'h0F) ? slow_clk_counter[15] :
-        ( (clk_div[4:0] == 5'h0E) ? slow_clk_counter[14] :
-        ( (clk_div[4:0] == 5'h0D) ? slow_clk_counter[13] :
-        ( (clk_div[4:0] == 5'h0C) ? slow_clk_counter[12] :
-        ( (clk_div[4:0] == 5'h0B) ? slow_clk_counter[11] :
-        ( (clk_div[4:0] == 5'h0A) ? slow_clk_counter[10] :
-        ( (clk_div[4:0] == 5'h09) ? slow_clk_counter[9] :
-        ( (clk_div[4:0] == 5'h08) ? slow_clk_counter[8] :
-        ( (clk_div[4:0] == 5'h07) ? slow_clk_counter[7] :
-        ( (clk_div[4:0] == 5'h06) ? slow_clk_counter[6] :
-        ( (clk_div[4:0] == 5'h05) ? slow_clk_counter[5] :
-        ( (clk_div[4:0] == 5'h04) ? slow_clk_counter[4] :
-        ( (clk_div[4:0] == 5'h03) ? slow_clk_counter[3] :
-        ( (clk_div[4:0] == 5'h02) ? slow_clk_counter[2] :
-        ( (clk_div[4:0] == 5'h01) ? slow_clk_counter[1] :
-        slow_clk_counter[0] )))))))))))))))))))))))))))))))) : clk;
-        */
-
+    assign output_clk = slow_clk_en ? slow_clk_counter[clk_div[4:0]] : clk;
+  
     assign clk_out = output_clk;
 
     // counter to slow down the clock by 1000000x
