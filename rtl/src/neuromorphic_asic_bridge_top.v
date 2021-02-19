@@ -110,6 +110,7 @@ wire [31:0] pwm_clk_div;
 
 wire [31:0] pwm_blk_duty_cycle;
 wire pwm_blk_clk_out_i;
+wire [31:0] pwm_clk_counter;
 
 assign XADC_MUXADDR[0] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b00) ? 1'b1 : 1'b0): XADC_MUXADDR_local[0];
 assign XADC_MUXADDR[1] = debug[4] ? ((XADC_MUXADDR_local[1:0] == 2'b01) ? 1'b1 : 1'b0): XADC_MUXADDR_local[1];
@@ -164,7 +165,8 @@ pwm_blk
     .rst(RESET),
     .duty_cycle(pwm_blk_duty_cycle),
     .clk_div(pwm_clk_div),
-    .clk_out(pwm_blk_clk_out_i)
+    .clk_out(pwm_blk_clk_out_i),
+    .pwm_clk_counter(pwm_clk_counter)
 );
 
 axi_cfg_regs 
@@ -191,6 +193,8 @@ axi_cfg_regs
     .pwm_clk_div(pwm_clk_div),
     // PWM Block Duty Cycle Control
     .pwm_blk_duty_cycle(pwm_blk_duty_cycle),
+    // PWM Block Clock Counter
+    .pwm_clk_counter(pwm_clk_counter),
     //AXI Signals
     .S_AXI_ACLK(S_AXI_ACLK),     
     .S_AXI_ARESETN(S_AXI_ARESETN),  

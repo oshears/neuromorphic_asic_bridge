@@ -61,6 +61,10 @@
 #define AUX2_REG_ADDR 0x43C00018
 #define AUX3_REG_ADDR 0x43C0001C
 
+#define PWM_CLK_DIV_REG_ADDR 0x43C00020
+#define PWM_CLK_DUTY_CYCLE_REG_ADDR 0x43C00024
+#define PWM_CLK_CNTR_REG_ADDR 0x43C00028
+
 int main()
 {
     init_platform();
@@ -124,7 +128,7 @@ int main()
 		}
 		*/
 		
-
+		/*
 		// printf("Reading from a network output register...\n\r");
 		print("========================================\n\r");
 		value = Xil_In32(NET_OUT_REG_ADDR);
@@ -146,6 +150,49 @@ int main()
 		iterations++;
 
 		sleep(2);
+		*/
+
+		printf("=========================================\n\r",value);
+
+		// Test Slow Mode Config
+		// PWM BLK Clock Out, Slow Clock Enable, Display Digits on LEDs
+		Xil_Out32(DEBUG_REG_ADDR,0x49);
+		value = Xil_In32(DEBUG_REG_ADDR);
+		printf("Read %x from DEBUG_REG_ADDR register.\n\r",value);
+
+		// PWM CLK Divider = ~1.3s
+		Xil_Out32(PWM_CLK_DIV_REG_ADDR,0x14);
+		value = Xil_In32(PWM_CLK_DIV_REG_ADDR);
+		printf("Read %x from PWM_CLK_DIV_REG_ADDR register.\n\r",value);
+
+		// PWM Duty Cycle = 50%
+		Xil_Out32(PWM_CLK_DUTY_CYCLE_REG_ADDR,0x00080000);
+		value = Xil_In32(PWM_CLK_DUTY_CYCLE_REG_ADDR);
+		printf("Read %x from PWM_CLK_DUTY_CYCLE_REG_ADDR register.\n\r",value);
+		
+		// Read PWM_CLK_CNTR Value
+		value = Xil_In32(PWM_CLK_CNTR_REG_ADDR);
+		printf("Read %x from PWM CLK CNTR register.\n\r",value);
+
+		sleep(5);
+
+		
+		int i = 0;
+		int dc = 0;
+		int step_size = 0x00100000 / 10;
+		for(i = 0; i <= step_size * 10; i += step_size){
+			printf("DUTY CYCLE = %d%%\n\r",dc);
+			printf("DUTY CYCLE REG = %x\n\r",i);
+			Xil_Out32(PWM_CLK_DUTY_CYCLE_REG_ADDR,i);
+
+			// Read PWM_CLK_CNTR Value
+			value = Xil_In32(PWM_CLK_CNTR_REG_ADDR);
+			printf("Read %x from PWM CLK CNTR register.\n\r",value);
+			sleep(3);
+			dc += 10;
+		}
+		
+		
 	}
 
 

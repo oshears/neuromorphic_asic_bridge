@@ -57,4 +57,4 @@ update_ip_catalog
 # open_run impl_1
 
 
-#exit
+exit

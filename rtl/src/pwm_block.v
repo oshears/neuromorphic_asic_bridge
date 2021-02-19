@@ -8,10 +8,9 @@ module pwm_blk
     input wire rst,
     input wire [31:0] duty_cycle,
     input wire [31:0] clk_div,
-    output wire clk_out
+    output wire clk_out,
+    output reg [31:0] pwm_clk_counter = 0
 );
-
-reg [31:0] pwm_clk_counter = 0;
 
 wire output_clk;
 // wire pwm_clk_i;

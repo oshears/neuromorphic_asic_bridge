@@ -17,6 +17,17 @@ The HDL FPGA Module to Interact with the MICS Neuromorphic Reservoir Computing (
 ### Camera Interface
 
 
+## Compiling IP and Generating Hardware XSA File
+```
+vivado -mode tcl -source createBridgeProject.tcl
+vivado -mode tcl -source createTopProject.tcl
+```
+
+## Compiling Vitis Sample Project
+```
+xsct createPlatformProject.tcl
+```
+
 ## Configuring UART
 ```
 sudo minicom -D /dev/ttyACM0

@@ -34,7 +34,8 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     MEASURED_AUX2,
     MEASURED_AUX3,
     pwm_clk_div,
-    pwm_blk_duty_cycle
+    pwm_blk_duty_cycle,
+    pwm_clk_counter
 );
 
 
@@ -44,6 +45,8 @@ input [11:0] MEASURED_AUX0;
 input [11:0] MEASURED_AUX1;
 input [11:0] MEASURED_AUX2;
 input [11:0] MEASURED_AUX3;
+
+input [31:0] pwm_clk_counter;
 
 
 input S_AXI_ACLK;   
@@ -87,6 +90,8 @@ reg [31:0] pwm_clk_div_reg = 0;
 reg pwm_clk_div_reg_addr_valid = 0;
 reg [31:0] pwm_blk_duty_cycle_reg = 0;
 reg pwm_blk_duty_cycle_reg_addr_valid = 0;
+reg [31:0] pwm_blk_clk_cntr_reg = 0;
+reg pwm_blk_clk_cntr_reg_addr_valid = 0;
 
 reg [31:0] MEASURED_AUX0_reg = 0;
 reg MEASURED_AUX0_addr_valid = 0;
@@ -189,7 +194,21 @@ always @ (current_state, combined_S_AXI_AWVALID_S_AXI_ARVALID, S_AXI_ARVALID, S_
 end
 
 // send data to AXI RDATA
-always @(send_read_data_to_AXI, local_address, local_address_valid, char_select_reg, network_output_reg, debug_reg, direct_ctrl_reg,MEASURED_AUX0_reg,MEASURED_AUX1_reg,MEASURED_AUX2_reg,MEASURED_AUX3_reg,pwm_clk_div_reg,pwm_blk_duty_cycle_reg)
+always @(
+    send_read_data_to_AXI, 
+    local_address, 
+    local_address_valid, 
+    char_select_reg, 
+    network_output_reg, 
+    debug_reg, 
+    direct_ctrl_reg,
+    MEASURED_AUX0_reg,
+    MEASURED_AUX1_reg,
+    MEASURED_AUX2_reg,
+    MEASURED_AUX3_reg,
+    pwm_clk_div_reg,
+    pwm_blk_duty_cycle_reg,
+    pwm_blk_clk_cntr_reg)
 begin
     S_AXI_RDATA = 32'b0;
 
@@ -216,6 +235,8 @@ begin
                 S_AXI_RDATA = pwm_clk_div_reg;
             36:
                 S_AXI_RDATA = pwm_blk_duty_cycle_reg;
+            40:
+                S_AXI_RDATA = pwm_blk_clk_cntr_reg;
             default:
                 S_AXI_RDATA = 32'b0;
         endcase;     
@@ -254,6 +275,7 @@ begin
     MEASURED_AUX3_addr_valid = 0;
     pwm_clk_div_reg_addr_valid = 0;
     pwm_blk_duty_cycle_reg_addr_valid = 0;
+    pwm_blk_clk_cntr_reg_addr_valid = 0;
     local_address_valid = 1;
 
     if (write_enable_registers)
@@ -279,6 +301,8 @@ begin
                 pwm_clk_div_reg_addr_valid = 1;
             36:
                 pwm_blk_duty_cycle_reg_addr_valid = 1;
+            40:
+                pwm_blk_clk_cntr_reg_addr_valid = 1;
             default:
                 local_address_valid = 0;
         endcase
@@ -376,6 +400,12 @@ begin
         if(pwm_blk_duty_cycle_reg_addr_valid)
             pwm_blk_duty_cycle_reg = S_AXI_WDATA;
     end
+end
+
+// pwm clock counter register
+always @(posedge S_AXI_ACLK)
+begin
+    pwm_blk_clk_cntr_reg = pwm_clk_counter;
 end
 
 endmodule

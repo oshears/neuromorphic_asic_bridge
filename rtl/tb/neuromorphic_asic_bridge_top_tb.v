@@ -131,7 +131,7 @@ initial begin
 
     
     /* Write Reg Tests */
-    for (i = 0; i < 40; i = i + 4)
+    for (i = 0; i < 44; i = i + 4)
     begin
         AXI_WRITE(i,32'hDEAD_BEEF);
     end
@@ -140,7 +140,7 @@ initial begin
     AXI_WRITE(32'hC,32'hC);
 
     /* Read Reg Tests */
-    for (i = 0; i < 40; i = i + 4)
+    for (i = 0; i < 44; i = i + 4)
     begin
         AXI_READ(i,32'hDEAD_BEEF);
     end
@@ -161,13 +161,12 @@ initial begin
     end
 
     // Test Different Clock Frequencies
-    j = 1;
-    for (i = 0; i < 31; i = i + 1)
+    // Enable Slow Clock
+    AXI_WRITE(32'h0C,32'h08);
+    for (i = 0; i < 32; i = i + 1)
     begin
-        j = j * 2; 
-        AXI_WRITE(32'h20,j);
+        AXI_WRITE(32'h20,i);
         WAIT(64);
-
     end
 
     // Test PWM BLK
@@ -187,6 +186,15 @@ initial begin
         end
         
     end
+
+    // Test Slow Mode Config
+    // PWM BLK Clock Out, Slow Clock Enable
+    AXI_WRITE(32'h0C,32'h48);
+    // PWM CLK Divider = ~1s
+    AXI_WRITE(32'h20,32'h1A);
+    // PWM Duty Cycle = 0%
+    AXI_WRITE(32'h24,32'h0);
+    WAIT(64);
 
 
     $finish;
