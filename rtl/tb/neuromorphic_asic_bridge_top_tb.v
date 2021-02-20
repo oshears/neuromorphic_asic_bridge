@@ -171,8 +171,8 @@ initial begin
 
     // Test PWM BLK
     $display("%t: Testing PWM Block",$time);
-    // Configure DBG Register
-    AXI_WRITE(32'hC,32'h4C);
+    // Configure DBG Register (Use HS Clock)
+    AXI_WRITE(32'hC,32'hCC);
     
     for (i = 0; i < 8; i = i + 1)
     begin
