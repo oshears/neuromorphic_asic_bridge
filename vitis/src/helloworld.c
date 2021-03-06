@@ -199,10 +199,10 @@ int main()
 		int i = 0;
 		// Configure Outputs
 		Xil_Out32(DEBUG_REG_ADDR,0x100);		
-		for(i = 0; i <= 0xFF; i++){
+		for(i = 0; i <= 0xFFFF; i++){
 			// Write Voltage to DAC
-			Xil_Out32(PMOD_DAC_REG_ADDR,i);
-			printf("Wrote %x to PMOD_DAC_REG_ADDR register.\n\r",i);
+			Xil_Out32(PMOD_DAC_REG_ADDR,0xFFFF);
+			printf("Wrote %x to PMOD_DAC_REG_ADDR register.\n\r",0xFFFF);
 		}
 		
 	}

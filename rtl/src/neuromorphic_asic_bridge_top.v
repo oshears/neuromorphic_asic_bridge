@@ -298,6 +298,7 @@ pmod_dac_block #(16) pmod_dac_block
 (
 // SoC Inputs
 .clk(S_AXI_ACLK),
+.slow_clk(pwm_clk),
 .rst(RESET),
 .din(pmod_dac[15:0]),
 .load_din(pmod_dac[17]),

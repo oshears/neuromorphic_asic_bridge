@@ -126,7 +126,7 @@ neuromorphic_asic_bridge_top uut(
 // Create 100Mhz clock
 initial begin
 pwm_clk = 0;
-forever #10 pwm_clk = ~pwm_clk;
+forever #100 pwm_clk = ~pwm_clk;
 end 
 
 initial begin
@@ -211,11 +211,14 @@ initial begin
     WAIT(64);
 
     // Test PMOD DAC
+    $display("%t: Test PMOD DAC",$time);
     // Enable DAC Outputs
     AXI_WRITE(DEBUG_REG,32'h0100);
     // Send Data to DAC
     AXI_WRITE(PMOD_DAC_REG,32'h0003_ABCD);
-    WAIT(64);
+    WAIT(256);
+    AXI_WRITE(PMOD_DAC_REG,32'h0003_EF01);
+    WAIT(256);
 
     // Test Slow Clock @ 1 MHz, 50% Duty Cycle
     $display("%t: Test Slow Clock @ 500kHz, 50%% Duty Cycle",$time);
