@@ -292,21 +292,21 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
 pmod_dac_block #(16) pmod_dac_block
 (
 // SoC Inputs
-clk(S_AXI_ACLK)
-rst(RESET),
-din(pmod_dac[15:0]),
-load_din(pmod_dac),
-start(pmod_dac[17]),
+.clk(S_AXI_ACLK),
+.rst(RESET),
+.din(pmod_dac[15:0]),
+.load_din(pmod_dac[17]),
+.start(pmod_dac[16]),
 
 // SoC Outputs
-dout(),
+.dout(),
 
 // PMOD DAC Outputs
 .dac_cs_n(DAC_CS_N),
 .dac_ldac_n(DAC_LDAC_N),
 .dac_din(DAC_DIN),
 .dac_sclk(DAC_SCLK)
-)
+);
 
 
 

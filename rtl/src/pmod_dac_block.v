@@ -49,7 +49,7 @@ always @(posedge clk, posedge rst) begin
     else if (load_din)
         dout <= din; 
     else if (shift_dout_en)
-        dout <= {dout[0],dout[RESOLUTION - 1 : 1]}
+        dout <= {dout[0],dout[RESOLUTION - 1 : 1]};
 end
 
 // Controller
@@ -95,6 +95,7 @@ begin
             shift_dout_en = 1;
             if (data_counter == 4'hF) begin
                 dac_cs_n = 1;
+                next_state = IDLE_STATE; 
             end
         end
         default:

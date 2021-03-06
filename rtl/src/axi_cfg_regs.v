@@ -35,7 +35,8 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     MEASURED_AUX3,
     pwm_clk_div,
     pwm_blk_duty_cycle,
-    pwm_clk_counter
+    pwm_clk_counter,
+    pmod_dac
 );
 
 
@@ -430,7 +431,7 @@ begin
         if(pmod_dac_reg_addr_valid)
             pmod_dac_reg = S_AXI_WDATA;
         else
-            pmod_dac_reg[18:17] = 0;
+            pmod_dac_reg[17:16] = 0;
     end
 end
 
