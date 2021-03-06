@@ -218,7 +218,7 @@ initial begin
     WAIT(64);
 
     // Test Slow Clock @ 1 MHz, 50% Duty Cycle
-    $display("%t: Test Slow Clock @ 500kHz, 50% Duty Cycle",$time);
+    $display("%t: Test Slow Clock @ 500kHz, 50%% Duty Cycle",$time);
     // Enable Slow Clock
     AXI_WRITE(DEBUG_REG,32'h08);
     AXI_WRITE(PWM_CLK_DIV_REG,32'h00);
