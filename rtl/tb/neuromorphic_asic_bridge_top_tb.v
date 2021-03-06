@@ -33,6 +33,19 @@ wire [3:0] XADC_MUXADDR;
 integer i = 0;
 integer j = 0;
 
+localparam CHAR_SELECT_REG = 0;
+localparam NETWORK_OUTPUT_REG = 4;
+localparam DIRECT_CTRL = 8;
+localparam DEBUG_REG = 12;
+localparam MEASURED_AUX0 = 16;
+localparam MEASURED_AUX1 = 20;
+localparam MEASURED_AUX2 = 24;
+localparam MEASURED_AUX3 = 28;
+localparam PWM_CLK_DIV_REG = 32;
+localparam PWM_BLK_DUTY_CYCLE_REG = 36;
+localparam PWM_BLK_CLK_CNTR_REG = 40;
+localparam PMOD_DAC_REG = 44;
+
 task AXI_WRITE( input [31:0] WRITE_ADDR, input [31:0] WRITE_DATA );
     begin
         @(posedge S_AXI_ACLK);
@@ -194,6 +207,10 @@ initial begin
     AXI_WRITE(32'h20,32'h1A);
     // PWM Duty Cycle = 0%
     AXI_WRITE(32'h24,32'h0);
+    WAIT(64);
+
+    // Test PMOD DAC
+    AXI_WRITE(PMOD_DAC_REG,32'h0003_ABCD);
     WAIT(64);
 
 

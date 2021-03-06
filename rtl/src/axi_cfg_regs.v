@@ -78,6 +78,8 @@ output [15:0] direct_ctrl;
 output [31:0] pwm_clk_div;
 output [31:0] pwm_blk_duty_cycle;
 
+output [31:0] pmod_dac;
+
 reg [1:0] char_select_reg = 0;
 reg char_select_reg_addr_valid = 0;
 reg [1:0] network_output_reg = 0;
@@ -92,6 +94,9 @@ reg [31:0] pwm_blk_duty_cycle_reg = 0;
 reg pwm_blk_duty_cycle_reg_addr_valid = 0;
 reg [31:0] pwm_blk_clk_cntr_reg = 0;
 reg pwm_blk_clk_cntr_reg_addr_valid = 0;
+
+reg pmod_dac_reg_addr_valid = 0;
+reg [31:0] pmod_dac_reg = 0;
 
 reg [31:0] MEASURED_AUX0_reg = 0;
 reg MEASURED_AUX0_addr_valid = 0;
@@ -125,6 +130,8 @@ assign debug = debug_reg;
 assign direct_ctrl = direct_ctrl_reg;
 assign pwm_clk_div = pwm_clk_div_reg;
 assign pwm_blk_duty_cycle = pwm_blk_duty_cycle_reg;
+
+assign pmod_dac = pmod_dac_reg;
 
 always @ (posedge S_AXI_ACLK or posedge Local_Reset) begin
     if (Local_Reset)
@@ -208,7 +215,8 @@ always @(
     MEASURED_AUX3_reg,
     pwm_clk_div_reg,
     pwm_blk_duty_cycle_reg,
-    pwm_blk_clk_cntr_reg)
+    pwm_blk_clk_cntr_reg,
+    pmod_dac_reg)
 begin
     S_AXI_RDATA = 32'b0;
 
@@ -237,6 +245,8 @@ begin
                 S_AXI_RDATA = pwm_blk_duty_cycle_reg;
             40:
                 S_AXI_RDATA = pwm_blk_clk_cntr_reg;
+            44:
+                S_AXI_RDATA = pmod_dac_reg;
             default:
                 S_AXI_RDATA = 32'b0;
         endcase;     
@@ -276,6 +286,7 @@ begin
     pwm_clk_div_reg_addr_valid = 0;
     pwm_blk_duty_cycle_reg_addr_valid = 0;
     pwm_blk_clk_cntr_reg_addr_valid = 0;
+    pmod_dac_reg_addr_valid = 0;
     local_address_valid = 1;
 
     if (write_enable_registers)
@@ -303,6 +314,8 @@ begin
                 pwm_blk_duty_cycle_reg_addr_valid = 1;
             40:
                 pwm_blk_clk_cntr_reg_addr_valid = 1;
+            44:
+                pmod_dac_reg_addr_valid = 1;
             default:
                 local_address_valid = 0;
         endcase
@@ -406,6 +419,19 @@ end
 always @(posedge S_AXI_ACLK)
 begin
     pwm_blk_clk_cntr_reg = pwm_clk_counter;
+end
+
+always @(posedge S_AXI_ACLK, posedge Local_Reset)
+begin
+    if (Local_Reset)
+        pmod_dac_reg = 0;
+    else
+    begin
+        if(pmod_dac_reg_addr_valid)
+            pmod_dac_reg = S_AXI_WDATA;
+        else
+            pmod_dac_reg[18:17] = 0;
+    end
 end
 
 endmodule

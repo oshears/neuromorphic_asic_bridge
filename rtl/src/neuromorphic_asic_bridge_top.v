@@ -41,7 +41,11 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     XADC_MUXADDR,
 
     // led outputs
-    leds    
+    leds,
+    DAC_CS_N,
+    DAC_LDAC_N,
+    DAC_DIN,
+    DAC_SCLK    
 );
 
 
@@ -78,6 +82,11 @@ output [7:0] leds;
 
 output [3:0] XADC_MUXADDR;
 
+output DAC_CS_N;
+output DAC_LDAC_N;
+output DAC_DIN;
+output DAC_SCLK;
+
 wire [1:0] char_select;
 wire [1:0] network_output;
 wire [31:0] debug;
@@ -113,6 +122,8 @@ wire pwm_blk_clk_out_i;
 wire [31:0] pwm_clk_counter;
 
 wire pwm_blk_clk_in;
+
+wire [31:0] pmod_dac;
 
 assign pwm_blk_clk_in = debug[7] ? S_AXI_ACLK : pwm_clk;
 
@@ -199,6 +210,8 @@ axi_cfg_regs
     .pwm_blk_duty_cycle(pwm_blk_duty_cycle),
     // PWM Block Clock Counter
     .pwm_clk_counter(pwm_clk_counter),
+    // PMOD DAC Reg
+    .pmod_dac(pmod_dac),
     //AXI Signals
     .S_AXI_ACLK(S_AXI_ACLK),     
     .S_AXI_ARESETN(S_AXI_ARESETN),  
@@ -275,6 +288,25 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
     .MUXADDR(XADC_MUXADDR_local),
     .OT()
 );
+
+pmod_dac_block #(16) pmod_dac_block
+(
+// SoC Inputs
+clk(S_AXI_ACLK)
+rst(RESET),
+din(pmod_dac[15:0]),
+load_din(pmod_dac),
+start(pmod_dac[17]),
+
+// SoC Outputs
+dout(),
+
+// PMOD DAC Outputs
+.dac_cs_n(DAC_CS_N),
+.dac_ldac_n(DAC_LDAC_N),
+.dac_din(DAC_DIN),
+.dac_sclk(DAC_SCLK)
+)
 
 
 

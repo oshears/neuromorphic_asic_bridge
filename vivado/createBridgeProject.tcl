@@ -10,6 +10,7 @@ add_files {
     ../rtl/tb/char_pwm_gen_tb.v
     ../rtl/src/char_pwm_gen.v
     ../rtl/src/pwm_block.v 
+    ../rtl/src/pmod_dac_block.v
     ../rtl/src/neuromorphic_asic_bridge_top.v 
     ../rtl/tb/neuromorphic_asic_bridge_top_tb.v 
     ../rtl/src/xadc_interface.v 
