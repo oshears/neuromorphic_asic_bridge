@@ -41,11 +41,7 @@ parameter C_S_AXI_ADDR_WIDTH = 9
     XADC_MUXADDR,
 
     // led outputs
-    leds,
-    DAC_CS_N,
-    DAC_LDAC_N,
-    DAC_DIN,
-    DAC_SCLK    
+    leds   
 );
 
 
@@ -82,10 +78,10 @@ output [7:0] leds;
 
 output [3:0] XADC_MUXADDR;
 
-output DAC_CS_N;
-output DAC_LDAC_N;
-output DAC_DIN;
-output DAC_SCLK;
+wire DAC_CS_N;
+wire DAC_LDAC_N;
+wire DAC_DIN;
+wire DAC_SCLK;
 
 wire [1:0] char_select;
 wire [1:0] network_output;
@@ -155,10 +151,19 @@ assign digit[8] = debug[2] ? (direct_ctrl[8] ? char_pwm_gen_clk_out : ~char_pwm_
 assign digit[9] = debug[2] ? (direct_ctrl[9] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[9];
 assign digit[10] = debug[2] ? (direct_ctrl[10] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[10];
 assign digit[11] = debug[2] ? (direct_ctrl[11] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[11];
-assign digit[12] = debug[2] ? (direct_ctrl[12] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[12];
-assign digit[13] = debug[2] ? (direct_ctrl[13] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[13];
-assign digit[14] = debug[2] ? (direct_ctrl[14] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[14];
-assign digit[15] = debug[2] ? (direct_ctrl[15] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[15];
+
+// JA1 - JA4
+// CS - JA1 (Y11)
+// DIN - JA2 (AA11)
+// LDAC - JA3 (Y10)
+// SCLK - JA4 (AA9)
+assign digit[12] = debug[8] ? DAC_CS_N : ( debug[2] ? (direct_ctrl[12] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[12]);
+assign digit[13] = debug[8] ? DAC_DIN : (debug[2] ? (direct_ctrl[13] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[13]);
+assign digit[14] = debug[8] ? DAC_LDAC_N : (debug[2] ? (direct_ctrl[14] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[14]);
+assign digit[15] = debug[8] ? DAC_SCLK : (debug[2] ? (direct_ctrl[15] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[15]);
+
+
+
 
 char_pwm_gen char_pwm_gen(
     .clk(pwm_clk),

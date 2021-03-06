@@ -369,6 +369,8 @@ begin
         // BIT 4: Use 1-Hot Encoding for XADC Multiplexer
         // BIT 5: debug_reg[5] output on XADC header GPIO3
         // BIT 6: PWM_BLK_CLK_OUT on DIGIT_0 Output
+        // BIT 7: Used to determine if the PWM block will reference S_AXI_ACLK or PWM_CLK
+        // BIT 8: Enable PMOD DAC Outputs on DIGIT Pins
         if(debug_reg_addr_valid)
             debug_reg = S_AXI_WDATA;
     end

@@ -173,6 +173,7 @@ initial begin
 
     end
 
+
     // Test Different Clock Frequencies
     // Enable Slow Clock
     AXI_WRITE(32'h0C,32'h08);
@@ -210,7 +211,19 @@ initial begin
     WAIT(64);
 
     // Test PMOD DAC
+    // Enable DAC Outputs
+    AXI_WRITE(DEBUG_REG,32'h0100);
+    // Send Data to DAC
     AXI_WRITE(PMOD_DAC_REG,32'h0003_ABCD);
+    WAIT(64);
+
+    // Test Slow Clock @ 1 MHz, 50% Duty Cycle
+    $display("%t: Test Slow Clock @ 500kHz, 50% Duty Cycle",$time);
+    // Enable Slow Clock
+    AXI_WRITE(DEBUG_REG,32'h08);
+    AXI_WRITE(PWM_CLK_DIV_REG,32'h00);
+    // Duty Cycle 50%
+    //AXI_WRITE(PWM_BLK_DUTY_CYCLE_REG,32'h00);
     WAIT(64);
 
 
