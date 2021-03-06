@@ -65,6 +65,8 @@
 #define PWM_CLK_DUTY_CYCLE_REG_ADDR 0x43C00024
 #define PWM_CLK_CNTR_REG_ADDR 0x43C00028
 
+#define PMOD_DAC_REG_ADDR 0x43C0002C
+
 int main()
 {
     init_platform();
@@ -152,6 +154,7 @@ int main()
 		sleep(2);
 		*/
 
+		/*
 		printf("=========================================\n\r",value);
 
 		// Test Slow Mode Config
@@ -177,7 +180,7 @@ int main()
 		sleep(5);
 
 		
-		int i = 0;
+		
 		int dc = 0;
 		int step_size = 0x00100000 / 10;
 		for(i = 0; i <= step_size * 10; i += step_size){
@@ -191,7 +194,16 @@ int main()
 			sleep(3);
 			dc += 10;
 		}
-		
+		*/
+
+		int i = 0;
+		// Configure Outputs
+		Xil_Out32(DEBUG_REG_ADDR,0x100);		
+		for(i = 0; i <= 0xFF; i++){
+			// Write Voltage to DAC
+			Xil_Out32(PMOD_DAC_REG_ADDR,i);
+			printf("Wrote %x to PMOD_DAC_REG_ADDR register.\n\r",i);
+		}
 		
 	}
 
