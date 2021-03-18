@@ -2,7 +2,7 @@
 module pmod_dac_test_block
 #(
     parameter RESOLUTION = 16,
-    parameter WAIT_TIME = 10000000
+    parameter WAIT_TIME = 5000000
 )
 (
     // Inputs
@@ -53,14 +53,10 @@ reg [5:0] slow_clk_cntr = 0;
 
 reg [15:0] dout = 0;
 
-wire wait_cntr_done;
-
-wire data_cntr_done;
-
 // Wait for 2s
-assign wait_cntr_done = (wait_cntr == WAIT_TIME);
-assign data_cntr_done = (data_counter >= 5'h0F);
-wire data_ldac_cntr_done = (data_counter == 5'h10);
+wire wait_cntr_done = (wait_cntr == WAIT_TIME);
+wire data_cntr_done = (data_counter == 5'h0F);
+wire data_ldac_cntr_done = (data_counter == 5'h11);
 
 assign pmod_out = rst;
 
@@ -122,7 +118,6 @@ end
 
 always @(
     current_state,
-    data_counter,
     wait_cntr,
     wait_cntr_done,
     data_cntr_done,
@@ -139,6 +134,8 @@ begin
     wait_cntr_en = 0;
     wait_cntr_rst = 0;
 
+    next_state = current_state;
+    
     case (current_state)
         IDLE_STATE:
         begin
@@ -179,7 +176,6 @@ begin
                 wait_cntr_rst = 1;
                 next_state = WAIT_STATE;
             end
-            
         end
         WAIT_STATE:
         begin
