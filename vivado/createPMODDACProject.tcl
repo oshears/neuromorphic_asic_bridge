@@ -38,5 +38,8 @@ launch_simulation
 # wait_on_run impl_1
 # open_run impl_1
 
+# write_debug_probes -force probes.ltx
+
+
 
 exit

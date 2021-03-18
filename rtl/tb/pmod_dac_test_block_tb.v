@@ -11,7 +11,7 @@ wire dac_sclk;
 
 wire [3:0] leds;
 
-pmod_dac_test_block #(16) uut
+pmod_dac_test_block #(16,1) uut
 (
     // Inputs
     .clk(clk),

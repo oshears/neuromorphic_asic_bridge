@@ -1,7 +1,8 @@
 `timescale 1ns / 1ps
 module pmod_dac_test_block
 #(
-    parameter RESOLUTION = 16
+    parameter RESOLUTION = 16,
+    parameter WAIT_TIME = 10000000
 )
 (
     // Inputs
@@ -15,7 +16,10 @@ module pmod_dac_test_block
     output wire dac_sclk,
 
     // LED Outputs
-    output wire [3:0] leds
+    output wire [3:0] leds,
+
+    // PMOD TEST Outputs
+    output wire pmod_out
 );
 
 // Controller States
@@ -49,25 +53,38 @@ reg [5:0] slow_clk_cntr = 0;
 
 reg [15:0] dout = 0;
 
+wire wait_cntr_done;
+
+wire data_cntr_done;
+
+// Wait for 2s
+assign wait_cntr_done = (wait_cntr == WAIT_TIME);
+assign data_cntr_done = (data_counter >= 5'h0F);
+wire data_ldac_cntr_done = (data_counter == 5'h10);
+
+assign pmod_out = rst;
+
 wire slow_clk;
-assign slow_clk = slow_clk_cntr[5];
+//assign slow_clk = slow_clk_cntr[5];
 
 // Output Assignments
-assign dac_din = dout[RESOLUTION - 1];
+assign dac_din = dout[RESOLUTION - 1] || dac_cs_n;
 assign dac_sclk = slow_clk;// || ~data_counter_en;
 
 assign leds = dac_dout_value_cntr[15:12];
 
+/*
 always @(posedge clk) begin
-    slow_clk_cntr = slow_clk_cntr + 1;
+    slow_clk_cntr <= slow_clk_cntr + 1;
 end
+*/
 
-always @(posedge slow_clk) begin
-    if (wait_cntr_rst) begin
-        wait_cntr = 0;
+always @(negedge slow_clk, posedge rst) begin
+    if (wait_cntr_rst || rst) begin
+        wait_cntr <= 0;
     end
     else if (wait_cntr_en) begin
-        wait_cntr = wait_cntr + 1;
+        wait_cntr <= wait_cntr + 1;
     end
 end
 
@@ -78,21 +95,25 @@ end
 //     else if (load_din)
 //         dout_i <= din; 
 // end
-always @(posedge slow_clk) begin
-    if (dac_dout_value_cntr_en)
-        dac_dout_value_cntr = dac_dout_value_cntr + 16'h1000;
+always @(negedge slow_clk, posedge rst) begin
+    if (rst)
+        dac_dout_value_cntr <= 0;
+    else if (dac_dout_value_cntr_en)
+        dac_dout_value_cntr <= dac_dout_value_cntr + 16'h1000;
 end
 
 // shift register
-always @(posedge slow_clk) begin
-    if (load_shift_dout)
+always @(negedge slow_clk, posedge rst) begin
+    if (rst)
+        dout <= 0;
+    else if (load_shift_dout)
         dout <= dac_dout_value_cntr;
     else if (shift_dout_en)
         dout <= {dout[RESOLUTION - 2 : 0],dout[15]};
 end
 
 // Controller
-always @(posedge slow_clk) begin
+always @(negedge slow_clk, posedge rst) begin
     if (rst)
         current_state <= IDLE_STATE;
     else
@@ -103,7 +124,9 @@ always @(
     current_state,
     data_counter,
     wait_cntr,
-    rst
+    wait_cntr_done,
+    data_cntr_done,
+    data_ldac_cntr_done
 )
 begin
     data_counter_en = 0;
@@ -120,44 +143,52 @@ begin
         IDLE_STATE:
         begin
             next_state = ENABLE_STATE;
+            
+            load_shift_dout = 1;
         end 
         ENABLE_STATE:
         begin
             dac_cs_n = 0;
             // dac_ldac_n = 0;
             data_counter_rst = 1;
-            load_shift_dout = 1;
+            shift_dout_en = 1;
+            
             next_state = DATA_TRANSFER_STATE;
         end
         DATA_TRANSFER_STATE:
         begin
-            if (data_counter == 5'h11) begin
-                data_counter_en = 0;
+            data_counter_en = 1;
+            
+            if (data_cntr_done) begin
                 shift_dout_en = 0;
-                dac_cs_n = 1;
+                dac_cs_n = 0;
                 next_state = DATA_LOAD_STATE; 
             end
             else begin
                 dac_cs_n = 0;
                 // dac_ldac_n = 0;
-                data_counter_en = 1;
                 shift_dout_en = 1;
             end
         end
         DATA_LOAD_STATE:
         begin
-            dac_ldac_n = 0;
-            dac_dout_value_cntr_en = 1;
-            wait_cntr_rst = 1;
-            next_state = WAIT_STATE;
+            data_counter_en = 1;
+            if (data_ldac_cntr_done) begin
+                data_counter_en = 0;
+                dac_ldac_n = 0;
+                wait_cntr_rst = 1;
+                next_state = WAIT_STATE;
+            end
+            
         end
         WAIT_STATE:
         begin
             wait_cntr_en = 1;
             // WAIT for 0.5s
-            // if (wait_cntr == 32'h0017_D784) begin
+            if (wait_cntr_done) begin
             // DEBUG VALUE
-            if (wait_cntr == 32'h0000_0010) begin
+            // if (wait_cntr == 32'h0000_0010) begin
+                dac_dout_value_cntr_en = 1;
                 next_state = IDLE_STATE;
             end
         end
@@ -166,13 +197,42 @@ begin
     endcase
 end
 
-always @(posedge slow_clk) begin
-    if (data_counter_rst)
-        data_counter = 0;
+always @(posedge slow_clk, posedge rst) begin
+    if (data_counter_rst || rst)
+        data_counter <= 0;
     else if (data_counter_en)
-        data_counter = data_counter + 1; 
+        data_counter <= data_counter + 1; 
 end
 
 
+//vio_0 U_VIO
+//(
+//    .clk(slow_clk),
+//    .probe_in0(dac_sclk),
+//    .probe_out0()
+//);
+ila_0 ila
+(
+.clk(clk),
+.probe0(dac_cs_n),
+.probe1(dac_ldac_n),
+.probe2(dac_din),
+.probe3(dac_sclk),
+.probe4(pmod_out),
+.probe5(dac_dout_value_cntr),
+.probe6(wait_cntr),
+.probe7(current_state),
+.probe8(data_cntr_done),
+.probe9(wait_cntr_done)
+);
+
+// 5 MHz Clock
+clk_wiz_0 clk_div
+(
+.clk_in1(clk),
+.clk_out1(slow_clk),
+.reset(rst),
+.locked()
+);
 
 endmodule
