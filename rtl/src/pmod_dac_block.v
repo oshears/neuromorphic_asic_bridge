@@ -6,14 +6,14 @@ module pmod_dac_block
 (
     // SoC Inputs
     input wire clk,
-    input wire slow_clk,
     input wire rst,
     input [RESOLUTION - 1:0] din,
     input load_din,
     input start,
 
     // SoC Outputs
-    output reg [RESOLUTION - 1:0] dout,
+    output reg [RESOLUTION - 1:0] dout = 0,
+    output reg busy = 0,
 
     // PMOD DAC Outputs
     output reg dac_cs_n,
@@ -42,15 +42,18 @@ reg load_shift_dout = 0;
 
 reg [RESOLUTION - 1 : 0] dout_i;
 
+reg start_reg = 0;
+reg start_reg_rst = 0;
+
 wire data_cntr_done = (data_counter == 5'h0F);
 wire data_ldac_cntr_done = (data_counter == 5'h11);
 
 // Output Assignments
 assign dac_din = dout[RESOLUTION - 1];
-assign dac_sclk = slow_clk || ~data_counter_en;
+assign dac_sclk = clk;
 
 // Data Out Register
-always @(posedge clk, posedge rst) begin
+always @(posedge load_din, posedge rst) begin
     if (rst) 
         dout_i <= 0;
     else if (load_din)
@@ -58,7 +61,7 @@ always @(posedge clk, posedge rst) begin
 end
 
 // shift register
-always @(posedge slow_clk, posedge rst) begin
+always @(negedge clk, posedge rst) begin
     if (rst) 
         dout <= 0;
     else if (load_shift_dout)
@@ -68,17 +71,26 @@ always @(posedge slow_clk, posedge rst) begin
 end
 
 // Controller
-always @(posedge slow_clk, posedge rst) begin
+always @(negedge clk, posedge rst) begin
     if (rst)
         current_state <= IDLE_STATE;
     else
         current_state <= next_state;
 end
 
+always @(posedge start, posedge rst, posedge start_reg_rst) begin
+    if (rst || start_reg_rst) begin
+        start_reg = 0;
+    end
+    else if (~busy) begin
+        start_reg = 1;
+    end
+end
+
 always @(
     current_state,
     data_counter,
-    start,
+    start_reg,
     data_cntr_done,
     data_ldac_cntr_done
 )
@@ -89,25 +101,31 @@ begin
     dac_ldac_n = 1;
     shift_dout_en = 0;
     load_shift_dout = 0;
+    start_reg_rst = 0;
+    busy = 0;
     next_state = current_state;
     case (current_state)
         IDLE_STATE:
         begin
-            if (start) begin
+            if (start_reg) begin
                 next_state = ENABLE_STATE;
                 load_shift_dout = 1;
             end
         end 
         ENABLE_STATE:
         begin
+            busy = 1;
+            start_reg_rst = 1;
+            
+            shift_dout_en = 1;
             dac_cs_n = 0;
-            // dac_ldac_n = 0;
             data_counter_rst = 1;
-            load_shift_dout = 1;
+
             next_state = DATA_TRANSFER_STATE;
         end
         DATA_TRANSFER_STATE:
         begin
+            busy = 1;
             data_counter_en = 1;
 
             if (data_cntr_done) begin
@@ -122,6 +140,7 @@ begin
         end
         DATA_LOAD_STATE:
         begin
+            busy = 1;
             data_counter_en = 1;
             if (data_ldac_cntr_done) begin
                 data_counter_en = 0;
@@ -134,7 +153,7 @@ begin
     endcase
 end
 
-always @(posedge slow_clk) begin
+always @(posedge clk) begin
     if (data_counter_rst)
         data_counter = 0;
     else if (data_counter_en)

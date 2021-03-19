@@ -146,7 +146,6 @@ begin
         ENABLE_STATE:
         begin
             dac_cs_n = 0;
-            // dac_ldac_n = 0;
             data_counter_rst = 1;
             shift_dout_en = 1;
             

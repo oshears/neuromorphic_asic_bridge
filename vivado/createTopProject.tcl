@@ -30,6 +30,12 @@ connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK1] [get_bd_pins neuromo
 # Apply Connection Automation (Connect Clocks)
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config { Clk_master {Auto} Clk_slave {Auto} Clk_xbar {Auto} Master {/processing_system7_0/M_AXI_GP0} Slave {/neuromorphic_asic_br_0/S_AXI} ddr_seg {Auto} intc_ip {New AXI Interconnect} master_apm {0}}  [get_bd_intf_pins neuromorphic_asic_br_0/S_AXI]
 
+# Add Internal Logic Analyzer
+create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_0
+set_property -dict [list CONFIG.C_PROBE0_WIDTH {16} CONFIG.C_NUM_OF_PROBES {1} CONFIG.C_ENABLE_ILA_AXI_MON {false} CONFIG.C_MONITOR_TYPE {Native}] [get_bd_cells ila_0]
+connect_bd_net [get_bd_pins neuromorphic_asic_br_0/digit] [get_bd_pins ila_0/probe0]
+connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins ila_0/clk]
+
 # Configure Neuromorphic Bridge IP
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/digit]
 make_bd_pins_external  [get_bd_pins neuromorphic_asic_br_0/leds]
@@ -69,6 +75,9 @@ launch_runs neuromorphic_asic_bridge_system_rst_ps7_0_100M_0_synth_1 -jobs 16
 wait_on_run neuromorphic_asic_bridge_system_rst_ps7_0_100M_0_synth_1
 launch_runs neuromorphic_asic_bridge_system_auto_pc_0_synth_1 -jobs 16
 wait_on_run neuromorphic_asic_bridge_system_auto_pc_0_synth_1
+launch_runs neuromorphic_asic_bridge_system_ila_0_0_synth_1 -jobs 16
+wait_on_run neuromorphic_asic_bridge_system_ila_0_0_synth_1
+
 synth_design -rtl -rtl_skip_mlo -name rtl_1
 
 # Run Synthesis

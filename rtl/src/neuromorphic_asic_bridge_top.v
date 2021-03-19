@@ -7,11 +7,11 @@ parameter C_S_AXI_ADDR_WIDTH = 9
 )
 (
     // char_pwm_gen
-    pwm_clk, // 100MHz pwm clock input 
+    pwm_clk, // 1MHz pwm clock input 
     digit,
 
     // axi_cfg_regs
-    S_AXI_ACLK,     
+    S_AXI_ACLK, // 100 MHz input clock
     S_AXI_ARESETN,  
     S_AXI_AWADDR,   
     S_AXI_AWVALID,  
@@ -297,8 +297,7 @@ XADC_INST (// Connect up instance IO. See UG480 for port descriptions
 pmod_dac_block #(16) pmod_dac_block
 (
 // SoC Inputs
-.clk(S_AXI_ACLK),
-.slow_clk(pwm_clk),
+.clk(pwm_clk),
 .rst(RESET),
 .din(pmod_dac[15:0]),
 .load_din(pmod_dac[17]),
