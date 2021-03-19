@@ -42,6 +42,9 @@ reg load_shift_dout = 0;
 
 reg [RESOLUTION - 1 : 0] dout_i;
 
+wire data_cntr_done = (data_counter == 5'h0F);
+wire data_ldac_cntr_done = (data_counter == 5'h11);
+
 // Output Assignments
 assign dac_din = dout[RESOLUTION - 1];
 assign dac_sclk = slow_clk || ~data_counter_en;
@@ -75,7 +78,9 @@ end
 always @(
     current_state,
     data_counter,
-    start
+    start,
+    data_cntr_done,
+    data_ldac_cntr_done
 )
 begin
     data_counter_en = 0;
@@ -84,12 +89,14 @@ begin
     dac_ldac_n = 1;
     shift_dout_en = 0;
     load_shift_dout = 0;
-
+    next_state = current_state;
     case (current_state)
         IDLE_STATE:
         begin
-            if (start)
+            if (start) begin
                 next_state = ENABLE_STATE;
+                load_shift_dout = 1;
+            end
         end 
         ENABLE_STATE:
         begin
@@ -101,23 +108,26 @@ begin
         end
         DATA_TRANSFER_STATE:
         begin
-            if (data_counter == 5'h11) begin
-                data_counter_en = 0;
+            data_counter_en = 1;
+
+            if (data_cntr_done) begin
                 shift_dout_en = 0;
-                dac_cs_n = 1;
+                dac_cs_n = 0;
                 next_state = DATA_LOAD_STATE; 
             end
             else begin
                 dac_cs_n = 0;
-                // dac_ldac_n = 0;
-                data_counter_en = 1;
                 shift_dout_en = 1;
             end
         end
         DATA_LOAD_STATE:
         begin
-            dac_ldac_n = 0;
-            next_state = IDLE_STATE;
+            data_counter_en = 1;
+            if (data_ldac_cntr_done) begin
+                data_counter_en = 0;
+                dac_ldac_n = 0;
+                next_state = IDLE_STATE;
+            end
         end
         default:
             next_state = IDLE_STATE; 

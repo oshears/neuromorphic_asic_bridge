@@ -163,7 +163,6 @@ begin
             end
             else begin
                 dac_cs_n = 0;
-                // dac_ldac_n = 0;
                 shift_dout_en = 1;
             end
         end
