@@ -242,7 +242,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>008264f0</spirit:value>
+            <spirit:value>fc04a27d</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -258,7 +258,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>008264f0</spirit:value>
+            <spirit:value>fc04a27d</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -727,17 +727,13 @@
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>rtl/src/pwm_block.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>rtl/src/xadc_interface.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>rtl/src/neuromorphic_asic_bridge_top.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_9f2cea78</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_f9f72de1</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -752,10 +748,6 @@
       </spirit:file>
       <spirit:file>
         <spirit:name>rtl/src/pmod_dac_block.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>rtl/src/pwm_block.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -844,13 +836,13 @@
       <xilinx:displayName>neuromorphic_asic_bridge_top_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>1</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2021-03-19T14:00:03Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2021-03-20T18:40:04Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="dfac85ba"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="871a59ce"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="d5cce979"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="6ada6cec"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="974423d0"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="30db1017"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="2f0658f9"/>

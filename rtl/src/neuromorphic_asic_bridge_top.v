@@ -157,10 +157,10 @@ assign digit[11] = debug[2] ? (direct_ctrl[11] ? char_pwm_gen_clk_out : ~char_pw
 // DIN - JA2 (AA11)
 // LDAC - JA3 (Y10)
 // SCLK - JA4 (AA9)
-assign digit[12] = debug[8] ? DAC_CS_N : ( debug[2] ? (direct_ctrl[12] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[12]);
-assign digit[13] = debug[8] ? DAC_DIN : (debug[2] ? (direct_ctrl[13] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[13]);
-assign digit[14] = debug[8] ? DAC_LDAC_N : (debug[2] ? (direct_ctrl[14] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[14]);
-assign digit[15] = debug[8] ? DAC_SCLK : (debug[2] ? (direct_ctrl[15] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[15]);
+assign digit[12] = debug[8] ? DAC_SCLK : ( debug[2] ? (direct_ctrl[12] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[12]);
+assign digit[13] = debug[8] ? DAC_LDAC_N : (debug[2] ? (direct_ctrl[13] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[13]);
+assign digit[14] = debug[8] ? DAC_DIN : (debug[2] ? (direct_ctrl[14] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[14]);
+assign digit[15] = debug[8] ? DAC_CS_N : (debug[2] ? (direct_ctrl[15] ? char_pwm_gen_clk_out : ~char_pwm_gen_clk_out) : digit_temp[15]);
 
 
 
@@ -175,6 +175,7 @@ char_pwm_gen char_pwm_gen(
     .clk_div(pwm_clk_div)
     );
 
+/*
 pwm_blk
 #(
     .COUNTER_WIDTH(32)
@@ -188,6 +189,7 @@ pwm_blk
     .clk_out(pwm_blk_clk_out_i),
     .pwm_clk_counter(pwm_clk_counter)
 );
+*/
 
 axi_cfg_regs 
 #(
@@ -298,6 +300,7 @@ pmod_dac_block #(16) pmod_dac_block
 (
 // SoC Inputs
 .clk(pwm_clk),
+.S_AXI_ACLK(S_AXI_ACLK),
 .rst(RESET),
 .din(pmod_dac[15:0]),
 .load_din(pmod_dac[17]),
@@ -305,6 +308,7 @@ pmod_dac_block #(16) pmod_dac_block
 
 // SoC Outputs
 .dout(),
+.busy(),
 
 // PMOD DAC Outputs
 .dac_cs_n(DAC_CS_N),

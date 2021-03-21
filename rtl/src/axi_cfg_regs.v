@@ -432,8 +432,8 @@ begin
     begin
         if(pmod_dac_reg_addr_valid)
             pmod_dac_reg = S_AXI_WDATA;
-        else
-            pmod_dac_reg[17:16] = 0;
+        //else
+        //    pmod_dac_reg[17:16] = 0;
     end
 end
 

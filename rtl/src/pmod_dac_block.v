@@ -6,10 +6,11 @@ module pmod_dac_block
 (
     // SoC Inputs
     input wire clk,
+    input wire S_AXI_ACLK,
     input wire rst,
-    input [RESOLUTION - 1:0] din,
-    input load_din,
-    input start,
+    input wire [RESOLUTION - 1:0] din,
+    input wire load_din,
+    input wire start,
 
     // SoC Outputs
     output reg [RESOLUTION - 1:0] dout = 0,
@@ -53,7 +54,7 @@ assign dac_din = dout[RESOLUTION - 1];
 assign dac_sclk = clk;
 
 // Data Out Register
-always @(posedge load_din, posedge rst) begin
+always @(posedge S_AXI_ACLK, posedge rst) begin
     if (rst) 
         dout_i <= 0;
     else if (load_din)
@@ -78,19 +79,20 @@ always @(negedge clk, posedge rst) begin
         current_state <= next_state;
 end
 
-always @(posedge start, posedge rst, posedge start_reg_rst) begin
-    if (rst || start_reg_rst) begin
-        start_reg = 0;
-    end
-    else if (~busy) begin
-        start_reg = 1;
-    end
-end
+// always @(posedge S_AXI_ACLK, posedge rst, posedge start_reg_rst) begin
+//     if (rst || start_reg_rst) begin
+//         start_reg <= 0;
+//     end
+//     else if (~busy && start) begin
+//         start_reg <= 1;
+//     end
+// end
 
 always @(
     current_state,
     data_counter,
-    start_reg,
+    // start_reg,
+    start,
     data_cntr_done,
     data_ldac_cntr_done
 )
@@ -101,13 +103,13 @@ begin
     dac_ldac_n = 1;
     shift_dout_en = 0;
     load_shift_dout = 0;
-    start_reg_rst = 0;
+    // start_reg_rst = 0;
     busy = 0;
     next_state = current_state;
     case (current_state)
         IDLE_STATE:
         begin
-            if (start_reg) begin
+            if (start) begin
                 next_state = ENABLE_STATE;
                 load_shift_dout = 1;
             end
@@ -115,7 +117,7 @@ begin
         ENABLE_STATE:
         begin
             busy = 1;
-            start_reg_rst = 1;
+            // start_reg_rst = 1;
             
             shift_dout_en = 1;
             dac_cs_n = 0;

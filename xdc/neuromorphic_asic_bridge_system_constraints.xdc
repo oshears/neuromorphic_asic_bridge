@@ -1,80 +1,275 @@
+# ----------------------------------------------------------------------------
+# Clock Source - Bank 13
+# ----------------------------------------------------------------------------
+# set_property PACKAGE_PIN Y9 [get_ports {GCLK}];  # "GCLK"
+# create_clock -name gclk -period 10.000 [get_ports GCLK]
+
 # PMOD Outputs
-set_property PACKAGE_PIN Y11 [get_ports {digit_0[15]}];
-set_property PACKAGE_PIN AA11 [get_ports {digit_0[14]}];
-set_property PACKAGE_PIN Y10 [get_ports {digit_0[13]}];
-set_property PACKAGE_PIN AA9 [get_ports {digit_0[12]}];
-set_property PACKAGE_PIN AB11 [get_ports {digit_0[11]}];
-set_property PACKAGE_PIN AB10 [get_ports {digit_0[10]}];
-set_property PACKAGE_PIN AB9 [get_ports {digit_0[9]}];
-set_property PACKAGE_PIN AA8 [get_ports {digit_0[8]}];
-set_property PACKAGE_PIN W12 [get_ports {digit_0[7]}];
-set_property PACKAGE_PIN W11 [get_ports {digit_0[6]}];
-set_property PACKAGE_PIN V10 [get_ports {digit_0[5]}];
-set_property PACKAGE_PIN W8 [get_ports {digit_0[4]}];
-set_property PACKAGE_PIN V12 [get_ports {digit_0[3]}];
-set_property PACKAGE_PIN W10 [get_ports {digit_0[2]}];
-set_property PACKAGE_PIN V9 [get_ports {digit_0[1]}];
-set_property PACKAGE_PIN V8 [get_ports {digit_0[0]}];
+set_property PACKAGE_PIN Y11 [get_ports {digit_0[15]}]
+set_property PACKAGE_PIN AA11 [get_ports {digit_0[14]}]
+set_property PACKAGE_PIN Y10 [get_ports {digit_0[13]}]
+set_property PACKAGE_PIN AA9 [get_ports {digit_0[12]}]
+set_property PACKAGE_PIN AB11 [get_ports {digit_0[11]}]
+set_property PACKAGE_PIN AB10 [get_ports {digit_0[10]}]
+set_property PACKAGE_PIN AB9 [get_ports {digit_0[9]}]
+set_property PACKAGE_PIN AA8 [get_ports {digit_0[8]}]
+set_property PACKAGE_PIN W12 [get_ports {digit_0[7]}]
+set_property PACKAGE_PIN W11 [get_ports {digit_0[6]}]
+set_property PACKAGE_PIN V10 [get_ports {digit_0[5]}]
+set_property PACKAGE_PIN W8 [get_ports {digit_0[4]}]
+set_property PACKAGE_PIN V12 [get_ports {digit_0[3]}]
+set_property PACKAGE_PIN W10 [get_ports {digit_0[2]}]
+set_property PACKAGE_PIN V9 [get_ports {digit_0[1]}]
+set_property PACKAGE_PIN V8 [get_ports {digit_0[0]}]
 
 # Connect Outputs to LEDS for Debugging
-set_property PACKAGE_PIN T22 [get_ports {leds_0[0]}];  # "LD0"
-set_property PACKAGE_PIN T21 [get_ports {leds_0[1]}];  # "LD1"
-set_property PACKAGE_PIN U22 [get_ports {leds_0[2]}];  # "LD2"
-set_property PACKAGE_PIN U21 [get_ports {leds_0[3]}];  # "LD3"
-set_property PACKAGE_PIN V22 [get_ports {leds_0[4]}];  # "LD4"
-set_property PACKAGE_PIN W22 [get_ports {leds_0[5]}];  # "LD5"
-set_property PACKAGE_PIN U19 [get_ports {leds_0[6]}];  # "LD6"
-set_property PACKAGE_PIN U14 [get_ports {leds_0[7]}];  # "LD7"
+set_property PACKAGE_PIN T22 [get_ports {leds_0[0]}]
+set_property PACKAGE_PIN T21 [get_ports {leds_0[1]}]
+set_property PACKAGE_PIN U22 [get_ports {leds_0[2]}]
+set_property PACKAGE_PIN U21 [get_ports {leds_0[3]}]
+set_property PACKAGE_PIN V22 [get_ports {leds_0[4]}]
+set_property PACKAGE_PIN W22 [get_ports {leds_0[5]}]
+set_property PACKAGE_PIN U19 [get_ports {leds_0[6]}]
+set_property PACKAGE_PIN U14 [get_ports {leds_0[7]}]
 
 # XADC MUX ADDR
-set_property PACKAGE_PIN J15 [get_ports {XADC_MUXADDR_0[3]}]; # "XADC-GIO1"
-set_property PACKAGE_PIN K15 [get_ports {XADC_MUXADDR_0[2]}]; # "XADC-GIO0"
-set_property PACKAGE_PIN R15 [get_ports {XADC_MUXADDR_0[1]}]; # "XADC-GIO1"
-set_property PACKAGE_PIN H15 [get_ports {XADC_MUXADDR_0[0]}]; # "XADC-GIO0"
+set_property PACKAGE_PIN J15 [get_ports {XADC_MUXADDR_0[3]}]
+set_property PACKAGE_PIN K15 [get_ports {XADC_MUXADDR_0[2]}]
+set_property PACKAGE_PIN R15 [get_ports {XADC_MUXADDR_0[1]}]
+set_property PACKAGE_PIN H15 [get_ports {XADC_MUXADDR_0[0]}]
 
 # Configure LVCMOS 3.3V Output Pins
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[15]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[14]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[13]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[12]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[11]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[10]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[9]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[8]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[7]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[6]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[5]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[4]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[3]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[2]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[1]}];
-set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[0]}];
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[15]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[14]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[13]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[12]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[11]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[10]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[9]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[8]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[7]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[6]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[5]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[4]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {digit_0[0]}]
 
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[7]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[6]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[5]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[4]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[3]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[2]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[1]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[0]}];
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[7]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[6]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[5]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[4]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[3]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[2]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[1]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {leds_0[0]}]
 
-set_property IOSTANDARD LVCMOS18 [get_ports {VN_0}];
-set_property IOSTANDARD LVCMOS18 [get_ports {VP_0}];
+set_property IOSTANDARD LVCMOS18 [get_ports VN_0]
+set_property IOSTANDARD LVCMOS18 [get_ports VP_0]
 
-set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[3]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[2]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[1]}];
-set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[0]}];
+set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[3]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[2]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[1]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {XADC_MUXADDR_0[0]}]
 
-# Note that the bank voltage for IO Bank 13 is fixed to 3.3V on ZedBoard. 
+# set_property IOSTANDARD LVCMOS33 [get_ports {GCLK}];
+
+# Note that the bank voltage for IO Bank 13 is fixed to 3.3V on ZedBoard.
 # set_property IOSTANDARD LVCMOS18 [get_ports -of_objects [get_iobanks 34]];
 # set_property IOSTANDARD LVCMOS18 [get_ports -of_objects [get_iobanks 35]];
 # set_property IOSTANDARD LVCMOS33 [get_ports -of_objects [get_iobanks 13]];
 
 
-set_false_path -to [get_ports leds_0];
+set_false_path -to [get_ports leds_0]
 
 
 
 
+
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[31]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[30]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[29]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[28]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[27]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[26]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[25]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[24]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[23]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[22]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[21]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[20]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[19]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[18]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[17]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[16]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[15]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[14]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[13]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[12]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[11]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[10]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[9]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[8]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[7]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[6]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[5]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[4]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[3]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[2]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[1]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/Local_Reset}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[0]/CLR}]
+
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[31]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[30]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[29]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[28]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[27]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[26]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[25]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[24]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[23]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[22]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[21]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[20]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[19]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[18]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[17]/CLR}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[16]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[15]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[14]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[13]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[12]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[11]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[10]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[9]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[8]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[7]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[6]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[5]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[4]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[3]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[2]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[1]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[0]/CLR}]
+
+
+
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[15]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[14]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[13]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[12]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[11]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[10]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[9]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[8]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[7]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[6]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[5]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[4]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[3]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[2]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[1]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[0]/D}]
+
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[15]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[14]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[13]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[12]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[11]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[10]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[9]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[8]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[7]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[6]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[5]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[4]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[3]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[2]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[1]/CE}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[0]/CE}]
+
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/FSM_sequential_current_state_reg[0]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/pmod_dac_reg_reg[16]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/FSM_sequential_current_state_reg[1]/D}]
+
+
+
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/FSM_sequential_current_state_reg[0]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/FSM_sequential_current_state_reg[1]/CLR}]
+
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[31]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[30]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[29]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[28]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[27]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[26]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[25]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[24]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[23]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[22]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[21]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[20]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[19]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[18]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[17]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[16]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[15]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[14]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[13]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[12]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[11]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[10]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[9]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[8]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[7]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[6]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[5]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[4]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[3]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[2]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[1]/CLR}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/rst_ps7_0_10M/U0/ACTIVE_LOW_PR_OUT_DFF[0].FDRE_PER_N/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/char_pwm_gen/slow_clk_counter_reg[0]/CLR}]
+
+
+
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[15]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[15]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[14]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[14]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[13]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[13]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[12]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[12]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[11]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[11]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[10]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[10]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[9]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[9]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[8]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[8]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[7]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[7]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[6]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[6]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[5]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[5]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[4]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[4]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[3]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[3]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[2]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[2]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[1]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[1]/D}]
+set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_i_reg[0]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/pmod_dac_block/dout_reg[0]/D}]
+
+
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/direct_ctrl_reg_reg[0]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/ila_0/probe0}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/char_sel_reg[0]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/ila_0/probe0}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/neuromorphic_asic_br_0/inst/axi_cfg_regs/char_sel_reg[1]/C}] -to [get_pins {neuromorphic_asic_bridge_system_i/ila_0/probe0}]
+# set_false_path -from [get_pins {neuromorphic_asic_bridge_system_i/processing_system7_0/inst/PS7_i/FCLKCLK[1]}] -to [get_pins {neuromorphic_asic_bridge_system_i/ila_0/probe0}]
+
+# create_debug_core u_ila_0 ila
+# set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+# set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
+# set_property C_ADV_TRIGGER false [get_debug_cores u_ila_0]
+# set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_0]
+# set_property C_EN_STRG_QUAL false [get_debug_cores u_ila_0]
+# set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+# set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+# set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+# set_property port_width 1 [get_debug_ports u_ila_0/clk]
+# connect_debug_port u_ila_0/clk [get_nets [list neuromorphic_asic_bridge_system_i/processing_system7_0/inst/FCLK_CLK1]]
+# set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+# set_property port_width 16 [get_debug_ports u_ila_0/probe0]
+# connect_debug_port u_ila_0/probe0 [get_nets [list {digit_0_OBUF[0]} {digit_0_OBUF[1]} {digit_0_OBUF[2]} {digit_0_OBUF[3]} {digit_0_OBUF[4]} {digit_0_OBUF[5]} {digit_0_OBUF[6]} {digit_0_OBUF[7]} {digit_0_OBUF[8]} {digit_0_OBUF[9]} {digit_0_OBUF[10]} {digit_0_OBUF[11]} {digit_0_OBUF[12]} {digit_0_OBUF[13]} {digit_0_OBUF[14]} {digit_0_OBUF[15]}]]
+# set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
+# set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
+# set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
+# connect_debug_port dbg_hub/clk [get_nets u_ila_0_FCLK_CLK1]

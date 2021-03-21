@@ -1,6 +1,6 @@
 # Clock Constraints
 create_clock -period 10 [get_ports S_AXI_ACLK]
-create_clock -period 10 [get_ports pwm_clk]
+create_clock -period 1000 [get_ports pwm_clk]
 
 # PMOD Outputs
 set_property PACKAGE_PIN Y11 [get_ports {digit[15]}];

@@ -67,6 +67,8 @@
 
 #define PMOD_DAC_REG_ADDR 0x43C0002C
 
+#define TEST_MODE 0
+
 int main()
 {
     init_platform();
@@ -114,6 +116,19 @@ int main()
 	long iterations = 0;
 
 	while(1){
+		if (TEST_MODE == 0){
+			// Test Slow Mode Config
+			// PWM BLK Clock Out, Slow Clock Enable, Display Digits on LEDs
+			Xil_Out32(DEBUG_REG_ADDR,0x49);
+			value = Xil_In32(DEBUG_REG_ADDR);
+			printf("Read %x from DEBUG_REG_ADDR register.\n\r",value);
+
+			// PWM CLK Divider = ~1.3s
+			Xil_Out32(PWM_CLK_DIV_REG_ADDR,0x14);
+			value = Xil_In32(PWM_CLK_DIV_REG_ADDR);
+			printf("Read %x from PWM_CLK_DIV_REG_ADDR register.\n\r",value);
+
+		}
 		/*
 		int mode = 0;
 		int output_char = 0;
@@ -196,26 +211,34 @@ int main()
 		}
 		*/
 
-		int i = 0;
-		// Configure Outputs
-		Xil_Out32(DEBUG_REG_ADDR,0x100);		
-		for(i = 0; i <= 0xF; i++){
-			// Write Voltage to DAC
-			Xil_Out32(PMOD_DAC_REG_ADDR, 0x0000 | (i << 12) );
-			printf("Wrote %x to PMOD_DAC_REG_ADDR register.\n\r", 0x0000 | (i << 12) );
-			sleep(1);
+		// PMOD DAC Test
+		if(TEST_MODE == 4){
+			int i = 0;
+			// Configure Outputs
+			Xil_Out32(DEBUG_REG_ADDR,0x100);		
+			for(i = 0; i <= 0xF; i++){
+				// Write Voltage to DAC
+				Xil_Out32(PMOD_DAC_REG_ADDR, 0x30000 | (i << 12) );
+				printf("Wrote %x to PMOD_DAC_REG_ADDR register.\n\r", 0x30000 | (i << 12) );
+				sleep(1);
 
-			value = Xil_In32(AUX0_REG_ADDR);
-			printf("[%d] Read %x from MEASURED_AUX0 register.\n\r",iterations,value);
+				value = Xil_In32(AUX0_REG_ADDR);
+				printf("[%d] Read %x from MEASURED_AUX0 register.\n\r",iterations,value);
 
-			value = Xil_In32(AUX1_REG_ADDR);
-			printf("[%d] Read %x from MEASURED_AUX1 register.\n\r",iterations,value);
-			
-			value = Xil_In32(AUX2_REG_ADDR);
-			printf("[%d] Read %x from MEASURED_AUX2 register.\n\r",iterations,value);
+				value = Xil_In32(AUX1_REG_ADDR);
+				printf("[%d] Read %x from MEASURED_AUX1 register.\n\r",iterations,value);
+				
+				value = Xil_In32(AUX2_REG_ADDR);
+				printf("[%d] Read %x from MEASURED_AUX2 register.\n\r",iterations,value);
 
-			value = Xil_In32(AUX3_REG_ADDR);
-			printf("[%d] Read %x from MEASURED_AUX3 register.\n\r",iterations,value);
+				value = Xil_In32(AUX3_REG_ADDR);
+				printf("[%d] Read %x from MEASURED_AUX3 register.\n\r",iterations,value);
+
+				
+				Xil_Out32(PMOD_DAC_REG_ADDR, 0x0000 | (i << 12) );
+				//printf("Wrote %x to PMOD_DAC_REG_ADDR register.\n\r", 0x0000 | (i << 12) );
+				sleep(0.25);
+			}
 		}
 		
 	}
