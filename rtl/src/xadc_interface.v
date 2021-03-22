@@ -42,6 +42,14 @@ output reg [11:0] MEASURED_AUX1 = 0;
 output reg [11:0] MEASURED_AUX2 = 0;
 output reg [11:0] MEASURED_AUX3 = 0;
 
+localparam VAUXP0_ADDR = 7'h10;
+localparam VAUXP1_ADDR = 7'h11;
+localparam VAUXP2_ADDR = 7'h12;
+localparam VAUXP3_ADDR = 7'h13;
+// localparam VAUXP0_ADDR = 7'h20;
+// localparam VAUXP1_ADDR = 7'h21;
+// localparam VAUXP2_ADDR = 7'h22;
+// localparam VAUXP3_ADDR = 7'h23;
 
 // parameter reset = 0, config_reg_0 = 1, config_reg_1 = 2, config_reg_2 = 3, done = 4;
 parameter       reset       = 8'h00,
@@ -205,7 +213,7 @@ begin
       read_reg10 : begin
          
          if (EOS) begin
-            DADDR   = 7'h10;
+            DADDR   = VAUXP0_ADDR;
             DEN = 1; // performing read
          end
          else
@@ -221,7 +229,7 @@ begin
          end
       end
       read_reg11 : begin
-         DADDR   = 7'h11;
+         DADDR   = VAUXP1_ADDR;
          DEN = 1; // performing read
       end
       reg11_waitdrdy : 
@@ -237,7 +245,7 @@ begin
          end
       end
       read_reg12 : begin
-         DADDR   = 7'h12;
+         DADDR   = VAUXP2_ADDR;
          DEN = 1; // performing read
       end
       reg12_waitdrdy :
@@ -253,7 +261,7 @@ begin
          end
       end
       read_reg13 : begin
-         DADDR   = 7'h13;
+         DADDR   = VAUXP3_ADDR;
          DEN = 1; // performing read
       end
       reg13_waitdrdy :

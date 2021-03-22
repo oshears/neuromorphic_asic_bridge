@@ -126,12 +126,12 @@ neuromorphic_asic_bridge_top uut(
 // Create 100Mhz clock
 initial begin
 pwm_clk = 0;
-forever #100 pwm_clk = ~pwm_clk;
+forever #1000 pwm_clk = ~pwm_clk;
 end 
 
 initial begin
 S_AXI_ACLK = 0;
-forever #10 S_AXI_ACLK = ~S_AXI_ACLK;
+forever #100 S_AXI_ACLK = ~S_AXI_ACLK;
 end 
 
 

@@ -259,41 +259,59 @@ xadc_interface xadc_interface(
     .MEASURED_AUX3(MEASURED_AUX3)
 );
 
-XADC #(// Initializing the XADC Control Registers
-    .INIT_40(16'hB903), // Multiplexer Input on VP/VN Channel, 256 sample averaging and settling (acquisition) time 
-    .INIT_41(16'h20F0),// Continuous Seq Mode, Calibrate ADC and Supply Sensor
-    .INIT_42(16'h3F00),// Set DCLK divides
-    .INIT_49(16'h000F),// CHSEL2 - enable aux analog channels 0 - 3
-    .INIT_4B(16'h000F), // enable averaging
-    .INIT_4F(16'h000F), // enable settling time
-    .SIM_MONITOR_FILE("design.txt"),// Analog Stimulus file for simulation
-    .SIM_DEVICE("ZYNQ")
-)
-XADC_INST (// Connect up instance IO. See UG480 for port descriptions
-    .CONVST (1'b0),// not used
-    .CONVSTCLK  (1'b0), // not used
-    .DADDR  (DADDR),
-    .DCLK   (S_AXI_ACLK),
-    .DEN    (DEN),
-    .DI     (DI),
-    .DWE    (DWE),
-    .RESET  (RESET),
-    .BUSY   (BUSY),
-    .DO     (DO),
-    .DRDY   (DRDY),
-    .EOS    (EOS),
-    .VP     (VP),
-    .VN     (VN),
-    .VAUXP(16'b0),
-    .VAUXN(16'b0),
-    .ALM(),
-    .CHANNEL(),
-    .EOC(),
-    .JTAGBUSY(),
-    .JTAGLOCKED(),
-    .JTAGMODIFIED(),
-    .MUXADDR(XADC_MUXADDR_local),
-    .OT()
+// XADC #(// Initializing the XADC Control Registers
+//     .INIT_40(16'h3803), // Multiplexer Input on VP/VN Channel, 256 sample averaging and settling (acquisition) time 
+//     .INIT_41(16'h20F0),// Continuous Seq Mode, Calibrate ADC and Supply Sensor
+//     .INIT_42(16'h3F00),// Set DCLK divides
+//     .INIT_49(16'h000F),// CHSEL2 - enable aux analog channels 0 - 3
+//     .INIT_4B(16'h000F), // enable averaging
+//     .INIT_4F(16'h000F), // enable settling time
+//     .SIM_MONITOR_FILE("design.txt"),// Analog Stimulus file for simulation
+//     .SIM_DEVICE("ZYNQ")
+// )
+// XADC_INST (// Connect up instance IO. See UG480 for port descriptions
+//     .CONVST (1'b0),// not used
+//     .CONVSTCLK  (1'b0), // not used
+//     .DADDR  (DADDR),
+//     .DCLK   (S_AXI_ACLK),
+//     .DEN    (DEN),
+//     .DI     (DI),
+//     .DWE    (DWE),
+//     .RESET  (RESET),
+//     .BUSY   (BUSY),
+//     .DO     (DO),
+//     .DRDY   (DRDY),
+//     .EOS    (EOS),
+//     .VP     (VP),
+//     .VN     (VN),
+//     .VAUXP(16'b0),
+//     .VAUXN(16'b0),
+//     .ALM(),
+//     .CHANNEL(),
+//     .EOC(),
+//     .JTAGBUSY(),
+//     .JTAGLOCKED(),
+//     .JTAGMODIFIED(),
+//     .MUXADDR(XADC_MUXADDR_local),
+//     .OT()
+// );
+xadc_wiz_0 XADC_INST (// Connect up instance IO. See UG480 for port descriptions
+    .daddr_in  (DADDR),
+    .dclk_in   (S_AXI_ACLK),
+    .den_in    (DEN),
+    .di_in     (DI),
+    .dwe_in    (DWE),
+    .reset_in  (RESET),
+    .busy_out   (BUSY),
+    .do_out     (DO),
+    .drdy_out   (DRDY),
+    .eos_out    (EOS),
+    .vn_in     (VP),
+    .vp_in     (VN),
+    .alarm_out(),
+    .channel_out(),
+    .eoc_out(),
+    .muxaddr_out(XADC_MUXADDR_local)
 );
 
 pmod_dac_block #(16) pmod_dac_block
